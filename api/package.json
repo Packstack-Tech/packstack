@@ -1,0 +1,31 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "Packstack API service",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "nodemon -r esm index.js",
+    "start": "node -r esm index.js",
+    "migrate:dev": "npx sequelize-cli db:migrate",
+    "migrate:prod": "npx sequelize-cli --env production db:migrate",
+    "seed:dev": "npx sequelize-cli db:seed:all",
+    "seed:prod": "npx sequelize-cli --env production db:seed:all"
+  },
+  "dependencies": {
+    "@sentry/node": "5.7.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "csv": "^5.1.3",
+    "entropy-string": "^4.2.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mailchimp-api-v3": "^1.13.1",
+    "multer": "^1.4.2",
+    "node-mandrill": "^1.0.1",
+    "pg": "^7.11.0",
+    "sequelize": "^5.8.7",
+    "sequelize-cli": "^5.5.1"
+  }
+}
