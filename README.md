@@ -14,7 +14,7 @@ The latest release can be found at [Packstack.io](https://packstack.io)
 * Yarn
 
 #### Install
-* Clone the repo: `git clone xxxx`
+* Clone the repo: `git clone https://github.com/maplethorpej/packstack.git`
 * Navigate to project root: `cd packstack`
 * Copy and rename `docker-compose-example.yml` to `docker-compose.yml`
     * _change configuration if desired_
