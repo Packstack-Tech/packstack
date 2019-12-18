@@ -6,6 +6,8 @@ Packstack is built with React, Typescript, NodeJS, Docker and Postgres.
 
 The latest release can be found at [Packstack.io](https://packstack.io)
 
+Join us on [Slack](https://join.slack.com/t/packstackio/shared_invite/enQtODY0NDAwNzY3ODQyLWM0NmRhODA3YzAzMzI0ZjkxNTdmNzcyYzcyOWFjYTRhZDE2MDEwZDEwMmJiMGMzNmI3MDhmMDM4MjcyYWQyNDA).
+
 ### Getting started
 
 #### Prerequisites
@@ -34,8 +36,6 @@ __Note__: To stop docker, find the terminal running docker, press `CTRL+C` and r
 
 ### Contributing
 If you’re interested in contributing to Packstack, thank you! – there’s much yet to be done 🙂
-
-To contribute, you can either choose one of the roadmap features to work on or develop your own feature.
 
 [Learn more about contributing](CONTRIBUTING.md), and make sure to read our [Code of Conduct](CODE_OF_CONDUCT.md).
 
