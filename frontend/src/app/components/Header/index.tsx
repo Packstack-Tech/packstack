@@ -30,6 +30,10 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
                 <NavItem onClick={() => app.logout()} title="Logout" className="logout">
                     Logout
                 </NavItem>
+                <NavItem onClick={() => window.open('https://headwayapp.co/packstack-changelog', '_blank')}
+                         className="logout">
+                    Release Notes <div className="changelog"/>
+                </NavItem>
                 <a href="mailto:jerad@packstack.io">
                     Report an issue
                 </a>

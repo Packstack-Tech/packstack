@@ -39,6 +39,7 @@ export const NavBottom = styled.div`
   
   .logout {
     color: #BBB;
+    padding-top: 0;
     
     &:hover {
       color: ${props => props.theme.color.$Dark};
