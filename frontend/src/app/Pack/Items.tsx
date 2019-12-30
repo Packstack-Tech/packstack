@@ -9,8 +9,8 @@ import { WornIndicator } from "app/components/PackItems/styles";
 import { getItemWeight, getWeightByCategory } from "lib/utils/weight";
 import { getCategories } from "lib/utils/categories";
 
-import { SectionHeader } from "styles/common";
 import { ItemList, ItemName, ItemNotes, ItemDescription, ItemQuantity, ItemWeight, CategorySection } from "./styles";
+import ExpandablePanel from 'app/components/ExpandablePanel';
 
 interface ItemsProps {
     items: PackItem[];
@@ -39,13 +39,16 @@ const Items: React.FC<ItemsProps> = ({ items, unit }) => {
             {categories.map(cat => {
                 const catItems = items.filter(i => i.categoryId === cat.id);
                 const catWeight = weightByCategory.find(c => c.id === cat.id);
+
+                const Header = (
+                    <>
+                        <h3>{cat.name}</h3>
+                        <strong>{catWeight!.total.label} {unit}</strong>
+                    </>
+                )
                 return (
                     <CategorySection key={cat.id}>
-                        <SectionHeader>
-                            <h3>{cat.name}</h3>
-                            <strong>{catWeight!.total.label} {unit}</strong>
-                        </SectionHeader>
-
+                        <ExpandablePanel Header={Header}>
                         {catItems.map(item => {
                             const { name, product_name, product_url, packItem: { notes, quantity, worn } } = item;
                             const { label } = getItemWeight(unit, item);
@@ -86,6 +89,7 @@ const Items: React.FC<ItemsProps> = ({ items, unit }) => {
                                 </Row>
                             )
                         })}
+                        </ExpandablePanel>
                     </CategorySection>
                 )
             })}

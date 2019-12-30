@@ -10,7 +10,8 @@ import Item from './Item';
 import { getCategories } from "lib/utils/categories";
 import { getWeightByCategory } from "lib/utils/weight";
 
-import { SectionHeader, CategoryGroup } from "styles/common";
+import { CategoryGroup } from "styles/common";
+import ExpandablePanel from '../ExpandablePanel';
 
 interface PackItemProps {
     items: PackItem[];
@@ -39,21 +40,25 @@ const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, wei
         categories.map(cat => {
             const catItems = items.filter(i => i.categoryId === cat.id);
             const catWeight = weightByCategory.find(c => c.id === cat.id);
+            const Header = (
+                <>
+                    <h3>{cat.name}</h3>
+                    <strong>{catWeight!.total.label} {weightUnit}</strong>
+                </>
+            )
             return (
                 <CategoryGroup key={cat.id}>
-                    <SectionHeader>
-                        <h3>{cat.name}</h3>
-                        <strong>{catWeight!.total.label} {weightUnit}</strong>
-                    </SectionHeader>
-                    <div style={{ padding: '0 8px' }}>
-                        {catItems.map(item => (
-                            <Item key={item.id}
-                                  item={item}
-                                  updateId={updateId}
-                                  removeItem={removeItem}
-                                  updateItem={update}/>)
-                        )}
-                    </div>
+                    <ExpandablePanel Header={Header}>
+                        <div style={{ padding: '0 8px' }}>
+                            {catItems.map(item => (
+                                <Item key={item.id}
+                                    item={item}
+                                    updateId={updateId}
+                                    removeItem={removeItem}
+                                    updateItem={update}/>)
+                            )}
+                        </div>
+                    </ExpandablePanel>
                 </CategoryGroup>
             )
         })

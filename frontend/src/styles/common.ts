@@ -60,10 +60,11 @@ export const PageDescription = styled.div`
 `;
 
 export const SectionHeader = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 8px;
+  padding: 8px 20px 8px 8px;
   border-radius: 2px;
   border-bottom: 3px solid ${props => props.theme.hexOpacity(props.theme.color.$GrayBlue, 5)};
   background-color: ${props => props.theme.color.$LightGray};
