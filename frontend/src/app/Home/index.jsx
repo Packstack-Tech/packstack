@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 
 import { REGISTER } from "routes";
 
-import { HomeContainer, Top, TopContainer, BottomContainer } from "./styles";
+import { HomeContainer, Top, TopContainer, BottomContainer, Footer } from "./styles";
 import { Grid } from "styles/common";
 
 const Home = () => (
     <HomeContainer>
         <TopContainer>
             <Top>
-                <div className="title">Get your gear together.</div>
+                <div className="title">Gear management for backpackers</div>
                 <h1>Packstack makes it easy for you to manage your<br/>&nbsp;
                     backpacking gear and create packing lists.</h1>
                 <Link to={REGISTER} className="primary-link">
@@ -54,6 +54,11 @@ const Home = () => (
                     GET STARTED
                 </Link>
             </div>
+            <Footer>
+                Copyright © 2020 Packstack.io • Packstack is an
+                <a href="https://github.com/maplethorpej/packstack" rel="noopener noreferrer" target="_blank"> open
+                    source</a> project
+            </Footer>
         </BottomContainer>
     </HomeContainer>
 );

@@ -94,3 +94,9 @@ export const Top = styled.div`
     }
   }
 `;
+
+export const Footer = styled.div`
+  color: #fff;
+  text-align: center;
+  padding-top: 64px;
+`;
