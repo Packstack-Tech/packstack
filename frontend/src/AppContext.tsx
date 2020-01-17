@@ -2,7 +2,7 @@ import * as React from 'react';
 import { default as Api } from 'lib/api';
 import Token, { DecodedToken, TokenInterface } from 'lib/jwt';
 import { User } from 'types/user';
-import { Category } from "./types/category";
+import { Category } from "types/category";
 
 export interface AppProviderState {
     api: Api;

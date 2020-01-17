@@ -6,7 +6,7 @@ Packstack is built with React, Typescript, NodeJS, Docker and Postgres.
 
 The latest release can be found at [Packstack.io](https://packstack.io)
 
-Join us on [Slack](https://join.slack.com/t/packstackio/shared_invite/enQtODY0NDAwNzY3ODQyLWM0NmRhODA3YzAzMzI0ZjkxNTdmNzcyYzcyOWFjYTRhZDE2MDEwZDEwMmJiMGMzNmI3MDhmMDM4MjcyYWQyNDA).
+Join us on [Slack](https://join.slack.com/t/packstackio/shared_invite/enQtODk3NTA2NDY0MzIyLWExMzk1YzMwYWFmMzIzY2Q3NDNkNTJjMjBkOGM4MGExYzE1ZTgxZDYwODJlN2ZjOWIyMzMzYmVjNjQ3MDQzYzU).
 
 ### Getting started
 
