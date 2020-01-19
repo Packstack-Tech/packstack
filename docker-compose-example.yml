@@ -24,6 +24,8 @@ services:
       NODE_ENV: development
       MAILCHIMP_API:
       MAILCHIMP_AUDIENCE:
+      MAILJET_API_KEY:
+      MAILJET_API_SECRET:
       MANDRILL_API:
       JWT_SECRET: xxxx
     networks:

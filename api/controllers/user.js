@@ -9,7 +9,7 @@ let router = express.Router();
 import models from '../models';
 import { authenticate } from "../utils/jwt";
 import { addEmailSubscriber } from "../utils/mailchimp";
-import { sendPasswordReset } from "../utils/mandrill";
+import { sendPasswordReset } from "../utils/transactional";
 
 // Register
 router.post('/register', (req, res) => {
