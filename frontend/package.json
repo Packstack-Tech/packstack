@@ -94,11 +94,12 @@
     "@types/yup": "^0.26.16",
     "@typescript-eslint/eslint-plugin": "1.6.0",
     "@typescript-eslint/parser": "1.6.0",
+    "cross-env": "^7.0.0",
     "prettier": "1.15.3",
     "typescript": "3.5.2"
   },
   "scripts": {
-    "start": "PORT=3001 node scripts/start.js",
+    "start": "cross-env PORT=3001 node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },

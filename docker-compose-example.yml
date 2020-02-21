@@ -11,7 +11,7 @@ services:
       - ./api:/usr/api/
       - /usr/api/node_modules
     ports:
-      - "3000:3000"
+      - 3000:3000
     depends_on:
       - postgres
     environment:
@@ -39,11 +39,14 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: db
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
-      - ./api/postgres-data/postgres:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     networks:
       - packstack
 
 networks:
   packstack:
+
+volumes:
+  pgdata:
