@@ -24,13 +24,17 @@ export const getTotalWeight = (unit: WeightUnit, items: (PackItem | Item)[]): Ag
         if (!weight_unit) return acc;
 
         const conversionValue = converter(weight).from(unitDict[weight_unit]).to(unitDict[unit]);
-        const quantityWeight = parseFloat(conversionValue) * quantity;
+        const convertedWeight = parseFloat(conversionValue);
 
-        if (Category.exclude_weight || isWorn) {
-            return { ...acc, exclude: acc.exclude + quantityWeight };
+        if (Category.exclude_weight) {
+             return { ...acc, exclude: acc.exclude + convertedWeight * quantity };
         }
 
-        return { ...acc, include: acc.include + quantityWeight };
+        if (isWorn) {
+            return { ...acc, include: acc.include + convertedWeight * (quantity - 1), exclude: acc.exclude + convertedWeight };
+        }
+
+        return { ...acc, include: acc.include + convertedWeight * quantity };
     }
 
     const { include, exclude } = items.reduce(reducer, { include: 0, exclude: 0 });
