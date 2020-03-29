@@ -1,4 +1,5 @@
 import fs from 'fs';
+import csv from 'csv-express';
 import express from 'express';
 import multer from 'multer';
 import parse from 'csv-parse';
@@ -7,8 +8,24 @@ let router = express.Router();
 
 import models from '../models';
 import { verifyJwt, authenticate } from "../utils/jwt";
-import { itemPayload } from "../utils/build-payload";
+import { itemPayload, csvItems } from "../utils/build-payload";
 import { unitConversion } from '../utils/dictionary';
+
+router.get('/export', authenticate, async (req, res) => {
+    const { id: userId } = req.user;
+    try {
+        let items = await models.Item.findAll({
+            where: { userId },
+            include: [{ model: models.Category, as: 'Category', attributes: ['name'] }]
+        });
+
+        res.csv(csvItems(items), true)
+
+        // res.json(items);
+    } catch (e) {
+        res.status(400).json(e);
+    }
+});
 
 const upload = multer({ dest: 'uploads/' });
 router.post('/upload', upload.single('file'), authenticate, async (req, res) => {

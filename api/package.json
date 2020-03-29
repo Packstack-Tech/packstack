@@ -17,6 +17,7 @@
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "csv": "^5.1.3",
+    "csv-express": "^1.2.2",
     "entropy-string": "^4.2.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",

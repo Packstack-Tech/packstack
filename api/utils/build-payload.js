@@ -32,3 +32,10 @@ export const packItemPayload = (request) => {
     const packItemAttrs = Object.keys(models.PackItem.rawAttributes);
     return sanitizeRequest(request, packItemAttrs);
 };
+
+export function csvItems(items) {
+    return items.map(item => {
+        const { name, product_name, weight, weight_unit, price, Category: { name: category } } = item;
+        return { name, product_name, category, weight, weight_unit, price };
+    })
+}

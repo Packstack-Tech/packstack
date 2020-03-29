@@ -407,6 +407,13 @@ cors@^2.8.5:
     object-assign "^4"
     vary "^1"
 
+csv-express@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/csv-express/-/csv-express-1.2.2.tgz#84fc16420ee5a324e1e66e15fca28fbdb9a5cf64"
+  integrity sha1-hPwWQg7loyTh5m4V/KKPvbmlz2Q=
+  dependencies:
+    iconv-lite "^0.4.13"
+
 csv-generate@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/csv-generate/-/csv-generate-3.2.3.tgz#24004f21de61c2ea1c4474d3e65a18261f638a80"
@@ -953,7 +960,7 @@ https-proxy-agent@^3.0.0:
     agent-base "^4.3.0"
     debug "^3.1.0"
 
-iconv-lite@0.4.24:
+iconv-lite@0.4.24, iconv-lite@^0.4.13:
   version "0.4.24"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"
   integrity sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==
