@@ -1,7 +1,17 @@
 import { AxiosResponse } from "axios";
 
 import Api from 'types/api/base';
-import { Create, Delete, Get, Update, PackService, AddItem, RemoveItem, GetUserPacks } from "types/api/pack";
+import {
+    Create,
+    Delete,
+    Get,
+    Update,
+    PackService,
+    AddItem,
+    RemoveItem,
+    ExportItems,
+    GetUserPacks
+} from "types/api/pack";
 import { Pack as PackPayload, PackOverview } from "types/pack";
 import { PackItemAttr } from "types/item";
 
@@ -47,4 +57,9 @@ export default class Pack implements PackService {
         return this.api.post(`${this.baseUrl}/remove-item`, { packId, itemId })
             .then((resp: AxiosResponse<number>) => resp.data)
     };
+
+    exportItems: ExportItems = packId => {
+        return this.api.get(`${this.baseUrl}/export/${packId}`)
+            .then((resp: AxiosResponse<File>) => resp.data);
+    }
 }

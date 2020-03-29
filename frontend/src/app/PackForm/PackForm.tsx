@@ -1,5 +1,6 @@
 import * as React from "react";
 import DocumentTitle from 'react-document-title';
+import FileDownload from "js-file-download";
 import * as Yup from "yup";
 import { Formik, FormikProps } from 'formik';
 import { Row, Col, Button } from "antd";
@@ -22,7 +23,7 @@ import { useSidebar } from "app/components/Sidebar/Context";
 
 import { PageTitle, Controls, Box, Grid } from "styles/common";
 
-const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, getItems, createPack, updatePack, user }) => {
+const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exportItems, getItems, createPack, updatePack, user }) => {
     const [loading, setLoading] = React.useState<boolean>(true);
     const [inventory, setInventory] = React.useState<Item[]>([]);
     const [packItems, setPackItems] = React.useState<PackItem[]>([]);
@@ -30,28 +31,36 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, get
     const { dispatch } = useSidebar();
 
     React.useEffect(() => {
+        setLoading(true);
+        async function fetchData(id: number) {
+            await getData(id);
+        }
         getItems()
             .then(items => setInventory(items))
             .catch(() => alertError({ message: 'Unable to retrieve inventory' }));
 
         if (!packId) {
             setLoading(false);
-            return;
+        } else {
+            fetchData(packId);
         }
-
-        getPack(packId)
-            .then(pack => {
-                const { items, userId, title } = pack;
-                if (user && user.id !== userId) {
-                    history.push(getPackPath(packId, title));
-                    return;
-                }
-                setPackData(pack);
-                setLoading(false);
-                setPackItems(items);
-            })
-            .catch(err => alertError({ message: 'Unable to retrieve pack information.' }));
     }, [packId]);
+
+    async function getData(id: number) {
+        try {
+            const pack = await getPack(id);
+            const { items, userId, title } = pack;
+            if (user && user.id !== userId) {
+                history.push(getPackPath(id, title));
+                return;
+            }
+            setPackData(pack);
+            setPackItems(items);
+            setLoading(false);
+        } catch (e) {
+            alertError({ message: 'Unable to retrieve pack information.' })
+        }
+    }
 
     const addItem = (item: Item) => {
         const items = Object.assign([], [...packItems, { ...item, packItem: { notes: '', quantity: 1, worn: false } }]);
@@ -87,6 +96,12 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, get
 
     if (loading) {
         return <Loading size="large"/>
+    }
+
+    function downloadItems() {
+        if (packId && packData) {
+            exportItems(packId).then(data => FileDownload(data, `${packData.title}.csv`));
+        }
     }
 
     const titleType = packId ? 'Edit' : 'New';
@@ -151,7 +166,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, get
                                 </Controls>
                             </PageTitle>
 
-                            <Box>
+                            <Box style={{ marginBottom: '16px' }}>
                                 <Grid>
                                     <div className="two-thirds">
                                         <Input label="Location / Trail"
@@ -220,6 +235,14 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, get
                                     </div>
                                 </Grid>
                             </Box>
+
+                            {packId && !!packItems.length && (
+                                <div style={{ textAlign: 'right' }}>
+                                    <Button onClick={downloadItems} type="link" size="small">
+                                        Export items
+                                    </Button>
+                                </div>
+                            )}
 
                             <PackItems items={packItems}
                                        weightUnit={user.default_weight_unit}

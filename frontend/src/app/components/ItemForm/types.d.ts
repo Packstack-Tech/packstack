@@ -1,8 +1,9 @@
-import { Create } from "types/api/item";
+import { Create, ExportCSV } from "types/api/item";
 
 export declare module FormSpecs {
     export interface ApiProps {
         createItem: Create;
+        exportCsv: ExportCSV;
     }
 
     export interface OwnProps {

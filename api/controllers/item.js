@@ -14,14 +14,12 @@ import { unitConversion } from '../utils/dictionary';
 router.get('/export', authenticate, async (req, res) => {
     const { id: userId } = req.user;
     try {
-        let items = await models.Item.findAll({
+        const items = await models.Item.findAll({
             where: { userId },
             include: [{ model: models.Category, as: 'Category', attributes: ['name'] }]
         });
 
-        res.csv(csvItems(items), true)
-
-        // res.json(items);
+        res.csv(csvItems(items), true);
     } catch (e) {
         res.status(400).json(e);
     }

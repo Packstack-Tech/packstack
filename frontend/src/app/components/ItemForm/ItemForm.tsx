@@ -1,9 +1,11 @@
 import * as React from 'react';
 import * as Yup from 'yup';
+import FileDownload from 'js-file-download';
 import { Formik, FormikProps } from "formik";
-import { Row, Col, Button, Icon } from "antd";
+import { Row, Col, Button } from "antd";
 import { Input, Select, SelectCreatable, Option } from '../FormFields';
 
+import { AppContext } from 'AppContext';
 import { CreateItem } from "types/item";
 import { FormSpecs } from "./types";
 
@@ -11,17 +13,21 @@ import withApi from 'app/components/higher-order/with-api';
 import { categoryOptions, weightUnitOptions } from "lib/utils/form";
 import { categorySelectValue } from "lib/utils/categories";
 
-import { AppContext } from 'AppContext';
 import UploadModal from 'app/Inventory/UploadModal';
-
-import { SidebarContainer } from "styles/common";
 import { alertError, alertSuccess } from "../Notifications";
 
-const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, onSubmit }) => {
+import { SidebarContainer } from "styles/common";
+import { OptionsRows } from './styles';
+
+const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }) => {
     const [uploadVisibility, showUploadModal] = React.useState<boolean>(false);
     const app = React.useContext(AppContext);
     if (!app.userInfo) {
         return null;
+    }
+
+    function exportItems() {
+        exportCsv().then(data => FileDownload(data, 'inventory.csv'));
     }
 
     return (
@@ -129,11 +135,14 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, onSubmit }) => {
                             Add Item
                         </Button>
 
-                        <div style={{ padding: '16px 0', textAlign: 'right' }}>
-                            <Button onClick={() => showUploadModal(true)}>
-                                <Icon type="upload"/> Import Items
+                        <OptionsRows>
+                            <Button onClick={exportItems} type="link" size="small">
+                                Export items
                             </Button>
-                        </div>
+                            <Button onClick={() => showUploadModal(true)} type="dashed" icon="upload">
+                                 Import Items
+                            </Button>
+                        </OptionsRows>
 
                         <UploadModal
                             visible={uploadVisibility}
@@ -148,7 +157,8 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, onSubmit }) => {
 };
 
 const ItemFormWithProps = withApi<FormSpecs.ApiProps>(api => ({
-    createItem: api.ItemService.create
+    createItem: api.ItemService.create,
+    exportCsv: api.ItemService.exportCSV
 }))(ItemForm);
 
 export default ItemFormWithProps;

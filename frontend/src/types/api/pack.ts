@@ -9,6 +9,7 @@ export interface PackService {
     delete: Delete;
     addItem: AddItem;
     removeItem: RemoveItem;
+    exportItems: ExportItems;
 }
 
 export interface Get {
@@ -37,4 +38,8 @@ export interface AddItem {
 
 export interface RemoveItem {
     (packId: number, itemId: number): Promise<number>;
+}
+
+export interface ExportItems {
+    (packId: number): Promise<File>;
 }

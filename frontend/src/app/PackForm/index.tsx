@@ -11,6 +11,14 @@ import { PageWrapper } from "styles/common";
 
 const PackFormContainer: React.FC<RouteComponentProps<{ id: string }>> = (routeProps) => {
     const app = useContext(AppContext);
+    const [packId, setPackId] = React.useState<null | number>(null);
+
+    React.useEffect(() => {
+        const routeId = routeProps.match.params.id;
+        const packId = routeId === NEW ? null : parseInt(routeId, 10);
+        setPackId(packId);
+    }, [routeProps.match.params.id]);
+
     if (app.isBooting) {
         return <Loading size="large"/>;
     }
@@ -20,21 +28,12 @@ const PackFormContainer: React.FC<RouteComponentProps<{ id: string }>> = (routeP
         return null;
     }
 
-    const getPackId = () => {
-        if (routeProps.match.params.id === NEW) {
-            return null;
-        }
-
-        const packId = parseInt(routeProps.match.params.id, 10);
-        return isNaN(packId) ? null : packId;
-    };
-
-
     return (
         <PageWrapper>
-            <PackForm packId={getPackId()}
+            <PackForm packId={packId}
                       getPack={app.api.PackService.get}
                       getItems={app.api.ItemService.get}
+                      exportItems={app.api.PackService.exportItems}
                       createPack={app.api.PackService.create}
                       updatePack={app.api.PackService.update}
                       user={app.userInfo}

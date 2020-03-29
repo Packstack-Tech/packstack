@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 
 import Api from 'types/api/base';
-import { Create, Delete, Get, Update, ItemService, UploadCSV } from "types/api/item";
+import { Create, Delete, Get, Update, ItemService, UploadCSV, ExportCSV } from "types/api/item";
 import { Item as ItemPayload } from "types/item";
 
 export default class Item implements ItemService {
@@ -36,5 +36,10 @@ export default class Item implements ItemService {
         return this.api.post(`${this.baseUrl}/upload`,  file,
             { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
             .then((resp: AxiosResponse<ItemPayload[]>) => resp.data)
+    };
+
+    exportCSV: ExportCSV = () => {
+        return this.api.get(`${this.baseUrl}/export`)
+            .then((resp: AxiosResponse<File>) => resp.data);
     }
 }

@@ -6,6 +6,7 @@ export interface ItemService {
     update: Update;
     delete: Delete;
     uploadCSV: UploadCSV;
+    exportCSV: ExportCSV;
 }
 
 export interface Get {
@@ -26,4 +27,8 @@ export interface Delete {
 
 export interface UploadCSV {
     (file: FormData): Promise<Item[]>;
+}
+
+export interface ExportCSV {
+    (): Promise<File>;
 }

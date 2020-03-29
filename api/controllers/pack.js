@@ -5,7 +5,7 @@ let router = express.Router();
 
 import models from '../models';
 import { authenticate } from "../utils/jwt";
-import { packItemPayload, packPayload } from "../utils/build-payload";
+import { csvItems, packItemPayload, packPayload } from "../utils/build-payload";
 
 // Get
 router.get('/:id', async (req, res) => {
@@ -108,6 +108,26 @@ router.put('', authenticate, (req, res) => {
                 .catch(err => res.status(400).json(err));
         })
         .catch(err => res.status(400).json(err));
+});
+
+router.get('/export/:id', authenticate, async (req, res) => {
+  const { id: userId } = req.user;
+  let { id } = req.params;
+  try {
+    const pack = await models.Pack.findOne({
+      where: { userId, id },
+      include: [
+        {
+          model: models.Item, through: { where: { packId: id } }, include: [
+            { model: models.Category, as: 'Category', attributes: ['name'] }
+          ]
+        },
+      ]
+    });
+    res.csv(csvItems(pack.items), true);
+  } catch (e) {
+    res.status(400).json(e);
+  }
 });
 
 // Delete

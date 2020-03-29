@@ -45,17 +45,17 @@ const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, wei
                     <h3>{cat.name}</h3>
                     <strong>{catWeight!.total.label} {weightUnit}</strong>
                 </>
-            )
+            );
             return (
                 <CategoryGroup key={cat.id}>
                     <ExpandablePanel Header={Header}>
                         <div style={{ padding: '0 8px' }}>
                             {catItems.map(item => (
                                 <Item key={item.id}
-                                    item={item}
-                                    updateId={updateId}
-                                    removeItem={removeItem}
-                                    updateItem={update}/>)
+                                      item={item}
+                                      updateId={updateId}
+                                      removeItem={removeItem}
+                                      updateItem={update}/>)
                             )}
                         </div>
                     </ExpandablePanel>
@@ -65,7 +65,7 @@ const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, wei
     );
 
     return (
-        <div style={{ marginTop: '24px' }}>
+        <div style={{ marginTop: '8px' }}>
             {items.length ? renderGroupedItems() : renderEmptyList()}
         </div>
     )
