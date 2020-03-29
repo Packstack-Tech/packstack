@@ -1,5 +1,5 @@
 # Stage 0, "build-stage", based on Node.js, to build and compile the frontend
-FROM tiangolo/node-frontend:10 as build
+FROM node:alpine as build
 WORKDIR /app
 COPY package*.json /app
 RUN yarn
