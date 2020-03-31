@@ -56,7 +56,7 @@ const Inventory: React.FC<InventorySpecs.Props> = ({ getItems, updateItem }) => 
             return <Table key={cat.id} category={cat} items={catItems} fetchItems={fetchItems} updateItem={updateItem}/>
         });
 
-        return <div style={{ minWidth: '100%', overflowX: "scroll" }}>{tables}</div>;
+        return <div style={{ minWidth: '100%', overflowX: "auto" }}>{tables}</div>;
     }
 
     const renderEmptyList = () => (
@@ -80,6 +80,10 @@ const Inventory: React.FC<InventorySpecs.Props> = ({ getItems, updateItem }) => 
                         from your inventory.
                     </p>
                 </PageDescription>
+
+                <div>
+                    <ItemForm onSubmit={fetchItems}/>
+                </div>
 
                 {loading ? <Loading size="large"/> : (
                     <>

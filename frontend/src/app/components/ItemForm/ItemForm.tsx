@@ -16,8 +16,8 @@ import { categorySelectValue } from "lib/utils/categories";
 import UploadModal from 'app/Inventory/UploadModal';
 import { alertError, alertSuccess } from "../Notifications";
 
-import { SidebarContainer } from "styles/common";
-import { OptionsRows } from './styles';
+// import { SidebarContainer } from "styles/common";
+import { OptionsRows, Container } from './styles';
 
 const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }) => {
     const [uploadVisibility, showUploadModal] = React.useState<boolean>(false);
@@ -69,64 +69,67 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                 const categoryValue = categorySelectValue(app.categories, values.categoryId);
 
                 return (
-                    <SidebarContainer>
-                        <Input
-                            value={values.name}
-                            label="Item Type"
-                            error={wasSubmitted && !!errors.name}
-                            placeholder="Backpack, Compass, etc..."
-                            onChange={v => setFieldValue('name', v)}
-                        />
-                        <SelectCreatable
-                            label="Category"
-                            placeholder="Select a category..."
-                            options={categoryOptions(app.categories)}
-                            value={categoryValue || null}
-                            onChange={(option: Option) => {
-                                const value = option ? option.value : undefined;
-                                const isNewCategory = Boolean(option && option.__isNew__);
-                                setFieldValue('categoryId', value);
-                                setFieldValue('newCategory', isNewCategory);
-                            }}
-                            error={wasSubmitted && !!errors.categoryId}
-                            errorMsg={errors.categoryId}
-                            clearable={true}
-                        />
-                        <Input
-                            label="Product Name"
-                            value={values.product_name || ''}
-                            placeholder="Osprey Renn 65"
-                            onChange={v => setFieldValue('product_name', v)}
-                        />
-                        <Row gutter={8}>
-                            <Col span={16}>
-                                <Input
-                                    value={values.weight || ''}
-                                    label="Weight"
-                                    type="number"
-                                    placeholder="0.0"
-                                    onChange={v => setFieldValue('weight', v)}
-                                />
-                            </Col>
-                            <Col span={8}>
-                                <Select
-                                    defaultValue={weightUnit && {
-                                        value: weightUnit,
-                                        label: weightUnit
-                                    }}
-                                    label="Unit"
-                                    tip="Change default weight unit in Settings"
-                                    options={weightUnitOptions()}
-                                    onChange={(option: Option) => setFieldValue('weight_unit', option.value)}/>
-                            </Col>
-                        </Row>
-                        <Input
-                            label="Product URL"
-                            value={values.product_url || ''}
-                            type="url"
-                            placeholder="https://osprey.com"
-                            onChange={v => setFieldValue('product_url', v)}
-                        />
+                    <>
+                        <Container>
+                            <Input
+                                value={values.name}
+                                label="Item Type"
+                                error={wasSubmitted && !!errors.name}
+                                placeholder="Backpack, Compass, etc..."
+                                onChange={v => setFieldValue('name', v)}
+                            />
+                            <SelectCreatable
+                                label="Category"
+                                placeholder="Select a category..."
+                                options={categoryOptions(app.categories)}
+                                style={{ minWidth: '160px' }}
+                                value={categoryValue || null}
+                                onChange={(option: Option) => {
+                                    const value = option ? option.value : undefined;
+                                    const isNewCategory = Boolean(option && option.__isNew__);
+                                    setFieldValue('categoryId', value);
+                                    setFieldValue('newCategory', isNewCategory);
+                                }}
+                                error={wasSubmitted && !!errors.categoryId}
+                                errorMsg={errors.categoryId}
+                                clearable={true}
+                            />
+                            <Input
+                                label="Product Name"
+                                value={values.product_name || ''}
+                                placeholder="Osprey Renn 65"
+                                onChange={v => setFieldValue('product_name', v)}
+                            />
+                            <Row gutter={8}>
+                                <Col span={16}>
+                                    <Input
+                                        value={values.weight || ''}
+                                        label="Weight"
+                                        type="number"
+                                        placeholder="0.0"
+                                        onChange={v => setFieldValue('weight', v)}
+                                    />
+                                </Col>
+                                <Col span={8}>
+                                    <Select
+                                        defaultValue={weightUnit && {
+                                            value: weightUnit,
+                                            label: weightUnit
+                                        }}
+                                        label="Unit"
+                                        tip="Change default weight unit in Settings"
+                                        options={weightUnitOptions()}
+                                        onChange={(option: Option) => setFieldValue('weight_unit', option.value)}/>
+                                </Col>
+                            </Row>
+                            <Input
+                                label="Product URL"
+                                value={values.product_url || ''}
+                                type="url"
+                                placeholder="https://osprey.com"
+                                onChange={v => setFieldValue('product_url', v)}
+                            />
+                        </Container>
                         <Button onClick={submitForm}
                                 disabled={isSubmitting}
                                 block={true}
@@ -134,13 +137,12 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                                 type="primary">
                             Add Item
                         </Button>
-
                         <OptionsRows>
                             <Button onClick={exportItems} type="link" size="small">
                                 Export items
                             </Button>
                             <Button onClick={() => showUploadModal(true)} type="dashed" icon="upload">
-                                 Import Items
+                                Import Items
                             </Button>
                         </OptionsRows>
 
@@ -149,7 +151,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                             fetchItems={onSubmit}
                             hideModal={() => showUploadModal(false)}
                         />
-                    </SidebarContainer>
+                    </>
                 )
             }}
         </Formik>

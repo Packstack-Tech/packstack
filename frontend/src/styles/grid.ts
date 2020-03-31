@@ -8,7 +8,7 @@ export const Grid = styled.div`
   grid-column-gap: 16px;
   align-items: center;
     
-  .align-right {
+  .edit {
     justify-self: end;
   }
 `;

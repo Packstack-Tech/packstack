@@ -100,7 +100,7 @@ const Item: React.FC<ItemProps> = ({ item, updateItem, fetchItems }) => {
                             }}
                             style={inlineStyles}/>
                 </PairGrid>
-                <div className="align-right">
+                <div className="edit">
                     <a onClick={() => setEditVisible(true)}>edit</a>
                 </div>
             </Grid>

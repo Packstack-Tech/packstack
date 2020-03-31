@@ -57,6 +57,11 @@ export const Label = styled.h4`
     align-items: center;
     height: 14px; // keeps rows consistent
     margin: 0;
+    
+    &.small {
+      font-size: 12px;
+      height: 13px;
+    }
 `;
 
 export const Error = styled.p`
