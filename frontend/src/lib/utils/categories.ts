@@ -21,7 +21,7 @@ export const getItemsByCategory = (items: (PackItem | Item)[]): CategoryItems[] 
 };
 
 // handles the weirdness between categories with IDs and those without Ids
-export const categorySelectValue = (categories: Category[], value: number | string | undefined): Option | undefined => {
+export const categorySelectValue = (categories: Category[], value: number | string | undefined): Option<any> | undefined => {
     if (!value) return;
     const currentCategory = categories.find(cat => cat.id === value);
 

@@ -82,7 +82,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                             placeholder="Select a category..."
                             options={categoryOptions(app.categories)}
                             value={categoryValue || null}
-                            onChange={(option: Option) => {
+                            onChange={(option: Option<number>) => {
                                 const value = option ? option.value : undefined;
                                 const isNewCategory = Boolean(option && option.__isNew__);
                                 setFieldValue('categoryId', value);
@@ -117,7 +117,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                                     label="Unit"
                                     tip="Change default weight unit in Settings"
                                     options={weightUnitOptions()}
-                                    onChange={(option: Option) => setFieldValue('weight_unit', option.value)}/>
+                                    onChange={(option: Option<string>) => setFieldValue('weight_unit', option.value)}/>
                             </Col>
                         </Row>
                         <Input

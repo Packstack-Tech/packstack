@@ -1,31 +1,35 @@
-import * as React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import DocumentTitle from 'react-document-title';
 
 import { InventorySpecs } from "./types";
 import { Item as ItemType } from "types/item";
 import { Category } from "types/category";
 
+import { AppContext } from "AppContext";
 import withApi from 'app/components/higher-order/with-api';
 import ItemForm from 'app/components/ItemForm';
 import { MessageArea } from "app/components/MessageArea";
 import Loading from 'app/components/Loading';
 import { useSidebar } from "app/components/Sidebar/Context";
-import { Input } from "app/components/FormFields";
+import { Input, Option, Select } from "app/components/FormFields";
 
 import { getCategories } from "lib/utils/categories";
 import { searchItems } from "lib/utils/search";
+import { weightUnitOptions } from "lib/utils/form";
 
 import Table from './Table';
 import { PageTitle, PageDescription, PageWrapper } from "styles/common";
 
-const Inventory: React.FC<InventorySpecs.Props> = ({ getItems, updateItem }) => {
-    const [items, setItems] = React.useState<ItemType[]>([]);
-    const [filterText, setFilterText] = React.useState<string>('');
-    const [categories, setCategories] = React.useState<Category[]>([]);
-    const [loading, setLoading] = React.useState<boolean>(true);
+const Inventory: React.FC<InventorySpecs.Props> = ({ getItems, updateItem, updateUser }) => {
+    const { userInfo: user, fetchUser } = useContext(AppContext);
+    const [defaultUnit, setDefaultUnit] = useState(user ? user.default_weight_unit : '');
+    const [items, setItems] = useState<ItemType[]>([]);
+    const [filterText, setFilterText] = useState<string>('');
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
     const { dispatch } = useSidebar();
 
-    React.useEffect(() => {
+    useEffect(() => {
         fetchItems();
         dispatch({ type: 'setTitle', value: 'Add Item' });
         dispatch({ type: 'setContent', value: SidebarContent() });
@@ -83,11 +87,23 @@ const Inventory: React.FC<InventorySpecs.Props> = ({ getItems, updateItem }) => 
 
                 {loading ? <Loading size="large"/> : (
                     <>
-                        <div style={{ marginBottom: '16px', width: '50%' }}>
+                        <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                             <Input placeholder="search items..."
                                    value={filterText}
+                                   style={{ width: '50%' }}
                                    onChange={v => setFilterText(v.toString())}
                                    last={true}/>
+                            <Select label="Default Weight Unit"
+                                    defaultValue={{
+                                        value: defaultUnit,
+                                        label: defaultUnit
+                                    }}
+                                    last={true}
+                                    options={weightUnitOptions()}
+                                    onChange={(option: Option<string>) => {
+                                        setDefaultUnit(option.value);
+                                        updateUser(user!.username, option.value).then(fetchUser);
+                                    }}/>
                         </div>
                         {InventoryTable}
                     </>
@@ -100,7 +116,8 @@ const Inventory: React.FC<InventorySpecs.Props> = ({ getItems, updateItem }) => 
 const InventoryWithApi = withApi<InventorySpecs.ApiProps>(api => ({
     getItems: api.ItemService.get,
     updateItem: api.ItemService.update,
-    deleteItem: api.ItemService.delete
+    deleteItem: api.ItemService.delete,
+    updateUser: api.UserService.update
 }))(Inventory);
 
 export default InventoryWithApi;

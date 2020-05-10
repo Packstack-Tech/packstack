@@ -76,7 +76,7 @@ const Item: React.FC<ItemProps> = ({ item, updateItem, fetchItems }) => {
                     <SelectCreatable
                         options={categoryOptions(app.categories)}
                         value={categoryValue}
-                        onChange={(option: Option) => {
+                        onChange={(option: Option<number>) => {
                             update('categoryId', option.value);
                             setCatId(option.value);
                         }}
@@ -94,7 +94,7 @@ const Item: React.FC<ItemProps> = ({ item, updateItem, fetchItems }) => {
                                 value: weight_unit,
                                 label: weight_unit
                             }}
-                            onChange={(option: Option) => {
+                            onChange={(option: Option<string>) => {
                                 update('weight_unit', option.value);
                                 setWUnit(option.value);
                             }}

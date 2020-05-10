@@ -7,10 +7,10 @@ import { InputContainer } from "./utils";
 import { selectStyles } from "./styles";
 
 interface SelectProps extends SharedInputProps {
-    options: OptionsType<Option>;
-    onChange: (option: Option) => void;
-    defaultValue?: Option;
-    value?: Option;
+    options: OptionsType<Option<any>>;
+    onChange: (option: Option<any>) => void;
+    defaultValue?: Option<any>;
+    value?: Option<any>;
 }
 
 const Select: React.FC<SelectProps> = ({ options, value, defaultValue, onChange, error, last, errorMsg, label, placeholder, tip, style }) => {

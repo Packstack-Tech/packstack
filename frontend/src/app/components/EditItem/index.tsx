@@ -73,7 +73,7 @@ const EditForm: React.FC<FormSpecs.Props> = (
                 options={categoryOptions(categories)}
                 value={categoryValue}
                 clearable={true}
-                onChange={(option: Option) => updateItem('categoryId', option.value)}/>
+                onChange={(option: Option<number>) => updateItem('categoryId', option.value)}/>
 
             <Input label="Product Name"
                    placeholder="Osprey Renn 65"
@@ -94,7 +94,7 @@ const EditForm: React.FC<FormSpecs.Props> = (
                                 label: weight_unit
                             }}
                             options={weightUnitOptions()}
-                            onChange={(option: Option) => updateItem('weight_unit', option.value)}/>
+                            onChange={(option: Option<string>) => updateItem('weight_unit', option.value)}/>
                 </Col>
             </Row>
 

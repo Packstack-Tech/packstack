@@ -27,7 +27,7 @@ export interface Register {
 }
 
 export interface Update {
-    (username: string, default_weight_unit: WeightUnit): Promise<User>;
+    (username: string, default_weight_unit: WeightUnit | string): Promise<User>;
 }
 
 export interface RequestReset {

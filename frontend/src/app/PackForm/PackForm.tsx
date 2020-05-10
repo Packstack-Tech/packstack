@@ -201,7 +201,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                                                         defaultValue={durationUnit}
                                                         value={durationUnit}
                                                         options={durationUnitOptions()}
-                                                        onChange={(option: Option) => setFieldValue('duration_unit', option.value)}
+                                                        onChange={(option: Option<string>) => setFieldValue('duration_unit', option.value)}
                                                         style={{ marginTop: '14px' }}/>
                                             </Col>
                                         </Row>
@@ -227,7 +227,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                                                             value: values.gender,
                                                             label: values.gender
                                                         }}
-                                                        onChange={(option: Option) => setFieldValue('gender', option.value)}
+                                                        onChange={(option: Option<string>) => setFieldValue('gender', option.value)}
                                                         last={true}
                                                 />
                                             </Col>
