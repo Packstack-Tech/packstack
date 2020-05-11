@@ -26,6 +26,7 @@ const SelectCreatable: React.FC<SelectProps> = (
         clearable,
         ...rest
     }) => {
+    // @ts-ignore
     const handleChange = (value: any, action: ActionMeta) => onChange(value);
     return (
         <InputContainer {...rest}>

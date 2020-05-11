@@ -32,12 +32,12 @@ const Inventory: React.FC<InventorySpecs.Props> = ({ getItems, updateItem, updat
     useEffect(() => {
         fetchItems();
         dispatch({ type: 'setTitle', value: 'Add Item' });
-        dispatch({ type: 'setContent', value: SidebarContent() });
+        dispatch({ type: 'setContent', value: <ItemForm onSubmit={fetchItems}/> });
 
         return function cleanup() {
             dispatch({ type: 'reset' })
         }
-    }, []);
+    }, [user]);
 
     function fetchItems() {
         getItems()
@@ -68,8 +68,6 @@ const Inventory: React.FC<InventorySpecs.Props> = ({ getItems, updateItem, updat
             Get started by adding your inventory.
         </MessageArea>
     );
-
-    const SidebarContent = () => <ItemForm onSubmit={fetchItems}/>;
 
     const InventoryTable = !!categories.length ? renderTables() : renderEmptyList();
     return (

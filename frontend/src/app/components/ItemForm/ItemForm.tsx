@@ -30,6 +30,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
         exportCsv().then(data => FileDownload(data, 'inventory.csv'));
     }
 
+    const { default_weight_unit } = app.userInfo;
     return (
         <Formik
             initialValues={{
@@ -37,7 +38,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                 categoryId: undefined,
                 product_name: '',
                 weight: undefined,
-                weight_unit: app.userInfo.default_weight_unit,
+                weight_unit: default_weight_unit,
                 product_url: '',
                 newCategory: false
             }}
