@@ -7,10 +7,10 @@ import { InputContainer } from "./utils";
 import { selectStyles } from "./styles";
 
 interface SelectProps extends SharedInputProps {
-    options: OptionsType<Option>;
-    onChange: (option: Option) => void;
-    defaultValue?: Option;
-    value?: Option | null;
+    options: OptionsType<Option<any>>;
+    onChange: (option: Option<any>) => void;
+    defaultValue?: Option<any>;
+    value?: Option<any> | null;
     inputValue?: string;
     clearable?: boolean;
 }
@@ -26,6 +26,7 @@ const SelectCreatable: React.FC<SelectProps> = (
         clearable,
         ...rest
     }) => {
+    // @ts-ignore
     const handleChange = (value: any, action: ActionMeta) => onChange(value);
     return (
         <InputContainer {...rest}>

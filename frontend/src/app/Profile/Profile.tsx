@@ -6,9 +6,7 @@ import DocumentTitle from 'react-document-title';
 
 import { ProfileSpecs } from './types';
 
-import { weightUnitOptions } from "lib/utils/form";
-
-import { Input, Option, Select } from "app/components/FormFields";
+import { Input } from "app/components/FormFields";
 import { alertError, alertSuccess } from "app/components/Notifications";
 import PackList from 'app/components/PackList';
 
@@ -64,12 +62,12 @@ class Profile extends React.Component<ProfileSpecs.Props, ProfileSpecs.State> {
                             <h3>Settings</h3>
                             <Box>
                                 <Formik
-                                    initialValues={{ username, default_weight_unit }}
+                                    initialValues={{ username }}
                                     validationSchema={Yup.object().shape({
                                         username: Yup.string().required("Username cannot be empty.")
                                     })}
                                     onSubmit={(values) => {
-                                        updateUser(values.username, values.default_weight_unit)
+                                        updateUser(values.username, default_weight_unit)
                                             .then(() => {
                                                 fetchUser();
                                                 alertSuccess({ message: 'User settings updated!' });
@@ -79,7 +77,7 @@ class Profile extends React.Component<ProfileSpecs.Props, ProfileSpecs.State> {
                                     {(props: FormikProps<ProfileSpecs.SettingsForm>) => {
                                         const { values, setFieldValue, submitForm, submitCount, errors } = props;
                                         const wasSubmitted = submitCount > 0;
-                                        const saveChanges = username !== values.username || default_weight_unit !== values.default_weight_unit;
+                                        const saveChanges = username !== values.username;
 
                                         return (
                                             <>
@@ -88,14 +86,6 @@ class Profile extends React.Component<ProfileSpecs.Props, ProfileSpecs.State> {
                                                        error={wasSubmitted && !!errors.username}
                                                        errorMsg={errors.username}
                                                        onChange={v => setFieldValue('username', v)}/>
-
-                                                <Select label="Default Weight Unit"
-                                                        defaultValue={{
-                                                            value: values.default_weight_unit,
-                                                            label: default_weight_unit
-                                                        }}
-                                                        options={weightUnitOptions()}
-                                                        onChange={(option: Option) => setFieldValue('default_weight_unit', option.value)}/>
                                                 <Button onClick={submitForm}
                                                         block={true}
                                                         type="primary"

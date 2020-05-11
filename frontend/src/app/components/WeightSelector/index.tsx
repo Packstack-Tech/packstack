@@ -26,7 +26,7 @@ const WeightSelector: React.FC<Props> = ({ unit, items, selectUnit }) => {
                 <Select defaultValue={{ value: unit, label: unit }}
                         options={weightUnitOptions()}
                         label="Weight unit"
-                        onChange={(option: Option) => {
+                        onChange={(option: Option<string>) => {
                             const unit = Object.keys(WeightUnit).find(key => WeightUnit[key] === option.value);
                             selectUnit(WeightUnit[unit!]);
                         }}

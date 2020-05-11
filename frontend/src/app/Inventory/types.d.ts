@@ -1,10 +1,12 @@
 import { Delete, Get, Update, UploadCSV } from "types/api/item";
+import { Update as UpdateUser } from "types/api/user";
 
 export declare module InventorySpecs {
     export interface ApiProps {
         getItems: Get;
         updateItem: Update;
         deleteItem: Delete;
+        updateUser: UpdateUser;
     }
 
     export type Props = ApiProps;

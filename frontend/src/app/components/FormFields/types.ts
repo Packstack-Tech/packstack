@@ -1,7 +1,7 @@
 import { CSSProperties } from "react";
 
-export interface Option {
-    value: string | number;
+export interface Option<t> {
+    value: t;
     label: string;
     __isNew__?: boolean;
 }

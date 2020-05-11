@@ -24,7 +24,7 @@ export default class User implements UserService {
             .then((resp: AxiosResponse<AuthToken>) => resp.data);
     };
 
-    update: Update = (username: string, default_weight_unit: WeightUnit) => {
+    update: Update = (username: string, default_weight_unit: WeightUnit | string) => {
         return this.api.put(`${this.baseUrl}/user`, { username, default_weight_unit })
             .then((resp: AxiosResponse<UserInfo>) => resp.data);
     };
