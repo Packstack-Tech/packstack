@@ -7,6 +7,7 @@ export interface BaseItem {
     product_name?: string;
     weight?: number;
     weight_unit?: WeightUnit;
+    price?: number;
     product_url?: string;
 }
 

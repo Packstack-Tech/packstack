@@ -53,7 +53,7 @@ const EditForm: React.FC<FormSpecs.Props> = (
         </ButtonGroup>
     );
 
-    const { product_name, name, weight_unit, weight, product_url } = record;
+    const { product_name, name, weight_unit, weight, price, product_url } = record;
     return (
         <Modal
             title={<ModalTitle>Edit Item</ModalTitle>}
@@ -97,6 +97,12 @@ const EditForm: React.FC<FormSpecs.Props> = (
                             onChange={(option: Option<string>) => updateItem('weight_unit', option.value)}/>
                 </Col>
             </Row>
+
+            <Input label="Price"
+                  type="number"
+                   placeholder="0.00"
+                   value={price || ''}
+                   onChange={v => updateItem('price', v)}/>
 
             <Input label="Product URL"
                    placeholder="https://osprey.com"

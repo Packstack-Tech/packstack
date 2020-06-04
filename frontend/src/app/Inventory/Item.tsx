@@ -55,7 +55,7 @@ const Item: React.FC<ItemProps> = ({ item, updateItem, fetchItems }) => {
     }
 
     const categoryValue = categorySelectValue(app.categories, copy.categoryId);
-    const { product_name, name, weight_unit, weight } = copy;
+    const { product_name, name, weight_unit, weight, price } = copy;
     return (
         <>
             <Grid>
@@ -100,6 +100,13 @@ const Item: React.FC<ItemProps> = ({ item, updateItem, fetchItems }) => {
                             }}
                             style={inlineStyles}/>
                 </PairGrid>
+                <div>
+                    <Input value={price || ''}
+                           placeholder="price"
+                           onChange={v => update('price', v)}
+                           onBlur={handleSave}
+                           style={inlineStyles}/>
+                </div>
                 <div className="align-right">
                     <a onClick={() => setEditVisible(true)}>edit</a>
                 </div>
