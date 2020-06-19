@@ -20,7 +20,7 @@ interface ItemProps {
     updateItem: Update;
 }
 
-const Item: React.FC<ItemProps> = ({ item, updateItem, fetchItems }) => {
+const Item: React.FC<ItemProps> = ({item, updateItem, fetchItems}) => {
     const app = React.useContext(AppContext);
     const firstRender = React.useRef(true);
     const [copy, setCopy] = React.useState<ItemType>(item);
@@ -36,26 +36,27 @@ const Item: React.FC<ItemProps> = ({ item, updateItem, fetchItems }) => {
     }, [catId, wUnit]);
 
     function update(key: string, value: any) {
-        const i = Object.assign({}, { ...copy, [key]: value });
+        const i = Object.assign({}, {...copy, [key]: value});
         setCopy(i);
     }
 
     function handleSave() {
         if (!copy.name || isEqual(copy, item)) return;
         const newCategory = !app.categories.map(c => c.id).includes(copy.categoryId);
-        updateItem({ ...copy, newCategory })
+        const withDefaults = {...copy, price: copy.price || 0, weight: copy.weight || 0};
+        updateItem({...withDefaults, newCategory})
             .then(newItem => {
                 setCopy(newItem);
-                alertSuccess({ message: 'Item Updated.', duration: 2 });
+                alertSuccess({message: 'Item Updated.', duration: 2});
                 if (newCategory) {
                     app.fetchUser();
                 }
             })
-            .catch(() => alertWarn({ message: 'Error updating item.' }));
+            .catch(() => alertWarn({message: 'Error updating item.'}));
     }
 
     const categoryValue = categorySelectValue(app.categories, copy.categoryId);
-    const { product_name, name, weight_unit, weight, price } = copy;
+    const {product_name, name, weight_unit, weight, price} = copy;
     return (
         <>
             <Grid>
@@ -100,7 +101,8 @@ const Item: React.FC<ItemProps> = ({ item, updateItem, fetchItems }) => {
                             }}
                             style={inlineStyles}/>
                 </PairGrid>
-                <div>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    $
                     <Input value={price || ''}
                            placeholder="price"
                            onChange={v => update('price', v)}
