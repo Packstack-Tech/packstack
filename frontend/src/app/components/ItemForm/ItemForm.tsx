@@ -39,6 +39,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                 product_name: '',
                 weight: undefined,
                 weight_unit: default_weight_unit,
+                price: undefined,
                 product_url: '',
                 newCategory: false
             }}
@@ -121,6 +122,12 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                                     onChange={(option: Option<string>) => setFieldValue('weight_unit', option.value)}/>
                             </Col>
                         </Row>
+                        <Input
+                            label="Price"
+                            value={values.price || ''}
+                            placeholder="0.00"
+                            onChange={v => setFieldValue('price', v)}
+                        />
                         <Input
                             label="Product URL"
                             value={values.product_url || ''}
