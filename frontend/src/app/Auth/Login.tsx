@@ -21,12 +21,12 @@ const LoginPage: React.FC<LoginSpecs.Props> = ({ login, history }) => {
     return (
         <Formik
             initialValues={{
-                username: '',
+                emailOrUsername: '',
                 password: ''
             }}
             onSubmit={(values, formikActions) => {
                 setAuthError(false);
-                login(values.username, values.password)
+                login(values.emailOrUsername, values.password)
                     .then(resp =>
                         app.setAuthToken(resp.authToken).then(() => history.push(INVENTORY))
                     )
@@ -36,7 +36,7 @@ const LoginPage: React.FC<LoginSpecs.Props> = ({ login, history }) => {
                     });
             }}
             validationSchema={Yup.object().shape({
-                username: Yup.string().required('Username is required'),
+                emailOrUsername: Yup.string().required('Email or Username is required'),
                 password: Yup.string().required('Password is required')
             })}
         >
@@ -50,14 +50,14 @@ const LoginPage: React.FC<LoginSpecs.Props> = ({ login, history }) => {
                             <Box>
                                 <h1>Sign In</h1>
                                 {authError && (
-                                    <Alert message="Invalid username or password. Please try again." type="error"/>
+                                    <Alert message="Invalid email/username or password. Please try again." type="error"/>
                                 )}
-                                <Input label="Username"
-                                       value={values.username}
-                                       error={wasSubmitted && !!errors.username}
-                                       errorMsg={errors.username}
-                                       autocomplete="username"
-                                       onChange={v => setFieldValue('username', v)}/>
+                                <Input label="Email/Username"
+                                       value={values.emailOrUsername}
+                                       error={wasSubmitted && !!errors.emailOrUsername}
+                                       errorMsg={errors.emailOrUsername}
+                                       autocomplete="emailOrUsername"
+                                       onChange={v => setFieldValue('emailOrUsername', v)}/>
 
                                 <Input label="Password"
                                        value={values.password}
