@@ -52,3 +52,9 @@ export interface PackItemAttr {
 export interface PackItem extends Item {
     packItem: PackItemAttr;
 }
+
+export enum ItemConstants {
+    name = 200,
+    product_name = 500,
+    product_url = 500
+}
