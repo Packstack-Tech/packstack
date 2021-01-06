@@ -55,7 +55,7 @@ const Home = () => (
                 </Link>
             </div>
             <Footer>
-                Copyright © 2020 Packstack.io • Packstack is an
+                Copyright © 2021 Packstack.io • Packstack is an
                 <a href="https://github.com/maplethorpej/packstack" rel="noopener noreferrer" target="_blank"> open
                     source</a> project
             </Footer>
