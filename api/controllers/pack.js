@@ -177,4 +177,66 @@ router.post('/remove-item', authenticate, (req, res) => {
 
 });
 
+// make a copy of a pack and its items
+router.post('/copy-pack', authenticate, (req, res) => {
+    const { packId } = req.body;
+
+    // verify ownership
+    if (packId) {
+        models.Pack.findOne({ where: { id: packId, userId: req.user.id } })
+            .then(pack => {
+                if (!pack) {
+                    return res.sendStatus(401);
+                }
+                else { //owner of pack is making request
+                        models.Pack.findOne({
+                            where: { id: packId },
+                            include: [
+                                {
+                                model: models.Item, through: { where: { packId: packId } }, include: [
+                                    { model: models.Category, as: 'Category', attributes: ['name'] }
+                                ]
+                                },
+                            ]
+                        })
+                        .then(pack => {
+                            models.Pack.create({ userId: req.user.id,
+                                                title: "Copy of " + pack.title,
+                                                public: pack.public,
+                                                description: pack.description,
+                                                duration: pack.duration,
+                                                duration_unit: pack.duration_unit,
+                                                temp_range: pack.temp_range,
+                                                season: pack.season,
+                                                gender: pack.gender
+                                                })
+                            .then(newPack => {
+                                //associate items by id
+                                const assocItems = pack.items.map(item => ({
+                                    ...item.packItem,
+                                    quantity: item.packItem.quantity || 1,
+                                    packId: newPack.id,
+                                    itemId: item.id
+                                }));
+                                models.PackItem.bulkCreate(assocItems)
+                                    .then(() => {
+                                        // retrieve new pack w/ items
+                                        models.Pack.findOne({
+                                            where: { id: newPack.id },
+                                            include: { model: models.Item, through: { where: { packId: newPack.id } } }
+                                        })
+                                            .then(pack => res.json(pack))
+                                            .catch(err => res.json(err));
+                                    })
+                                    .catch(err => res.status(400).json(err))
+                            })
+                            .catch(err => res.status(400).json(err))
+                        })
+                        .catch(err => res.json(err));
+                    }
+            })
+            .catch(err => res.status(400).json(err));
+    }
+});
+
 module.exports = router;

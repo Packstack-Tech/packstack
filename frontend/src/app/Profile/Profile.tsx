@@ -44,6 +44,12 @@ class Profile extends React.Component<ProfileSpecs.Props, ProfileSpecs.State> {
             .catch(() => alertError({ message: 'Error while deleting pack.' }))
     };
 
+    copyPack = (id: number) => {
+        this.props.copyPack(id)
+            .then(() => this.fetchPacks())
+            .catch(() => alertError({ message: 'Error while copying pack.' }))
+    };
+
     render() {
         const { user: { username, id, default_weight_unit }, updateUser, fetchUser } = this.props;
         const { loading, packs } = this.state;
@@ -56,7 +62,7 @@ class Profile extends React.Component<ProfileSpecs.Props, ProfileSpecs.State> {
                     <Grid>
                         <div className="two-thirds">
                             <h3>Packs</h3>
-                            <PackList loading={loading} packs={packs} currentUserId={id} deletePack={this.deletePack}/>
+                            <PackList loading={loading} packs={packs} currentUserId={id} deletePack={this.deletePack} copyPack={this.copyPack}/>
                         </div>
                         <div className="third">
                             <h3>Settings</h3>

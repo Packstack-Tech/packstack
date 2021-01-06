@@ -10,9 +10,10 @@ interface Props {
     loading: boolean;
     currentUserId?: number;
     deletePack?: (id: number) => void;
+    copyPack?: (id: number) => void;
 }
 
-const PackList: React.FC<Props> = ({ packs, loading, currentUserId, deletePack }) => {
+const PackList: React.FC<Props> = ({ packs, loading, currentUserId, deletePack, copyPack }) => {
     if (loading) {
         return <Loading size="large"/>
     }
@@ -25,7 +26,7 @@ const PackList: React.FC<Props> = ({ packs, loading, currentUserId, deletePack }
 
     return (
         <div>
-            {packs.map(p => <Item key={p.id} pack={p} currentUserId={currentUserId} deletePack={deletePack} />)}
+            {packs.map(p => <Item key={p.id} pack={p} currentUserId={currentUserId} deletePack={deletePack} copyPack={copyPack} />)}
         </div>
     )
 };
