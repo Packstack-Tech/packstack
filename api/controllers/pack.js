@@ -200,16 +200,7 @@ router.post('/copy-pack', authenticate, (req, res) => {
                             ]
                         })
                         .then(pack => {
-                            models.Pack.create({ userId: req.user.id,
-                                                title: "Copy of " + pack.title,
-                                                public: pack.public,
-                                                description: pack.description,
-                                                duration: pack.duration,
-                                                duration_unit: pack.duration_unit,
-                                                temp_range: pack.temp_range,
-                                                season: pack.season,
-                                                gender: pack.gender
-                                                })
+                            models.Pack.create({ ...pack, userId: req.user.id, title: "Copy of " + pack.title })
                             .then(newPack => {
                                 //associate items by id
                                 const assocItems = pack.items.map(item => ({
