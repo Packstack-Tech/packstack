@@ -19,8 +19,8 @@ export default class User implements UserService {
             .then((resp: AxiosResponse<UserInfo>) => resp.data);
     };
 
-    login: Login = (username: string, password: string) => {
-        return this.api.post(`${this.baseUrl}/login`, { username, password })
+    login: Login = (emailOrUsername: string, password: string) => {
+        return this.api.post(`${this.baseUrl}/login`, { emailOrUsername, password })
             .then((resp: AxiosResponse<AuthToken>) => resp.data);
     };
 

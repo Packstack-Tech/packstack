@@ -7,7 +7,7 @@ export declare module LoginSpecs {
     }
 
     export interface FormValues {
-        username: string;
+        emailOrUsername: string;
         password: string;
     }
 
