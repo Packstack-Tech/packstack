@@ -10,8 +10,7 @@ import { getPackPath } from "routes";
 import { PackFormSpecs } from "./types";
 import { DurationUnit } from "enums";
 import { Item, PackItem } from "types/item";
-import { Pack } from "types/pack";
-import { BasePack } from "types/pack";
+import { Pack, BasePack, PackConstants } from "types/pack";
 
 import { durationUnitOptions, genderOptions } from "lib/utils/form";
 
@@ -174,13 +173,15 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                                                error={wasSubmitted && !!errors.title}
                                                errorMsg={errors.title}
                                                value={values.title}
+                                               allowedLength={PackConstants.title}
                                                onChange={v => setFieldValue('title', v)}/>
 
                                         <Textarea label="Field Notes"
                                                   placeholder="Additional notes about this trip..."
                                                   value={values.description || ''}
                                                   onChange={v => setFieldValue('description', v)}
-                                                  last={true}/>
+                                                  last={true}
+                                                  allowedLength={PackConstants.description}/>
                                     </div>
                                     <div className="third">
                                         <Row gutter={8}>
@@ -207,6 +208,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                                         </Row>
                                         <Input label="Temp Range"
                                                placeholder="43° - 81° F"
+                                               allowedLength={PackConstants.temp_range}
                                                value={values.temp_range || ''}
                                                onChange={v => setFieldValue('temp_range', v)}
                                         />
@@ -217,6 +219,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                                                        value={values.season || ''}
                                                        onChange={v => setFieldValue('season', v)}
                                                        last={true}
+                                                       allowedLength={PackConstants.season}
                                                 />
                                             </Col>
                                             <Col span={12}>
