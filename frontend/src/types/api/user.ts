@@ -19,7 +19,7 @@ export interface Status {
 }
 
 export interface Login {
-    (username: string, password: string): Promise<AuthToken>;
+    (emailOrUsername: string, password: string): Promise<AuthToken>;
 }
 
 export interface Register {

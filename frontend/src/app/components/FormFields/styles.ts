@@ -109,3 +109,10 @@ export const selectStyles: StylesConfig = {
         color: '#ccc'
     })
 };
+
+export const CharacterCounter = styled.small`
+    float: right;
+    &.full {
+        color:red;
+    }
+`;
