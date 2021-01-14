@@ -6,7 +6,7 @@ import { Row, Col, Button } from "antd";
 import { Input, Select, SelectCreatable, Option } from '../FormFields';
 
 import { AppContext } from 'AppContext';
-import { CreateItem } from "types/item";
+import { CreateItem, ItemConstants } from "types/item";
 import { FormSpecs } from "./types";
 
 import withApi from 'app/components/higher-order/with-api';
@@ -78,6 +78,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                             error={wasSubmitted && !!errors.name}
                             placeholder="Backpack, Compass, etc..."
                             onChange={v => setFieldValue('name', v)}
+                            allowedLength={ItemConstants.name}
                         />
                         <SelectCreatable
                             label="Category"
@@ -99,6 +100,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                             value={values.product_name || ''}
                             placeholder="Osprey Renn 65"
                             onChange={v => setFieldValue('product_name', v)}
+                            allowedLength={ItemConstants.product_name}
                         />
                         <Row gutter={8}>
                             <Col span={16}>
@@ -134,6 +136,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                             type="url"
                             placeholder="https://osprey.com"
                             onChange={v => setFieldValue('product_url', v)}
+                            allowedLength={ItemConstants.product_url}
                         />
                         <Button onClick={submitForm}
                                 disabled={isSubmitting}

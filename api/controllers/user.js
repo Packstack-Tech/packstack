@@ -29,8 +29,11 @@ router.post('/register', (req, res) => {
 
 // Login
 router.post('/login', (req, res) => {
-    const { username, password } = req.body;
-    models.User.findOne({ where: { username } })
+    const { emailOrUsername, password } = req.body;
+    models.User.findOne({ where: { [Op.or]: [
+        { email: emailOrUsername },
+        { username: emailOrUsername }
+    ] }})
         .then(async user => {
             if (!user) {
                 return res.status(401).json({ error: 'Invalid credentials.' })

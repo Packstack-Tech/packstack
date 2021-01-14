@@ -57,19 +57,20 @@ const Items: React.FC<ItemsProps> = ({ items, unit }) => {
                                     {notes}
                                 </ItemNotes>
                             );
+                            let quantityString = parseFloat(quantity.toString());
                             return (
                                 <Row gutter={16} key={item.id} className="item-row">
-                                    <Col span={18}>
+                                    <Col span={6}>
                                         <ItemName>
+                                            <ItemQuantity>{quantityString} x </ItemQuantity>
                                             {name}
                                         </ItemName>
+                                        {NotesRow}
+                                    </Col>
+                                    <Col span={12}>
                                         <ItemDescription>
                                             {itemDesc(product_url, product_name)}
                                         </ItemDescription>
-                                        <ItemQuantity>
-                                            Quantity: {quantity}
-                                        </ItemQuantity>
-                                        {NotesRow}
                                     </Col>
                                     <Col span={2} className="align-right">
                                         {worn && (
