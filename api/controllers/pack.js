@@ -4,11 +4,11 @@ import Sequelize from 'sequelize';
 let router = express.Router();
 
 import models from '../models';
-import { authenticate } from "../utils/jwt";
+import { authenticate, authenicatePublicRequest } from "../utils/jwt";
 import { csvItems, packItemPayload, packPayload } from "../utils/build-payload";
 
 // Get
-router.get('/:id', async (req, res) => {
+router.get('/:id', authenicatePublicRequest, async (req, res) => {
     let { id } = req.params;
     models.Pack.findOne({
         where: { id },
@@ -21,7 +21,17 @@ router.get('/:id', async (req, res) => {
             { model: models.User, attributes: ['id', 'username'] },
         ]
     })
-        .then(pack => res.json(pack))
+        .then(pack => {
+            if (pack.public) { 
+                res.json(pack);
+            } else { //when the pack is private, only allow the owner of the pack to view
+                if (req.user && pack.userId == req.user.id) {
+                    res.json(pack);
+                } else {
+                    res.sendStatus(401);
+                }
+            }
+        })
         .catch(err => res.json(err));
 });
 
