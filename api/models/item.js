@@ -66,6 +66,9 @@ const item = (sequelize, DataTypes) => {
             allowNull: false,
             defaultValue: false
         },
+        notes: {
+            type: DataTypes.STRING(500)
+        },
     });
 
     Item.associate = models => {
