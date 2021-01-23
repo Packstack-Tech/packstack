@@ -55,6 +55,7 @@ export const TripDescription = styled.p`
 `;
 
 export const ItemName = styled.h4`
+    display: inline;
     font-family: "Open Sans", sans-serif;
     font-weight: 700;
     font-size: 1em;
@@ -63,19 +64,21 @@ export const ItemName = styled.h4`
     
     span {
       color: #888;
-      font-size: .9rem;
+      font-size: 1rem;
       margin-left: 8px;
     }
 `;
 
 export const ItemDescription = styled.p`
-  font-size: .85em;
+  font-size: 1em;
   color: #888;
   margin-bottom: 0;
   line-height: 1rem;
 `;
 
-export const ItemQuantity = styled(ItemDescription)``;
+export const ItemQuantity = styled(ItemDescription)`
+  display:inline;
+`;
 
 export const ItemNotes = styled.p`
   line-height: 1.35rem;
@@ -96,8 +99,11 @@ export const ItemsFooter = styled.div`
 
 export const CategorySection = styled.div`
   .item-row {
-    padding: 8px;
+    padding: 5px;
     border-bottom: 1px dashed #EEE;
+    &:hover {
+      background-color: #F0F7FA;
+    }
   }
   
   .item-row:last-of-type {

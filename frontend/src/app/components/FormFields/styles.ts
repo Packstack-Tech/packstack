@@ -110,6 +110,9 @@ export const selectStyles: StylesConfig = {
     })
 };
 
-export const checkboxStyles: StylesConfig = { 
-
-}
+export const CharacterCounter = styled.small`
+    float: right;
+    &.full {
+        color:red;
+    }
+`;

@@ -35,3 +35,10 @@ export interface CreatePack extends BasePack {
 export type PackOverview = Omit<Pack, 'items'> & {
     itemCount: number;
 }
+
+export enum PackConstants {
+    title = 300,
+    description = 2000,
+    temp_range = 255,
+    season = 255
+}

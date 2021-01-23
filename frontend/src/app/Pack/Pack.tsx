@@ -20,7 +20,7 @@ import Items from './Items';
 
 import { getWeightByCategory } from 'lib/utils/weight';
 
-import { Credit, PackWrapper, SectionHeader, SectionTitle, TripDescription, ItemsFooter } from "./styles";
+import { Credit, PackWrapper, SectionHeader, SectionTitle, TripDescription } from "./styles";
 
 const Pack: React.FC<PackSpecs.Props> = ({ getPack, weightUnit, packId }) => {
     const [loading, setLoading] = React.useState<boolean>(true);
@@ -113,12 +113,6 @@ const Pack: React.FC<PackSpecs.Props> = ({ getPack, weightUnit, packId }) => {
                     </div>
                 </SectionHeader>
                 <Items items={pack.items} unit={unit}/>
-                <ItemsFooter>
-                    <WeightSelector
-                        unit={unit}
-                        items={pack.items}
-                        selectUnit={unit => setUnit(unit)}/>
-                </ItemsFooter>
             </PackWrapper>
         </DocumentTitle>
     );
