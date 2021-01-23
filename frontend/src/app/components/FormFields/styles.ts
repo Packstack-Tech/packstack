@@ -109,3 +109,7 @@ export const selectStyles: StylesConfig = {
         color: '#ccc'
     })
 };
+
+export const checkboxStyles: StylesConfig = { 
+
+}

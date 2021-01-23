@@ -22,6 +22,7 @@ import Loading from "app/components/Loading";
 import { useSidebar } from "app/components/Sidebar/Context";
 
 import { PageTitle, Controls, Box, Grid } from "styles/common";
+import CheckboxInput from "app/components/FormFields/CheckboxInput";
 
 const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exportItems, getItems, createPack, updatePack, user }) => {
     const [loading, setLoading] = React.useState<boolean>(true);
@@ -115,7 +116,8 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                     duration_unit: packData ? packData.duration_unit : undefined,
                     temp_range: packData ? packData.temp_range : '',
                     season: packData ? packData.season : '',
-                    gender: packData ? packData.gender : undefined
+                    gender: packData ? packData.gender : undefined,
+                    public: packData ? packData.public : false
                 }}
                 validationSchema={Yup.object().shape({
                     title: Yup.string().required("Trail name or location is required.")
@@ -232,6 +234,10 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                                                 />
                                             </Col>
                                         </Row>
+                                        <CheckboxInput label="Publicly Viewable Pack"
+                                                        checked = {values.public}
+                                                        onChange={v => setFieldValue('public', v)}
+                                        ></CheckboxInput>                       
                                     </div>
                                 </Grid>
                             </Box>
