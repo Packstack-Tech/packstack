@@ -11,7 +11,7 @@ interface CheckboxProps extends SharedInputProps {
 const CheckboxInput: React.FC<CheckboxProps> = ({ checked, onChange, label, tip, style }) => {
     const handleChange = (value: any) => onChange(value.target.checked);
     return (
-        <InputContainer {...{ label, tip, style }}>
+        <InputContainer {...{ label, tip, style }} labelStyle = {{display:"inline", paddingRight: '8px'}}>
             <Checkbox 
                 checked = {checked}    
                 onChange={handleChange}

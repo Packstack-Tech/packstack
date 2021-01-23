@@ -230,13 +230,13 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                                                             label: values.gender
                                                         }}
                                                         onChange={(option: Option<string>) => setFieldValue('gender', option.value)}
-                                                        last={true}
                                                 />
                                             </Col>
                                         </Row>
-                                        <CheckboxInput label="Publicly Viewable Pack"
-                                                        checked = {values.public}
-                                                        onChange={v => setFieldValue('public', v)}
+                                        <CheckboxInput label="Private Pack"
+                                                        checked = {!values.public}
+                                                        onChange={v => setFieldValue('public', !v)}
+                                                        tip="When unchecked, the pack will be viewable by anyone with a link"
                                         ></CheckboxInput>                       
                                     </div>
                                 </Grid>

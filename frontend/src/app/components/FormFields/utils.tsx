@@ -18,10 +18,10 @@ const tooltip = (tip: string) => (
     </Tooltip>
 );
 
-export const InputContainer: React.FC<SharedInputProps> = ({ label, errorMsg, error, tip, last, style, children }) => (
+export const InputContainer: React.FC<SharedInputProps> = ({ label, errorMsg, error, tip, last, style, children, labelStyle }) => (
     <Row className={last ? 'last' : ''} style={style}>
         {label && (
-            <Label>
+            <Label style={labelStyle}>
                 {label}
                 {tip && tooltip(tip)}
             </Label>
