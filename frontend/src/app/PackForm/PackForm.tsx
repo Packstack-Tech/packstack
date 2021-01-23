@@ -21,7 +21,7 @@ import Loading from "app/components/Loading";
 import { useSidebar } from "app/components/Sidebar/Context";
 
 import { PageTitle, Controls, Box, Grid } from "styles/common";
-import CheckboxInput from "app/components/FormFields/CheckboxInput";
+import SwitchInput from "app/components/FormFields/SwitchInput";
 
 const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exportItems, getItems, createPack, updatePack, user }) => {
     const [loading, setLoading] = React.useState<boolean>(true);
@@ -236,11 +236,13 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                                                 />
                                             </Col>
                                         </Row>
-                                        <CheckboxInput label="Private Pack"
-                                                        checked = {!values.public}
-                                                        onChange={v => setFieldValue('public', !v)}
-                                                        tip="When unchecked, the pack will be viewable by anyone with a link"
-                                        ></CheckboxInput>                       
+                                        <SwitchInput label="Pack Privacy"
+                                                        checked = {values.public}
+                                                        checkedText="Public"
+                                                        uncheckedText="Private"
+                                                        onChange={v => setFieldValue('public', v)}
+                                                        tip="When public, the pack will be viewable by anyone with a link"
+                                        ></SwitchInput>                       
                                     </div>
                                 </Grid>
                             </Box>
