@@ -28,7 +28,7 @@ router.get('/:id', authenicatePublicRequest, async (req, res) => {
                 if (req.user && pack.userId == req.user.id) {
                     res.json(pack);
                 } else {
-                    res.sendStatus(401);
+                    res.sendStatus(403); //return 'forbidden'
                 }
             }
         })
