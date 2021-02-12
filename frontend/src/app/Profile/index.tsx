@@ -28,6 +28,7 @@ class ProfileContainer extends React.Component<RouteComponentProps> {
                             <Profile getPacks={app.api.PackService.getUserPacks}
                                      updateUser={app.api.UserService.update}
                                      deletePack={app.api.PackService.delete}
+                                     copyPack={app.api.PackService.copyPack}
                                      fetchUser={app.fetchUser}
                                      user={app.userInfo}/>
                         </PageWrapper>
