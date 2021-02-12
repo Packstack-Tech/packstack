@@ -53,7 +53,7 @@ const EditForm: React.FC<FormSpecs.Props> = (
         </ButtonGroup>
     );
 
-    const { product_name, name, weight_unit, weight, price, product_url } = record;
+    const { product_name, name, weight_unit, weight, price, product_url, notes } = record;
     return (
         <Modal
             title={<ModalTitle>Edit Item</ModalTitle>}
@@ -109,6 +109,12 @@ const EditForm: React.FC<FormSpecs.Props> = (
                    type="url"
                    value={product_url || ''}
                    onChange={v => updateItem('product_url', v)}
+                   />
+
+            <Input label="Notes"
+                   value={notes || ''}
+                   placeholder="Care instructions, further details, etc..."
+                   onChange={v => updateItem('notes', v)}
                    last={true}/>
         </Modal>
     )

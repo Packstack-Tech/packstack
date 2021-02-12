@@ -64,7 +64,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
     }
 
     const addItem = (item: Item) => {
-        const items = Object.assign([], [...packItems, { ...item, packItem: { notes: '', quantity: 1, worn: false } }]);
+        const items = Object.assign([], [...packItems, { ...item, packItem: { notes: item.notes, quantity: 1, worn: false } }]);
         setHasPendingChanges(true);
         setPackItems(items);
     };

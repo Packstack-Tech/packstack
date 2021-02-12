@@ -10,7 +10,8 @@ import {
     AddItem,
     RemoveItem,
     ExportItems,
-    GetUserPacks
+    GetUserPacks,
+    CopyPack
 } from "types/api/pack";
 import { Pack as PackPayload, PackOverview } from "types/pack";
 import { PackItemAttr } from "types/item";
@@ -61,5 +62,10 @@ export default class Pack implements PackService {
     exportItems: ExportItems = packId => {
         return this.api.get(`${this.baseUrl}/export/${packId}`)
             .then((resp: AxiosResponse<File>) => resp.data);
+    }
+
+    copyPack: CopyPack = (packId: number) => {
+        return this.api.post(`${this.baseUrl}/copy-pack/`, {packId} )
+            .then((resp: AxiosResponse<number>) => resp.data);
     }
 }

@@ -1,5 +1,15 @@
 import * as React from 'react';
 
+export const DotIcon = () => (
+    <svg x="0px" y="0px" width="32px" height="30px" viewBox="0 0 20 20" xmlSpace="preserve">
+        <g>
+            <g>
+                <path d="M7.8 10c0 1.215 0.986 2.2 2.201 2.2s2.199-0.986 2.199-2.2c0-1.215-0.984-2.199-2.199-2.199s-2.201 0.984-2.201 2.199z"></path>
+            </g>
+        </g>
+    </svg>
+);
+
 export const ShirtIcon = () => (
     <svg x="0px" y="0px" width="42px" height="40px" viewBox="0 0 40.143 40.143" xmlSpace="preserve">
         <g>

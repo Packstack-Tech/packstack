@@ -10,6 +10,7 @@ export interface PackService {
     addItem: AddItem;
     removeItem: RemoveItem;
     exportItems: ExportItems;
+    copyPack: CopyPack;
 }
 
 export interface Get {
@@ -42,4 +43,8 @@ export interface RemoveItem {
 
 export interface ExportItems {
     (packId: number): Promise<File>;
+}
+
+export interface CopyPack {
+    (packId: number): Promise<number>;//returns the id of the new pack
 }

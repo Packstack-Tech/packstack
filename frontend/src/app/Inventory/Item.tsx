@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { isEqual } from 'lodash';
+import { Icon, Tooltip } from 'antd';
 
 import { Item as ItemType } from "types/item";
 import { Update } from "types/api/item";
@@ -8,11 +9,12 @@ import { AppContext } from "AppContext";
 import { Input, Option, SelectCreatable, Select } from "app/components/FormFields";
 import { alertSuccess, alertWarn } from "app/components/Notifications";
 import EditItem from "app/components/EditItem";
+import { DotIcon } from "app/components/Icons";
 
 import { categoryOptions, weightUnitOptions } from "lib/utils/form";
 import { categorySelectValue } from "lib/utils/categories";
 
-import { Grid, PairGrid, inlineStyles } from "styles/grid";
+import { Grid, PairGrid, NotesIndicator, inlineStyles } from "styles/grid";
 
 interface ItemProps {
     item: ItemType;
@@ -55,24 +57,32 @@ const Item: React.FC<ItemProps> = ({item, updateItem, fetchItems}) => {
             .catch(() => alertWarn({message: 'Error updating item.'}));
     }
 
+
     const categoryValue = categorySelectValue(app.categories, copy.categoryId);
-    const {product_name, name, weight_unit, weight, price} = copy;
+    const {product_name, name, weight_unit, weight, price, notes} = copy;
+    const hasNotes = notes !== "";
     return (
         <>
             <Grid>
+                <div className="align-center">
+                    <NotesIndicator className={hasNotes ? 'active' : ''}>
+                        <Tooltip title={hasNotes ? notes : "No notes on this item"}
+                                 mouseEnterDelay={.1} placement="right">
+                            <Icon component={DotIcon}/>
+                        </Tooltip>
+                    </NotesIndicator>
+                </div>
                 <div>
                     <Input value={name || ''}
                            onChange={v => update('name', v)}
                            onBlur={handleSave}
                            style={inlineStyles}/>
                 </div>
-                <div>
                     <Input value={product_name || ''}
                            placeholder="product name"
                            onChange={v => update('product_name', v)}
                            onBlur={handleSave}
                            style={inlineStyles}/>
-                </div>
                 <div>
                     <SelectCreatable
                         options={categoryOptions(app.categories)}
