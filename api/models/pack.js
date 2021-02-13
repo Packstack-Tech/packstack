@@ -67,4 +67,4 @@ const pack = (sequelize, DataTypes) => {
     return Pack;
 };
 
-export default pack;
+module.exports = pack;

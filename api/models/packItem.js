@@ -21,4 +21,4 @@ const packItem = (sequelize, DataTypes) => {
     return PackItem;
 };
 
-export default packItem;
+module.exports = packItem;

@@ -91,4 +91,4 @@ const item = (sequelize, DataTypes) => {
     return Item;
 };
 
-export default item;
+module.exports = item;

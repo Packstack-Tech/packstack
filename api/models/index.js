@@ -3,12 +3,12 @@ import { Sequelize } from 'sequelize';
 const sequelize = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres'});
 
 const models = {
-    User: sequelize.import('./user'),
-    Item: sequelize.import('./item'),
-    Pack: sequelize.import('./pack'),
-    PackItem: sequelize.import('./packItem'),
-    Category: sequelize.import('./category'),
-    PassReset: sequelize.import('./passReset')
+    User: require('./user')(sequelize, Sequelize.DataTypes),
+    Item: require('./item')(sequelize, Sequelize.DataTypes),
+    Pack: require('./pack')(sequelize, Sequelize.DataTypes),
+    PackItem: require('./packItem')(sequelize, Sequelize.DataTypes),
+    Category: require('./category')(sequelize, Sequelize.DataTypes),
+    PassReset: require('./passReset')(sequelize, Sequelize.DataTypes)
 };
 
 Object.keys(models).forEach(key => {
