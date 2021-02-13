@@ -9,6 +9,7 @@ export interface BaseItem {
     weight_unit?: WeightUnit;
     price?: number;
     product_url?: string;
+    notes?: string;
 }
 
 export interface Item extends BaseItem {

@@ -4,11 +4,11 @@ import Sequelize from 'sequelize';
 let router = express.Router();
 
 import models from '../models';
-import { authenticate } from "../utils/jwt";
+import { authenticate, authenicatePublicRequest } from "../utils/jwt";
 import { csvItems, packItemPayload, packPayload } from "../utils/build-payload";
 
 // Get
-router.get('/:id', async (req, res) => {
+router.get('/:id', authenicatePublicRequest, async (req, res) => {
     let { id } = req.params;
     models.Pack.findOne({
         where: { id },
@@ -21,7 +21,17 @@ router.get('/:id', async (req, res) => {
             { model: models.User, attributes: ['id', 'username'] },
         ]
     })
-        .then(pack => res.json(pack))
+        .then(pack => {
+            if (pack.public) { 
+                res.json(pack);
+            } else { //when the pack is private, only allow the owner of the pack to view
+                if (req.user && pack.userId == req.user.id) {
+                    res.json(pack);
+                } else {
+                    res.sendStatus(403); //return 'forbidden'
+                }
+            }
+        })
         .catch(err => res.json(err));
 });
 
@@ -175,6 +185,59 @@ router.post('/remove-item', authenticate, (req, res) => {
         .then(rowsUpdated => res.json(rowsUpdated))
         .catch(err => res.status(400).json(err))
 
+});
+
+// make a copy of a pack and its items
+router.post('/copy-pack', authenticate, (req, res) => {
+    const { packId } = req.body;
+
+    // verify ownership
+    if (packId) {
+        models.Pack.findOne({ where: { id: packId, userId: req.user.id } })
+            .then(pack => {
+                if (!pack) {
+                    return res.sendStatus(401);
+                }
+                else { //owner of pack is making request
+                        models.Pack.findOne({
+                            where: { id: packId },
+                            include: [
+                                {
+                                model: models.Item, through: { where: { packId: packId } }, include: [
+                                    { model: models.Category, as: 'Category', attributes: ['name'] }
+                                ]
+                                },
+                            ]
+                        })
+                        .then(pack => {
+                            models.Pack.create({ ...pack, userId: req.user.id, title: "Copy of " + pack.title })
+                            .then(newPack => {
+                                //associate items by id
+                                const assocItems = pack.items.map(item => ({
+                                    ...item.packItem,
+                                    quantity: item.packItem.quantity || 1,
+                                    packId: newPack.id,
+                                    itemId: item.id
+                                }));
+                                models.PackItem.bulkCreate(assocItems)
+                                    .then(() => {
+                                        // retrieve new pack w/ items
+                                        models.Pack.findOne({
+                                            where: { id: newPack.id },
+                                            include: { model: models.Item, through: { where: { packId: newPack.id } } }
+                                        })
+                                            .then(pack => res.json(pack))
+                                            .catch(err => res.json(err));
+                                    })
+                                    .catch(err => res.status(400).json(err))
+                            })
+                            .catch(err => res.status(400).json(err))
+                        })
+                        .catch(err => res.json(err));
+                    }
+            })
+            .catch(err => res.status(400).json(err));
+    }
 });
 
 module.exports = router;

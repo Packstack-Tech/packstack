@@ -41,7 +41,8 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                 weight_unit: default_weight_unit,
                 price: undefined,
                 product_url: '',
-                newCategory: false
+                newCategory: false,
+                notes: ''
             }}
             validationSchema={Yup.object().shape({
                 name: Yup.string().required('Item name is required'),
@@ -137,6 +138,12 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                             placeholder="https://osprey.com"
                             onChange={v => setFieldValue('product_url', v)}
                             allowedLength={ItemConstants.product_url}
+                        />
+                        <Input
+                            label="Notes"
+                            value={values.notes || ''}
+                            placeholder="Care instructions, further details, etc..."
+                            onChange={v => setFieldValue('notes', v)}
                         />
                         <Button onClick={submitForm}
                                 disabled={isSubmitting}

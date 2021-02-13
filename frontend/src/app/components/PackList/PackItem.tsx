@@ -12,9 +12,10 @@ interface Props {
     pack: PackOverview;
     currentUserId?: number;
     deletePack?: (id: number) => void;
+    copyPack?: (id:number) => void;
 }
 
-const PackItem: React.FC<Props & RouteComponentProps> = ({ pack, currentUserId, deletePack }) => {
+const PackItem: React.FC<Props & RouteComponentProps> = ({ pack, currentUserId, deletePack, copyPack }) => {
     const { id, title } = pack;
 
     const metadata = () => {
@@ -36,6 +37,12 @@ const PackItem: React.FC<Props & RouteComponentProps> = ({ pack, currentUserId, 
         }
     };
 
+    function copy() {
+        if (copyPack) {
+            copyPack(pack.id);
+        }
+    }
+
     const userOptions = () => {
         if (pack.user.id !== currentUserId) {
             return null;
@@ -45,6 +52,7 @@ const PackItem: React.FC<Props & RouteComponentProps> = ({ pack, currentUserId, 
             <UserOptions>
                 <Link to={getPackPath(id, title)}>view</Link>
                 <Link to={`/pack/${id}`}>edit</Link>
+                <a href="#" onClick={copy}>copy</a>
                 <Popconfirm title="Are you sure you want to delete this pack?"
                             okText="Delete"
                             placement="bottom"
