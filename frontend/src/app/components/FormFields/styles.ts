@@ -3,21 +3,21 @@ import { StylesConfig } from "react-select/src/styles";
 import { theme } from "styles/theme";
 
 export const Input = styled.input`
-    width: 100%;
-    background-color: transparent;
-    color: ${props => props.theme.color.$Dark};
-    border: none;
-    border-bottom: 1px solid ${props => props.theme.color.$GrayBorder};
-    padding: 8px 0;
-    line-height: 1em;
-    transition: .2s border-color;
-    font-size: 14px;
-    font-family: "Open Sans", sans-serif;
-    
-    &:focus, &:hover {
-      outline: none;
-      border-color: ${props => props.theme.color.$DarkBlue};
-    }
+  width: 100%;
+  background-color: transparent;
+  color: ${props => props.theme.color.$Dark};
+  border: none;
+  border-bottom: 1px solid ${props => props.theme.color.$GrayBorder};
+  padding: 8px 0;
+  line-height: 1em;
+  transition: .2s border-color;
+  font-size: 14px;
+  font-family: "Open Sans", sans-serif;
+
+  &:focus, &:hover {
+    outline: none;
+    border-color: ${props => props.theme.color.$DarkBlue};
+  }
 `;
 
 export const TextareaInput = styled.textarea`
@@ -32,7 +32,7 @@ export const TextareaInput = styled.textarea`
   border: 1px solid ${props => props.theme.color.$GrayBorder};
   border-radius: 4px;
   line-height: 1.5em;
-  
+
   &:focus, &:hover {
     outline: none;
     border-color: ${props => props.theme.color.$DarkBlue};
@@ -40,23 +40,24 @@ export const TextareaInput = styled.textarea`
 `;
 
 export const Row = styled.div`
-    margin-bottom: 16px;
-    &.last {
-      margin-bottom: 0;
-    }
+  margin-bottom: 16px;
+
+  &.last {
+    margin-bottom: 0;
+  }
 `;
 
 export const Label = styled.h4`
-    color: ${props => props.theme.color.$Dark};
-    font-family: "Roboto Condensed", sans-serif;
-    font-weight: 600;
-    font-size: 14px;
-    text-transform: uppercase;
-    line-height: 1em;
-    display: flex;
-    align-items: center;
-    height: 14px; // keeps rows consistent
-    margin: 0;
+  color: ${props => props.theme.color.$Dark};
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 1em;
+  display: flex;
+  align-items: center;
+  height: 14px; // keeps rows consistent
+  margin: 0;
 `;
 
 export const Error = styled.p`
@@ -66,7 +67,7 @@ export const Error = styled.p`
   line-height: 1.25em;
 `;
 
-export const selectStyles: StylesConfig = {
+export const selectStyles: StylesConfig<{}, false> = {
     control: (p, s) => ({
         ...p,
         border: 'none',
@@ -111,8 +112,9 @@ export const selectStyles: StylesConfig = {
 };
 
 export const CharacterCounter = styled.small`
-    float: right;
-    &.full {
-        color:red;
-    }
+  float: right;
+
+  &.full {
+    color: red;
+  }
 `;
