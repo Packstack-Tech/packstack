@@ -9,6 +9,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AppProvider } from './AppContext';
 import WithAnalytics from 'app/components/higher-order/with-analytics';
+import { HistoryListener } from 'react-router-navigation-confirm';
 
 import { theme } from 'styles/theme';
 import 'styles/style.less';
@@ -22,7 +23,9 @@ ReactDOM.render(
                 <Router>
                     <Route render={(props) => (
                         <WithAnalytics {...props}>
-                            <App/>
+                            <HistoryListener>
+                                <App/>
+                            </HistoryListener>
                         </WithAnalytics>
                     )}/>
                 </Router>
