@@ -18,4 +18,4 @@ const passReset = (sequelize, DataTypes) => {
     return PassReset;
 };
 
-export default passReset;
+module.exports = passReset;

@@ -28,4 +28,4 @@ const category = (sequelize, DataTypes) => {
     return Category;
 };
 
-export default category;
+module.exports = category;
