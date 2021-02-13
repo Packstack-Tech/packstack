@@ -15,5 +15,6 @@ export interface SharedInputProps {
     tip?: string;
     last?: boolean;
     style?: CSSProperties;
+    labelStyle?: CSSProperties;
     onBlur?: () => void;
 }

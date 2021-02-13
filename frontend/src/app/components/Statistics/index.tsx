@@ -24,6 +24,7 @@ const Statistics: React.FC<StatProps> = ({ pack }) => {
         return `${duration} ${duration_unit}`;
     };
 
+    let packUrlLabel = "Pack URL " + (pack.public ? "" : "(private)");
     const packUrl = `https://packstack.io${getPackPath(id, title)}`;
 
     return (
@@ -32,7 +33,7 @@ const Statistics: React.FC<StatProps> = ({ pack }) => {
             <Stat label="Temp Range" value={temp_range} icon={<Icon component={TempIcon}/>}/>
             <Stat label="Duration" value={durationValue()} icon={<Icon component={FootprintsIcon}/>}/>
             <Stat label="Gender" value={getGenderName(gender)}/>
-            <Stat label="Pack URL" value={packUrl} icon={<Icon type="link"/>}/>
+            <Stat label={packUrlLabel} value={packUrl} icon={<Icon type="link"/>}></Stat>
         </StatCollection>
     )
 

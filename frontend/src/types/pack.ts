@@ -10,6 +10,7 @@ export interface BasePack {
     temp_range?: string;
     season?: string;
     gender?: Gender;
+    public: boolean;
 }
 
 export interface Pack extends BasePack {

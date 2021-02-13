@@ -43,6 +43,9 @@ const pack = (sequelize, DataTypes) => {
         },
         gender: {
             type: DataTypes.ENUM(Object.values(gender))
+        },
+        userId: {
+            type: DataTypes.INTEGER
         }
     });
 

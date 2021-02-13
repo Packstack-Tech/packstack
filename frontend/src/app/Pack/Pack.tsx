@@ -21,9 +21,11 @@ import Items from './Items';
 import { getWeightByCategory } from 'lib/utils/weight';
 
 import { Credit, PackWrapper, SectionHeader, SectionTitle, TripDescription } from "./styles";
+import FullPageError from 'app/components/FullPageError';
 
 const Pack: React.FC<PackSpecs.Props> = ({ getPack, weightUnit, packId }) => {
     const [loading, setLoading] = React.useState<boolean>(true);
+    const [packForbidden, setPackForbidden] = React.useState<boolean>(true);
     const [pack, setPack] = React.useState<PackType | null>(null);
     const [unit, setUnit] = React.useState<WeightUnit>(weightUnit);
     const { dispatch } = useSidebar();
@@ -34,9 +36,16 @@ const Pack: React.FC<PackSpecs.Props> = ({ getPack, weightUnit, packId }) => {
             .then(pack => {
                 setPack(pack);
                 setLoading(false);
+                setPackForbidden(false);
             })
-            .catch(() => {
-                alertError({ message: 'Unable to retrieve pack.' });
+            .catch(e => {
+                setLoading(false);
+                if (e.message.includes("failed with status code 403")){//when forbidden to view
+                    setPackForbidden(true);
+                }
+                else {
+                    alertError({ message: 'Unable to retrieve pack.' });
+                }
             });
 
         return function cleanup() {
@@ -67,6 +76,10 @@ const Pack: React.FC<PackSpecs.Props> = ({ getPack, weightUnit, packId }) => {
 
     if (loading) {
         return <Loading size="large"/>
+    }
+    
+    if (packForbidden) {
+        return <FullPageError text="This pack is private. If you're sure this is your pack, make sure you're logged in."></FullPageError>
     }
 
     if (!pack) {
