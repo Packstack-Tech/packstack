@@ -22,6 +22,7 @@ export interface Item extends BaseItem {
 export type CreateItem = Omit<BaseItem, 'categoryId'> & {
     categoryId?: number;
     newCategory: boolean;
+    excludeWeight: boolean;
 }
 
 export type UpdateItem = Omit<BaseItem, 'categoryId'> & {

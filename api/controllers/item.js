@@ -89,9 +89,9 @@ router.get('', async (req, res) => {
 });
 
 // create or retrieve category
-async function fetchCategory(categoryId) {
+async function fetchCategory(categoryId, excludeWeight) {
     let newCat = null;
-    const category = { name: categoryId, level: 'USER' };
+    const category = { name: categoryId, level: 'USER', exclude_weight: excludeWeight };
     try {
         newCat = await models.Category.create(category);
     } catch (err) {
@@ -106,12 +106,12 @@ async function fetchCategory(categoryId) {
 
 // Create
 router.post('', authenticate, async (req, res) => {
-    const { newCategory } = req.body;
+    const { newCategory, excludeWeight } = req.body;
     const { payload } = itemPayload(req.body);
 
     let newCat = null;
     if (newCategory) {
-        const { category, err } = await fetchCategory(payload.categoryId);
+        const { category, err } = await fetchCategory(payload.categoryId, excludeWeight);
         if (err) {
             return res.status(400).json(err);
         }
@@ -132,7 +132,8 @@ router.put('', authenticate, async (req, res) => {
 
     let newCat = null;
     if (newCategory) {
-        const { category, err } = await fetchCategory(payload.categoryId);
+        // hardcoding false here while I figure out how to do update
+        const { category, err } = await fetchCategory(payload.categoryId, false);
         if (err) {
             return res.status(400).json(err);
         }

@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import FileDownload from 'js-file-download';
 import { Formik, FormikProps } from "formik";
 import { Row, Col, Button } from "antd";
-import { Input, Select, SelectCreatable, Option } from '../FormFields';
+import { Input, Select, SelectCreatable, Option, SwitchInput } from "../FormFields";
 
 import { AppContext } from 'AppContext';
 import { CreateItem, ItemConstants } from "types/item";
@@ -11,7 +11,7 @@ import { FormSpecs } from "./types";
 
 import withApi from 'app/components/higher-order/with-api';
 import { categoryOptions, weightUnitOptions } from "lib/utils/form";
-import { categorySelectValue } from "lib/utils/categories";
+import { categorySelectValue, categoryCheckIfNew } from "lib/utils/categories";
 
 import UploadModal from 'app/Inventory/UploadModal';
 import { alertError, alertSuccess } from "../Notifications";
@@ -42,6 +42,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                 price: undefined,
                 product_url: '',
                 newCategory: false,
+                excludeWeight: false,
                 notes: ''
             }}
             validationSchema={Yup.object().shape({
@@ -70,6 +71,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                 const wasSubmitted = submitCount > 0;
                 const weightUnit = values.weight_unit;
                 const categoryValue = categorySelectValue(app.categories, values.categoryId);
+                let isNewCategory = categoryCheckIfNew(app.categories, values.categoryId);
 
                 return (
                     <SidebarContainer>
@@ -88,7 +90,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                             value={categoryValue || null}
                             onChange={(option: Option<number>) => {
                                 const value = option ? option.value : undefined;
-                                const isNewCategory = Boolean(option && option.__isNew__);
+                                isNewCategory = Boolean(option && option.__isNew__);
                                 setFieldValue('categoryId', value);
                                 setFieldValue('newCategory', isNewCategory);
                             }}
@@ -96,6 +98,15 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                             errorMsg={errors.categoryId}
                             clearable={true}
                         />
+                        {isNewCategory &&
+                           <SwitchInput
+                                    label="Exclude category from base weight"
+                                    checked = {values.excludeWeight}
+                                    checkedText="Yes"
+                                    uncheckedText="No"
+                                    tip="All items added to this category will be excluded from base weight"
+                                    onChange={v => setFieldValue('excludeWeight', v)}/>
+                        }
                         <Input
                             label="Product Name"
                             value={values.product_name || ''}
