@@ -146,6 +146,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
                         createPack(payload)
                             .then(resp => {
                                 alertSuccess({message: 'Packing list created'});
+                                setHasPendingChanges(false);
                                 history.push(`/pack/${resp.id}`);
                             })
                             .catch(err => console.log(err));
