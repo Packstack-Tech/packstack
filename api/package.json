@@ -7,10 +7,10 @@
   "scripts": {
     "dev": "nodemon -r esm index.js",
     "start": "node -r esm index.js",
-    "migrate:dev": "npx sequelize-cli db:migrate",
-    "migrate:prod": "npx sequelize-cli --env production db:migrate",
-    "seed:dev": "npx sequelize-cli db:seed:all",
-    "seed:prod": "npx sequelize-cli --env production db:seed:all"
+    "migrate:dev": "sequelize db:migrate",
+    "migrate:prod": "sequelize --env production db:migrate",
+    "seed:dev": "sequelize db:seed:all",
+    "seed:prod": "sequelize --env production db:seed:all"
   },
   "dependencies": {
     "@sentry/node": "5.7.1",
@@ -25,8 +25,8 @@
     "mailchimp-api-v3": "^1.13.1",
     "multer": "^1.4.2",
     "node-mailjet": "^3.3.1",
-    "pg": "^7.11.0",
-    "sequelize": "^5.15.1",
-    "sequelize-cli": "^5.5.1"
+    "pg": "^8.5.1",
+    "sequelize": "^6.5.0",
+    "sequelize-cli": "^6.2.0"
   }
 }

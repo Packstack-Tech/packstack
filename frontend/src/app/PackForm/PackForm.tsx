@@ -21,25 +21,36 @@ import Loading from "app/components/Loading";
 import { useSidebar } from "app/components/Sidebar/Context";
 import { NavigationConfirmModal } from 'react-router-navigation-confirm';
 
-import { PageTitle, Controls, Box, Grid } from "styles/common";
+import { PageTitle, Controls, Box, Grid, PageDescription } from "styles/common";
 import SwitchInput from "app/components/FormFields/SwitchInput";
 
-const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exportItems, getItems, createPack, updatePack, user }) => {
+const PackForm: React.FC<PackFormSpecs.Props> = ({
+   history,
+   packId,
+   getPack,
+   exportItems,
+   getItems,
+   createPack,
+   updatePack,
+   user
+}) => {
     const [loading, setLoading] = React.useState<boolean>(true);
     const [inventory, setInventory] = React.useState<Item[]>([]);
     const [packItems, setPackItems] = React.useState<PackItem[]>([]);
     const [packData, setPackData] = React.useState<Pack | null>(null);
     const [hasPendingChanges, setHasPendingChanges] = React.useState<boolean>(false);
-    const { dispatch } = useSidebar();
-    
+    const {dispatch} = useSidebar();
+
     React.useEffect(() => {
         setLoading(true);
+
         async function fetchData(id: number) {
             await getData(id);
         }
+
         getItems()
             .then(items => setInventory(items))
-            .catch(() => alertError({ message: 'Unable to retrieve inventory' }));
+            .catch(() => alertError({message: 'Unable to retrieve inventory'}));
 
         if (!packId) {
             setLoading(false);
@@ -51,7 +62,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
     async function getData(id: number) {
         try {
             const pack = await getPack(id);
-            const { items, userId, title } = pack;
+            const {items, userId, title} = pack;
             if (user && user.id !== userId) {
                 history.push(getPackPath(id, title));
                 return;
@@ -60,12 +71,15 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
             setPackItems(items);
             setLoading(false);
         } catch (e) {
-            alertError({ message: 'Unable to retrieve pack information.' })
+            alertError({message: 'Unable to retrieve pack information.'})
         }
     }
 
     const addItem = (item: Item) => {
-        const items = Object.assign([], [...packItems, { ...item, packItem: { notes: item.notes, quantity: 1, worn: false } }]);
+        const items = Object.assign([], [...packItems, {
+            ...item,
+            packItem: {notes: item.notes, quantity: 1, worn: false}
+        }]);
         setHasPendingChanges(true);
         setPackItems(items);
     };
@@ -92,10 +106,10 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
     );
 
     React.useEffect(() => {
-        dispatch({ type: 'setTitle', value: 'Inventory' });
-        dispatch({ type: 'setContent', value: SidebarContent() });
+        dispatch({type: 'setTitle', value: 'Inventory'});
+        dispatch({type: 'setContent', value: SidebarContent()});
         return function cleanup() {
-            dispatch({ type: 'reset' });
+            dispatch({type: 'reset'});
         }
     }, [inventory, packItems]);
 
@@ -128,10 +142,10 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                 })}
                 onSubmit={values => {
                     if (!packId) {
-                        const payload = Object.assign(values, { items: packItems });
+                        const payload = Object.assign(values, {items: packItems});
                         createPack(payload)
                             .then(resp => {
-                                alertSuccess({ message: 'Packing list created' });
+                                alertSuccess({message: 'Packing list created'});
                                 history.push(`/pack/${resp.id}`);
                             })
                             .catch(err => console.log(err));
@@ -142,14 +156,14 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                         });
                         updatePack(payload)
                             .then(() => {
-                                alertSuccess({ message: 'Packing list saved' });
+                                alertSuccess({message: 'Packing list saved'});
                                 setHasPendingChanges(false);
                             })
-                            .catch(() => alertError({ message: 'Error saving packing list' }));
+                            .catch(() => alertError({message: 'Error saving packing list'}));
                     }
                 }}>
                 {(props: FormikProps<BasePack>) => {
-                    const { values, setFieldValue, submitForm, submitCount, errors } = props;
+                    const {values, setFieldValue, submitForm, submitCount, errors} = props;
                     const saveBtnLabel = packId ? 'Save' : 'Create';
                     const statusLabel = packId ? 'Edit' : 'New';
                     const wasSubmitted = submitCount > 0;
@@ -175,7 +189,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                                 </Controls>
                             </PageTitle>
 
-                            <Box style={{ marginBottom: '16px' }}>
+                            <Box style={{marginBottom: '16px'}}>
                                 <Grid>
                                     <div className="two-thirds">
                                         <Input label="Location / Trail"
@@ -183,15 +197,21 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                                                error={wasSubmitted && !!errors.title}
                                                errorMsg={errors.title}
                                                value={values.title}
-                                               onChange={v => {setFieldValue('title', v); setHasPendingChanges(true);}}
+                                               onChange={v => {
+                                                   setFieldValue('title', v);
+                                                   setHasPendingChanges(true);
+                                               }}
                                                allowedLength={PackConstants.title}/>
 
                                         <Textarea label="Field Notes"
-                                                placeholder="Additional notes about this trip..."
-                                                value={values.description || ''}
-                                                onChange={v => {setFieldValue('description', v);setHasPendingChanges(true);}}
-                                                last={true}
-                                                allowedLength={PackConstants.description}/>
+                                                  placeholder="Additional notes about this trip..."
+                                                  value={values.description || ''}
+                                                  onChange={v => {
+                                                      setFieldValue('description', v);
+                                                      setHasPendingChanges(true);
+                                                  }}
+                                                  last={true}
+                                                  allowedLength={PackConstants.description}/>
                                     </div>
                                     <div className="third">
                                         <Row gutter={8}>
@@ -201,7 +221,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                                                        placeholder="1"
                                                        value={values.duration || ''}
                                                        onChange={v => {
-                                                           setFieldValue('duration', v); 
+                                                           setFieldValue('duration', v);
                                                            if (!values.duration_unit) {
                                                                setFieldValue('duration_unit', DurationUnit.DAYS)
                                                            }
@@ -213,22 +233,31 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                                                         defaultValue={durationUnit}
                                                         value={durationUnit}
                                                         options={durationUnitOptions()}
-                                                        onChange={(option: Option<string>) => {setFieldValue('duration_unit', option.value); setHasPendingChanges(true);}}
-                                                        style={{ marginTop: '14px' }}/>
+                                                        onChange={(option: Option<string>) => {
+                                                            setFieldValue('duration_unit', option.value);
+                                                            setHasPendingChanges(true);
+                                                        }}
+                                                        style={{marginTop: '14px'}}/>
                                             </Col>
                                         </Row>
                                         <Input label="Temp Range"
                                                placeholder="43° - 81° F"
                                                allowedLength={PackConstants.temp_range}
                                                value={values.temp_range || ''}
-                                               onChange={v => {setFieldValue('temp_range', v); setHasPendingChanges(true);}}
+                                               onChange={v => {
+                                                   setFieldValue('temp_range', v);
+                                                   setHasPendingChanges(true);
+                                               }}
                                         />
                                         <Row gutter={8}>
                                             <Col span={12}>
                                                 <Input label="Season"
                                                        placeholder="Summer"
                                                        value={values.season || ''}
-                                                       onChange={v => {setFieldValue('season', v); setHasPendingChanges(true);}}
+                                                       onChange={v => {
+                                                           setFieldValue('season', v);
+                                                           setHasPendingChanges(true);
+                                                       }}
                                                        last={true}
                                                        allowedLength={PackConstants.season}
                                                 />
@@ -241,24 +270,27 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                                                             value: values.gender,
                                                             label: values.gender
                                                         }}
-                                                        onChange={(option: Option<string>) => {setFieldValue('gender', option.value); setHasPendingChanges(true);}}
+                                                        onChange={(option: Option<string>) => {
+                                                            setFieldValue('gender', option.value);
+                                                            setHasPendingChanges(true);
+                                                        }}
                                                         last={true}
                                                 />
                                             </Col>
                                         </Row>
                                         <SwitchInput label="Pack Privacy"
-                                                        checked = {values.public}
-                                                        checkedText="Public"
-                                                        uncheckedText="Private"
-                                                        onChange={v => setFieldValue('public', v)}
-                                                        tip="When public, the pack will be viewable by anyone with a link"
-                                        ></SwitchInput>                       
+                                                     checked={values.public}
+                                                     checkedText="Public"
+                                                     uncheckedText="Private"
+                                                     onChange={v => setFieldValue('public', v)}
+                                                     tip="When public, the pack will be viewable by anyone with a link"
+                                        />
                                     </div>
                                 </Grid>
                             </Box>
 
                             {packId && !!packItems.length && (
-                                <div style={{ textAlign: 'right' }}>
+                                <div style={{textAlign: 'right'}}>
                                     <Button onClick={downloadItems} type="link" size="small">
                                         Export items
                                     </Button>
@@ -277,8 +309,12 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({ history, packId, getPack, exp
                                 bodyClassName="navigation-confirm-modal-body"
                                 confirmText="Yes"
                                 cancelText="No">
-                                    <PageDescription><div style={{textAlign: "center"}}>You have unsaved changes. Are you sure you want to leave this page?</div></PageDescription>
-                                </NavigationConfirmModal>
+                                <PageDescription>
+                                    <div style={{textAlign: "center"}}>You have unsaved changes. Are you sure you want
+                                        to leave this page?
+                                    </div>
+                                </PageDescription>
+                            </NavigationConfirmModal>
                         </>
                     )
                 }}
