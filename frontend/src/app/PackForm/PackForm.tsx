@@ -23,6 +23,8 @@ import { NavigationConfirmModal } from 'react-router-navigation-confirm';
 
 import { PageTitle, Controls, Box, Grid, PageDescription } from "styles/common";
 import SwitchInput from "app/components/FormFields/SwitchInput";
+import ItemForm from 'app/components/ItemForm';
+import FloatingActionButton from "app/components/FloatingActionButton";
 
 const PackForm: React.FC<PackFormSpecs.Props> = ({
    history,
@@ -41,7 +43,13 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
     const [hasPendingChanges, setHasPendingChanges] = React.useState<boolean>(false);
     const {dispatch} = useSidebar();
 
+
+
     React.useEffect(() => {
+        refreshInventoryList(packId);
+    }, [packId]);
+
+    const refreshInventoryList = (packId: number | null) => {
         setLoading(true);
 
         async function fetchData(id: number) {
@@ -57,7 +65,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
         } else {
             fetchData(packId);
         }
-    }, [packId]);
+    }
 
     async function getData(id: number) {
         try {
@@ -90,6 +98,10 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
         setPackItems(items);
     };
 
+    const createNewItem  = () => {
+        dispatch({type: 'setContent', value: SidebarContent(true)});
+    }
+
     const updateItem = (itemId: number, field: string, value: string | number | boolean) => {
         const items: PackItem[] = Object.assign([], packItems);
         const idx = items.findIndex(item => item.id === itemId);
@@ -98,16 +110,31 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
         setPackItems(items);
     };
 
-    const SidebarContent = () => (
-        <InventorySidebar items={inventory}
-                          addItem={addItem}
-                          removeItem={removeItem}
-                          currentItems={packItems.map(item => item.id)}/>
-    );
+    const SidebarContent = (isAddingNewItem: boolean) => {
+        if (!isAddingNewItem) {
+            return <InventorySidebar items={inventory}
+            addItem={addItem}
+            removeItem={removeItem}
+            currentItems={packItems.map(item => item.id)}
+            createNewItem={createNewItem}
+            />
+        }
+        else {
+            return <div>
+                <ItemForm onSubmit={onNewItemCreated}></ItemForm>
+                <FloatingActionButton 
+                    icon="rollback"
+                    visible={true}
+                    onClick={cancelNewItem}
+                    tooltip="Go back to the inventory list" ></FloatingActionButton>
+                </div>
+        }
+        
+    };
 
     React.useEffect(() => {
         dispatch({type: 'setTitle', value: 'Inventory'});
-        dispatch({type: 'setContent', value: SidebarContent()});
+        dispatch({type: 'setContent', value: SidebarContent(false)});
         return function cleanup() {
             dispatch({type: 'reset'});
         }
@@ -121,6 +148,15 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
         if (packId && packData) {
             exportItems(packId).then(data => FileDownload(data, `${packData.title}.csv`));
         }
+    }
+
+    function onNewItemCreated() {
+        dispatch({type: 'setContent', value: SidebarContent(false)});
+        refreshInventoryList(packId);
+    }
+
+    function cancelNewItem() {
+        dispatch({type: 'setContent', value: SidebarContent(false)});
     }
 
     const titleType = packId ? 'Edit' : 'New';
@@ -283,7 +319,9 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
                                                      checked={values.public}
                                                      checkedText="Public"
                                                      uncheckedText="Private"
-                                                     onChange={v => setFieldValue('public', v)}
+                                                     onChange={v => {
+                                                        setFieldValue('public', v);
+                                                        setHasPendingChanges(true);}}
                                                      tip="When public, the pack will be viewable by anyone with a link"
                                         />
                                     </div>
