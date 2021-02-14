@@ -98,10 +98,6 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
         setPackItems(items);
     };
 
-    const createNewItem  = () => {
-        dispatch({type: 'setContent', value: SidebarContent(true)});
-    }
-
     const updateItem = (itemId: number, field: string, value: string | number | boolean) => {
         const items: PackItem[] = Object.assign([], packItems);
         const idx = items.findIndex(item => item.id === itemId);
@@ -110,17 +106,15 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
         setPackItems(items);
     };
 
+    const createNewItem  = () => {
+        //show the add item view
+        dispatch({type: 'setContent', value: SidebarContent(true)});
+    }
+
     const SidebarContent = (isAddingNewItem: boolean) => {
-        if (!isAddingNewItem) {
-            return <InventorySidebar items={inventory}
-            addItem={addItem}
-            removeItem={removeItem}
-            currentItems={packItems.map(item => item.id)}
-            createNewItem={createNewItem}
-            />
-        }
-        else {
-            return <div>
+        if (isAddingNewItem) {
+            //show the new item form with a FAB to return to the inventory list
+            return <div> 
                 <ItemForm onSubmit={onNewItemCreated}></ItemForm>
                 <FloatingActionButton 
                     icon="rollback"
@@ -129,11 +123,20 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
                     tooltip="Go back to the inventory list" ></FloatingActionButton>
                 </div>
         }
-        
+        else {
+            //show the inventory list
+            return <InventorySidebar items={inventory}
+            addItem={addItem}
+            removeItem={removeItem}
+            currentItems={packItems.map(item => item.id)}
+            createNewItem={createNewItem}
+            />
+        }
     };
 
     React.useEffect(() => {
         dispatch({type: 'setTitle', value: 'Inventory'});
+        //show the inventory list
         dispatch({type: 'setContent', value: SidebarContent(false)});
         return function cleanup() {
             dispatch({type: 'reset'});
@@ -151,11 +154,13 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
     }
 
     function onNewItemCreated() {
+        //show the inventory list
         dispatch({type: 'setContent', value: SidebarContent(false)});
         refreshInventoryList(packId);
     }
 
     function cancelNewItem() {
+        //show the inventory list
         dispatch({type: 'setContent', value: SidebarContent(false)});
     }
 

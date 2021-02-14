@@ -109,10 +109,6 @@ const InventorySidebar: React.FC<SidebarProps> = ({ items, addItem, removeItem, 
         </Dropdown>
     );
 
-    function addNewItemClick() {
-        createNewItem();  
-    } 
-
     return (
         <>
             <div style={{ padding: '8px 16px' }}>
@@ -125,7 +121,7 @@ const InventorySidebar: React.FC<SidebarProps> = ({ items, addItem, removeItem, 
             <FloatingActionButton 
                 icon="plus"
                 visible={true}
-                onClick={addNewItemClick}
+                onClick={createNewItem}
                 tooltip="Add a new item to your inventory" ></FloatingActionButton>
             <InventoryContainer>
                 {renderInventory()}
