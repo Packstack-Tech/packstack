@@ -61,7 +61,7 @@ const Pack: React.FC<PackSpecs.Props> = ({ getPack, weightUnit, packId }) => {
                 <>
                     <Statistics pack={pack}/>
                     <CategoryTable data={catWeights} unit={unit}/>
-                    <CategoryChart data={catWeights}/>
+                    <CategoryChart data={catWeights} unit={unit}/>
                 </>
             );
 

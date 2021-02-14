@@ -1,3 +1,4 @@
+import { WeightUnit } from 'enums';
 import * as React from 'react';
 import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar, LabelList, LabelProps, Cell, Pie, PieChart, Tooltip, TooltipProps } from 'recharts';
 
@@ -6,9 +7,10 @@ import { Option, Select } from "../FormFields/";
 
 interface CategoryChartProps {
     data: CategoryItemSpecs[];
+    unit: WeightUnit
 }
 
-const CategoryChart: React.FC<CategoryChartProps> = ({ data }) => {
+const CategoryChart: React.FC<CategoryChartProps> = ({ data, unit }) => {
     const [chartType, setChartType] = React.useState<Option<number>>({value: 0, label: 'Bar Chart'});
 
     if (!data.length) {
@@ -36,7 +38,7 @@ const CategoryChart: React.FC<CategoryChartProps> = ({ data }) => {
 
     const PieToolTip = (props: TooltipProps) =>  {
         if (props.active && props.payload) {
-            const text: string = props.payload[0].name + ': ' + props.payload[0].value + '';
+            const text: string = props.payload[0].name + ': ' + props.payload[0].value + ' ' + unit;
             return ( 
                 <div style={{backgroundColor: '#AAAAA'}}>
                     <span 
