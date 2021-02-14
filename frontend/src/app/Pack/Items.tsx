@@ -27,7 +27,7 @@ const Items: React.FC<ItemsProps> = ({ items, unit }) => {
         }
 
         if (url) {
-            const linkLabel = product_name || 'view item';
+            const linkLabel = product_name || 'View product';
             return <a href={url} target="_blank">{linkLabel}</a>
         }
 
