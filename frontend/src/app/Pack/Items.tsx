@@ -65,11 +65,11 @@ const Items: React.FC<ItemsProps> = ({ items, unit }) => {
                                             <ItemQuantity>{quantityString} x </ItemQuantity>
                                             {name}
                                         </ItemName>
-                                        {NotesRow}
                                     </Col>
                                     <Col span={12}>
                                         <ItemDescription>
                                             {itemDesc(product_url, product_name)}
+                                            {NotesRow}
                                         </ItemDescription>
                                     </Col>
                                     <Col span={2} className="align-right">
