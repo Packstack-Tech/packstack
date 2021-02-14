@@ -101,7 +101,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                         {isNewCategory &&
                            <SwitchInput
                                     label="Exclude category from base weight"
-                                    checked = {values.excludeWeight}
+                                    checked={values.excludeWeight}
                                     checkedText="Yes"
                                     uncheckedText="No"
                                     tip="All items added to this category will be excluded from base weight"

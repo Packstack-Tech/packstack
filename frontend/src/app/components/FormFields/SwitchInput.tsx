@@ -15,9 +15,9 @@ const SwitchInput: React.FC<SwitchProps> = ({ checked, checkedText, uncheckedTex
     return (
         <InputContainer {...{ label, tip, style }} labelStyle = {{display:"inline", paddingRight: '8px'}}>
             <Switch
-                checked = {checked}   
+                checked={checked}
                 checkedChildren={checkedText}
-                unCheckedChildren={uncheckedText} 
+                unCheckedChildren={uncheckedText}
                 onChange={handleChange}
             />
         </InputContainer>

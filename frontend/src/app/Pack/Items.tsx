@@ -10,6 +10,7 @@ import { getItemWeight, getWeightByCategory } from "lib/utils/weight";
 import { getCategories } from "lib/utils/categories";
 
 import { ItemList, ItemName, ItemNotes, ItemDescription, ItemQuantity, ItemWeight, CategorySection } from "./styles";
+import { helpIconStyles } from "styles/common";
 import ExpandablePanel from 'app/components/ExpandablePanel';
 
 interface ItemsProps {
@@ -42,7 +43,14 @@ const Items: React.FC<ItemsProps> = ({ items, unit }) => {
 
                 const Header = (
                     <>
-                        <h3>{cat.name}</h3>
+                        <h3>
+                            {cat.name}
+                            {cat.exclude_weight &&
+                            <Tooltip title={"Items in this category are excluded from base weight"}
+                                             mouseEnterDelay={.1}>
+                                <Icon type="stop-o" style={helpIconStyles}/>
+                            </Tooltip>}
+                        </h3>
                         <strong>{catWeight!.total.label} {unit}</strong>
                     </>
                 )
