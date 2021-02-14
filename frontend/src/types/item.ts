@@ -57,5 +57,6 @@ export interface PackItem extends Item {
 export enum ItemConstants {
     name = 200,
     product_name = 500,
+    notes = 500,
     product_url = 500
 }

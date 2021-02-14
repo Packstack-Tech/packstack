@@ -8,6 +8,7 @@ import { WornIndicator, ItemRow } from "./styles";
 
 import { ShirtIcon } from "../Icons";
 import { PackItemGrid } from "styles/grid";
+import { PackConstants } from "types/pack";
 
 interface ItemProps {
     item: PackItem;
@@ -60,7 +61,10 @@ const Item: React.FC<ItemProps> = ({ item, removeItem, updateItem }) => {
                 </div>
             </PackItemGrid>
             {displayNotes && (
-                <Textarea value={notes} onChange={v => updateItem(item.id, "notes", v)}/>
+                <Textarea value={notes} 
+                        onChange={v => updateItem(item.id, "notes", v)}
+                        allowedLength={PackConstants.notes}
+                />
             )}
         </ItemRow>
     )
