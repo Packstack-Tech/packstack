@@ -97,7 +97,7 @@ const CategoryChart: React.FC<CategoryChartProps> = ({ data, unit }) => {
         }
     }
     return <div>
-                <Radio.Group value={chartType} onChange={onChartChange} style={{textAlign:'center', width:'100%'}}>
+                <Radio.Group value={chartType} onChange={onChartChange} style={{textAlign:'center', width:'100%', marginBottom:'8px'}}>
                     <Radio.Button value='bar'><Icon type="bar-chart" /> Bar Chart</Radio.Button>
                     <Radio.Button value='pie'><Icon type="pie-chart" /> Pie Chart</Radio.Button>
                 </Radio.Group>
