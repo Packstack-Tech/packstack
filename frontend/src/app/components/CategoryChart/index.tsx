@@ -1,9 +1,10 @@
+import { Icon, Radio } from 'antd';
+import { RadioChangeEvent } from 'antd/lib/radio';
 import { WeightUnit } from 'enums';
 import * as React from 'react';
 import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar, LabelList, LabelProps, Cell, Pie, PieChart, Tooltip, TooltipProps } from 'recharts';
 
 import { CategoryItemSpecs } from "types/category";
-import { Option, Select } from "../FormFields/";
 
 interface CategoryChartProps {
     data: CategoryItemSpecs[];
@@ -11,7 +12,7 @@ interface CategoryChartProps {
 }
 
 const CategoryChart: React.FC<CategoryChartProps> = ({ data, unit }) => {
-    const [chartType, setChartType] = React.useState<Option<number>>({value: 0, label: 'Bar Chart'});
+    const [chartType, setChartType] = React.useState<string>('bar'); //default selected chart type is bar
 
     if (!data.length) {
         return null;
@@ -38,7 +39,7 @@ const CategoryChart: React.FC<CategoryChartProps> = ({ data, unit }) => {
 
     const PieToolTip = (props: TooltipProps) =>  {
         if (props.active && props.payload) {
-            const text: string = props.payload[0].name + ': ' + props.payload[0].value + ' ' + unit;
+            const text: string = props.payload[0].name + ': ' + props.payload[0].value + ' ' + unit; // Category Name: 10 lbs
             return ( 
                 <div style={{backgroundColor: '#AAAAA'}}>
                     <span 
@@ -61,15 +62,14 @@ const CategoryChart: React.FC<CategoryChartProps> = ({ data, unit }) => {
         record.total.value = Number(record.total.value.toFixed(2)); //convert the displayed weight to show only 2 decimal places
         return record;
     })
-    const height = 40 * data.length;
-    const options = [{value: 0, label: 'Bar Chart'}, {value: 1, label: 'Pie Chart'}];
+    const height = 40 * data.length; //height used for bar chart
 
-    function onChartTypeChange(event: Option<number>) {
-        setChartType(event);
+    function onChartChange(event: RadioChangeEvent) {
+        setChartType(event.target.value);
     }
     
     const Chart = () => {
-        if (chartType.value == 0) {
+        if (chartType == 'bar') {
             return <div style={{ height }}>
             <ResponsiveContainer>
                 <BarChart data={data} layout="vertical" barCategoryGap={12}>
@@ -97,16 +97,12 @@ const CategoryChart: React.FC<CategoryChartProps> = ({ data, unit }) => {
         }
     }
     return <div>
-             <Select 
-                        label="Chart Type"
-                        options={options}
-                        value={chartType}
-                        onChange={onChartTypeChange}
-                        style={{width: '90%', margin: '0 auto'}}
-                />   
+                <Radio.Group value={chartType} onChange={onChartChange} style={{textAlign:'center', width:'100%'}}>
+                    <Radio.Button value='bar'><Icon type="bar-chart" /> Bar Chart</Radio.Button>
+                    <Radio.Button value='pie'><Icon type="pie-chart" /> Pie Chart</Radio.Button>
+                </Radio.Group>
                 <Chart></Chart> 
             </div>
-    
 };
 
 export default React.memo(CategoryChart);
