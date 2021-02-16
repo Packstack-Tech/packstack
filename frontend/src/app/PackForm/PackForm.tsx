@@ -23,6 +23,8 @@ import { NavigationConfirmModal } from 'react-router-navigation-confirm';
 
 import { PageTitle, Controls, Box, Grid, PageDescription } from "styles/common";
 import SwitchInput from "app/components/FormFields/SwitchInput";
+import ItemForm from 'app/components/ItemForm';
+import FloatingActionButton from "app/components/FloatingActionButton";
 
 const PackForm: React.FC<PackFormSpecs.Props> = ({
    history,
@@ -41,7 +43,13 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
     const [hasPendingChanges, setHasPendingChanges] = React.useState<boolean>(false);
     const {dispatch} = useSidebar();
 
+
+
     React.useEffect(() => {
+        refreshInventoryList(packId);
+    }, [packId]);
+
+    const refreshInventoryList = (packId: number | null) => {
         setLoading(true);
 
         async function fetchData(id: number) {
@@ -57,7 +65,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
         } else {
             fetchData(packId);
         }
-    }, [packId]);
+    }
 
     async function getData(id: number) {
         try {
@@ -98,16 +106,38 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
         setPackItems(items);
     };
 
-    const SidebarContent = () => (
-        <InventorySidebar items={inventory}
-                          addItem={addItem}
-                          removeItem={removeItem}
-                          currentItems={packItems.map(item => item.id)}/>
-    );
+    const createNewItem  = () => {
+        //show the add item view
+        dispatch({type: 'setContent', value: SidebarContent(true)});
+    }
+
+    const SidebarContent = (isAddingNewItem: boolean) => {
+        if (isAddingNewItem) {
+            //show the new item form with a FAB to return to the inventory list
+            return <div> 
+                <ItemForm onSubmit={onNewItemCreated}></ItemForm>
+                <FloatingActionButton 
+                    icon="rollback"
+                    visible={true}
+                    onClick={cancelNewItem}
+                    tooltip="Go back to the inventory list" ></FloatingActionButton>
+                </div>
+        }
+        else {
+            //show the inventory list
+            return <InventorySidebar items={inventory}
+            addItem={addItem}
+            removeItem={removeItem}
+            currentItems={packItems.map(item => item.id)}
+            createNewItem={createNewItem}
+            />
+        }
+    };
 
     React.useEffect(() => {
         dispatch({type: 'setTitle', value: 'Inventory'});
-        dispatch({type: 'setContent', value: SidebarContent()});
+        //show the inventory list
+        dispatch({type: 'setContent', value: SidebarContent(false)});
         return function cleanup() {
             dispatch({type: 'reset'});
         }
@@ -121,6 +151,17 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
         if (packId && packData) {
             exportItems(packId).then(data => FileDownload(data, `${packData.title}.csv`));
         }
+    }
+
+    function onNewItemCreated() {
+        //show the inventory list
+        dispatch({type: 'setContent', value: SidebarContent(false)});
+        refreshInventoryList(packId);
+    }
+
+    function cancelNewItem() {
+        //show the inventory list
+        dispatch({type: 'setContent', value: SidebarContent(false)});
     }
 
     const titleType = packId ? 'Edit' : 'New';
@@ -283,7 +324,9 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
                                                      checked={values.public}
                                                      checkedText="Public"
                                                      uncheckedText="Private"
-                                                     onChange={v => setFieldValue('public', v)}
+                                                     onChange={v => {
+                                                        setFieldValue('public', v);
+                                                        setHasPendingChanges(true);}}
                                                      tip="When public, the pack will be viewable by anyone with a link"
                                         />
                                     </div>

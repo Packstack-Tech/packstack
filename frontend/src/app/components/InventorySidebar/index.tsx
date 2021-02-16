@@ -10,15 +10,16 @@ import { searchItems } from "lib/utils/search";
 import { CategoryGroup, InventoryContainer } from "styles/common";
 import { InventoryItem, CategoryLabel, ItemContainer, CategoryHeader } from "./styles";
 import { Input } from "../FormFields";
-
+import FloatingActionButton from '../FloatingActionButton';
 interface SidebarProps {
     items: Item[];
     addItem: (item: Item) => void;
     removeItem: (id: number) => void;
+    createNewItem: () => void;
     currentItems: number[];
 }
 
-const InventorySidebar: React.FC<SidebarProps> = ({ items, addItem, removeItem, currentItems }) => {
+const InventorySidebar: React.FC<SidebarProps> = ({ items, addItem, removeItem, currentItems, createNewItem }) => {
     const categories = getCategories(items);
     const [filterText, setFilterText] = React.useState<string>('');
     const [categoryFilter, setCategoryFilter] = React.useState<Category | null>(null);
@@ -117,6 +118,11 @@ const InventorySidebar: React.FC<SidebarProps> = ({ items, addItem, removeItem, 
                        onChange={v => setFilterText(v.toString())}
                        last={true}/>
             </div>
+            <FloatingActionButton 
+                icon="plus"
+                visible={true}
+                onClick={createNewItem}
+                tooltip="Add a new item to your inventory" ></FloatingActionButton>
             <InventoryContainer>
                 {renderInventory()}
             </InventoryContainer>
