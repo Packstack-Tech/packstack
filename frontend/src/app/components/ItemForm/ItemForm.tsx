@@ -144,6 +144,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                             value={values.notes || ''}
                             placeholder="Care instructions, further details, etc..."
                             onChange={v => setFieldValue('notes', v)}
+                            allowedLength={ItemConstants.notes}
                         />
                         <Button onClick={submitForm}
                                 disabled={isSubmitting}

@@ -4,6 +4,7 @@ import { Button, Col, Modal, Row, Popconfirm } from "antd";
 import { FormSpecs } from "./types";
 
 import { Input, Select, Option, SelectCreatable } from "app/components/FormFields";
+import { ItemConstants } from "types/item";
 
 import withApi from "app/components/higher-order/with-api";
 import { categoryOptions, weightUnitOptions } from "lib/utils/form";
@@ -65,6 +66,7 @@ const EditForm: React.FC<FormSpecs.Props> = (
                    placeholder="Backpack, Compass, etc..."
                    value={name}
                    onChange={v => updateItem('name', v)}
+                   allowedLength={ItemConstants.name}
             />
 
             <SelectCreatable
@@ -78,6 +80,7 @@ const EditForm: React.FC<FormSpecs.Props> = (
             <Input label="Product Name"
                    placeholder="Osprey Renn 65"
                    value={product_name || ''}
+                   allowedLength={ItemConstants.product_name}
                    onChange={v => updateItem('product_name', v)}/>
 
             <Row gutter={8}>
@@ -109,12 +112,14 @@ const EditForm: React.FC<FormSpecs.Props> = (
                    type="url"
                    value={product_url || ''}
                    onChange={v => updateItem('product_url', v)}
+                   allowedLength={ItemConstants.product_url}
                    />
 
             <Input label="Notes"
                    value={notes || ''}
                    placeholder="Care instructions, further details, etc..."
                    onChange={v => updateItem('notes', v)}
+                   allowedLength={ItemConstants.notes}
                    last={true}/>
         </Modal>
     )

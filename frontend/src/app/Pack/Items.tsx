@@ -27,7 +27,7 @@ const Items: React.FC<ItemsProps> = ({ items, unit }) => {
         }
 
         if (url) {
-            const linkLabel = product_name || 'view item';
+            const linkLabel = product_name || 'View product';
             return <a href={url} target="_blank">{linkLabel}</a>
         }
 
@@ -65,11 +65,11 @@ const Items: React.FC<ItemsProps> = ({ items, unit }) => {
                                             <ItemQuantity>{quantityString} x </ItemQuantity>
                                             {name}
                                         </ItemName>
-                                        {NotesRow}
                                     </Col>
                                     <Col span={12}>
                                         <ItemDescription>
                                             {itemDesc(product_url, product_name)}
+                                            {NotesRow}
                                         </ItemDescription>
                                     </Col>
                                     <Col span={2} className="align-right">

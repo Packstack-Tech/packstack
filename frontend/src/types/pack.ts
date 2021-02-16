@@ -40,5 +40,6 @@ export enum PackConstants {
     title = 300,
     description = 2000,
     temp_range = 255,
+    notes = 1000,
     season = 255
 }
