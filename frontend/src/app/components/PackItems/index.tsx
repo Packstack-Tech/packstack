@@ -12,6 +12,7 @@ import { getWeightByCategory } from "lib/utils/weight";
 
 import { CategoryGroup } from "styles/common";
 import ExpandablePanel from '../ExpandablePanel';
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 interface PackItemProps {
     items: PackItem[];
@@ -36,6 +37,10 @@ const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, wei
         setUpdateId(id);
     };
 
+    const onDragEnd = (result: any) => {
+        console.log(result);
+    }
+
     const renderGroupedItems = () => (
         categories.map(cat => {
             const catItems = items.filter(i => i.categoryId === cat.id);
@@ -47,19 +52,28 @@ const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, wei
                 </>
             );
             return (
+                <DragDropContext onDragEnd={onDragEnd}>
                 <CategoryGroup key={cat.id}>
                     <ExpandablePanel Header={Header}>
-                        <div style={{ padding: '0 8px' }}>
-                            {catItems.map(item => (
-                                <Item key={item.id}
-                                      item={item}
-                                      updateId={updateId}
-                                      removeItem={removeItem}
-                                      updateItem={update}/>)
-                            )}
-                        </div>
+                        <Droppable droppableId={cat.id.toString()}>
+                            {(provided) => 
+                                <div style={{ padding: '0 8px' }} ref={provided.innerRef} {...provided.droppableProps}>
+                                    {catItems.map((item, index) => (
+                                        <Item key={item.id}
+                                            item={item}
+                                            updateId={updateId}
+                                            removeItem={removeItem}
+                                            updateItem={update}
+                                            index={index}/>)
+                                    )}
+                                    {provided.placeholder}
+                                </div>
+                            }
+                        </Droppable>
                     </ExpandablePanel>
                 </CategoryGroup>
+                </DragDropContext>
+
             )
         })
     );
