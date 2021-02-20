@@ -34,6 +34,11 @@ const Items: React.FC<ItemsProps> = ({ items, unit }) => {
         return null;
     };
 
+    
+    const sortItems = (a: PackItem, b: PackItem) => {
+        return a.packItem && b.packItem ? a.packItem.sort_order - b.packItem.sort_order : 0;
+    }
+
     return (
         <ItemList>
             {categories.map(cat => {
@@ -49,7 +54,7 @@ const Items: React.FC<ItemsProps> = ({ items, unit }) => {
                 return (
                     <CategorySection key={cat.id}>
                         <ExpandablePanel Header={Header}>
-                        {catItems.map(item => {
+                        {catItems.sort(sortItems).map(item => {
                             const { name, product_name, product_url, packItem: { notes, quantity, worn } } = item;
                             const { label } = getItemWeight(unit, item);
                             const NotesRow = notes && (

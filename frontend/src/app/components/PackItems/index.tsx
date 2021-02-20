@@ -19,9 +19,10 @@ interface PackItemProps {
     weightUnit: WeightUnit;
     removeItem: (id: number) => void;
     updateItem: (id: number, field: string, value: string | number | boolean) => void;
+    updateItemList: (newPackItems: PackItem[]) => void;
 }
 
-const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, weightUnit }) => {
+const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, weightUnit, updateItemList }) => {
     const [updateId, setUpdateId] = React.useState<number | null>(null);
     const categories = getCategories(items);
     const weightByCategory = getWeightByCategory(weightUnit, items);
@@ -38,7 +39,32 @@ const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, wei
     };
 
     const onDragEnd = (result: any) => {
-        console.log(result);
+        const { source, destination } = result;
+        if (!destination) {
+            return;
+        }
+
+        if (source.droppableId === destination.droppableId) { //if we dropped it in our list 
+            const sortedItemsInCategory = reorder(items.sort(sortItems).filter(i => i.categoryId.toString() === source.droppableId), source.index, destination.index);
+            let allItems: PackItem[] = items.sort(sortItems).filter(i => i.categoryId.toString() != source.droppableId);//remove those old items from the main list
+            allItems = allItems.concat(sortedItemsInCategory);
+            updateItemList(allItems);
+        }
+    }
+
+    const reorder = (list: PackItem[], startIndex: number, endIndex: number) => {
+        const result = Array.from(list);
+        const [removed] = result.splice(startIndex, 1);
+        result.splice(endIndex, 0, removed);
+        
+        result.forEach((item, index) => {
+            item.packItem.sort_order = index;
+        })
+        return result;
+    }
+
+    const sortItems = (a: PackItem, b: PackItem) => {
+        return a.packItem && b.packItem ? a.packItem.sort_order - b.packItem.sort_order : 0;
     }
 
     const renderGroupedItems = () => (
@@ -58,7 +84,7 @@ const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, wei
                         <Droppable droppableId={cat.id.toString()}>
                             {(provided) => 
                                 <div style={{ padding: '0 8px' }} ref={provided.innerRef} {...provided.droppableProps}>
-                                    {catItems.map((item, index) => (
+                                    {catItems.sort(sortItems).map((item, index) => (
                                         <Item key={item.id}
                                             item={item}
                                             updateId={updateId}
