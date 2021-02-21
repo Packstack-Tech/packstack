@@ -46,7 +46,7 @@ const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, wei
 
         if (source.droppableId === destination.droppableId) { //if we dropped it in our list 
             const sortedItemsInCategory = reorder(items.sort(sortItems).filter(i => i.categoryId.toString() === source.droppableId), source.index, destination.index);
-            let allItems: PackItem[] = items.sort(sortItems).filter(i => i.categoryId.toString() != source.droppableId);//remove those old items from the main list
+            let allItems: PackItem[] = items.sort(sortItems).filter(i => i.categoryId.toString() !== source.droppableId);//remove those old items from the main list
             allItems = allItems.concat(sortedItemsInCategory);
             updateItemList(allItems);
         }
@@ -78,7 +78,7 @@ const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, wei
                 </>
             );
             return (
-                <DragDropContext onDragEnd={onDragEnd}>
+                <DragDropContext onDragEnd={onDragEnd} key={cat.id}>
                     <CategoryGroup key={cat.id}>
                         <ExpandablePanel Header={Header}>
                             <Droppable droppableId={cat.id.toString()}>
