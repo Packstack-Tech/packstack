@@ -13,6 +13,7 @@ import { getWeightByCategory } from "lib/utils/weight";
 import { CategoryGroup } from "styles/common";
 import ExpandablePanel from '../ExpandablePanel';
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DroppableLocation } from './styles';
 
 interface PackItemProps {
     items: PackItem[];
@@ -82,18 +83,20 @@ const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, wei
                 <CategoryGroup key={cat.id}>
                     <ExpandablePanel Header={Header}>
                         <Droppable droppableId={cat.id.toString()}>
-                            {(provided) => 
-                                <div style={{ padding: '0 8px' }} ref={provided.innerRef} {...provided.droppableProps}>
-                                    {catItems.sort(sortItems).map((item, index) => (
-                                        <Item key={item.id}
-                                            item={item}
-                                            updateId={updateId}
-                                            removeItem={removeItem}
-                                            updateItem={update}
-                                            index={index}/>)
-                                    )}
-                                    {provided.placeholder}
-                                </div>
+                            {(provided,snapshot) => 
+                                <DroppableLocation isDragging={snapshot.isDraggingOver}>
+                                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                                        {catItems.sort(sortItems).map((item, index) => (
+                                            <Item key={item.id}
+                                                item={item}
+                                                updateId={updateId}
+                                                removeItem={removeItem}
+                                                updateItem={update}
+                                                index={index}/>)
+                                        )}
+                                        {provided.placeholder}
+                                    </div>
+                                </DroppableLocation>
                             }
                         </Droppable>
                     </ExpandablePanel>

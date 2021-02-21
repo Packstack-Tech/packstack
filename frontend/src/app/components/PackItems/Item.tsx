@@ -6,7 +6,7 @@ import { PackItem } from "types/item";
 import { Input, Textarea } from "../FormFields";
 import { WornIndicator, ItemRow } from "./styles";
 
-import { ShirtIcon } from "../Icons";
+import { DragIcon, ShirtIcon } from "../Icons";
 import { PackItemGrid } from "styles/grid";
 import { PackConstants } from "types/pack";
 import { Draggable } from 'react-beautiful-dnd';
@@ -28,11 +28,12 @@ const Item: React.FC<ItemProps> = ({ item, removeItem, updateItem, index }) => {
         return `${label} notes`;
     };
     return (
-        <Draggable draggableId={item.id.toString()} index={index}>
+        <Draggable draggableId={item.id.toString()} index={index} key={item.id.toString()}>
             {provided => (
-                <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                <div ref={provided.innerRef} {...provided.draggableProps}>
                 <ItemRow >
                     <PackItemGrid>
+                        <Icon component={DragIcon}  {...provided.dragHandleProps}/>
                         <div>
                             <strong>{item.name}</strong>
                             <a onClick={() => setDisplayNotes(!displayNotes)} className="add-notes">
