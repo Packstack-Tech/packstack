@@ -11,6 +11,7 @@ import { getCategories } from "lib/utils/categories";
 
 import { ItemList, ItemName, ItemNotes, ItemDescription, ItemQuantity, ItemWeight, CategorySection } from "./styles";
 import ExpandablePanel from 'app/components/ExpandablePanel';
+import { Category } from 'types/category';
 
 interface ItemsProps {
     items: PackItem[];
@@ -39,9 +40,15 @@ const Items: React.FC<ItemsProps> = ({ items, unit }) => {
         return a.packItem && b.packItem ? a.packItem.sort_order - b.packItem.sort_order : 0;
     }
 
+    const sortCategories = (a: Category, b: Category) => {
+        const catAItem = items.find(i => i.categoryId === a.id);
+        const catBItem = items.find(i => i.categoryId === b.id);
+        return catAItem && catBItem ? catAItem.packItem.sort_order - catBItem.packItem.sort_order : -1;
+    }
+
     return (
         <ItemList>
-            {categories.map(cat => {
+            {categories.sort(sortCategories).map(cat => {
                 const catItems = items.filter(i => i.categoryId === cat.id);
                 const catWeight = weightByCategory.find(c => c.id === cat.id);
 

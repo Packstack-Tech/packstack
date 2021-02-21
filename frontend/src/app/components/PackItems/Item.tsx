@@ -33,7 +33,7 @@ const Item: React.FC<ItemProps> = ({ item, removeItem, updateItem, index }) => {
                 <div ref={provided.innerRef} {...provided.draggableProps}>
                 <ItemRow >
                     <PackItemGrid>
-                        <Icon component={DragIcon}  {...provided.dragHandleProps}/>
+                        <Icon className="drag-icon" component={DragIcon}  {...provided.dragHandleProps}/>
                         <div>
                             <strong>{item.name}</strong>
                             <a onClick={() => setDisplayNotes(!displayNotes)} className="add-notes">
