@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import { theme } from 'styles/theme';
 
 export const ItemRow = styled.div`
-  padding-bottom: 8px;
-  margin: 8px 0;
+  padding-bottom: 4px;
+  padding-top: 4px;
   border-bottom: 1px dashed ${props => props.theme.color.$GrayBorder};
   
   .remove-item {
@@ -40,23 +39,5 @@ export const WornIndicator = styled.div`
   &.active svg {
     fill: ${props => props.theme.color.$Orange};
   }
-`;
-
-type isDragging = {
-  isDragging? : boolean;
-}
-export const DroppableLocation = styled.div<isDragging>`
-  @keyframes fade-in {
-    from {
-      background: inherit;
-    }
-    to {
-      background: ${theme.hexOpacity("#F58763", 15)};
-    }
-  }  
-  background: ${props => props.isDragging ? theme.hexOpacity("#F58763", 15) : ''}; 
-  animation-name: ${props => props.isDragging ? 'fade-in' : ''};
-  animation-duration: .5s;
-  border-radius: 10px;
 `;
 

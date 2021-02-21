@@ -13,7 +13,6 @@ import { getWeightByCategory } from "lib/utils/weight";
 import { CategoryGroup } from "styles/common";
 import ExpandablePanel from '../ExpandablePanel';
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { DroppableLocation } from './styles';
 
 interface PackItemProps {
     items: PackItem[];
@@ -55,10 +54,10 @@ const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, wei
 
     const reorder = (list: PackItem[], startIndex: number, endIndex: number) => {
         const result = Array.from(list);
-        const [removed] = result.splice(startIndex, 1);
-        result.splice(endIndex, 0, removed);
+        const [removed] = result.splice(startIndex, 1); //remove the thing we picked up
+        result.splice(endIndex, 0, removed); //and insert it where we dropped it
         
-        result.forEach((item, index) => {
+        result.forEach((item, index) => { //then assign the sort order based on the indexes we have now
             item.packItem.sort_order = index;
         })
         return result;
@@ -80,11 +79,10 @@ const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, wei
             );
             return (
                 <DragDropContext onDragEnd={onDragEnd}>
-                <CategoryGroup key={cat.id}>
-                    <ExpandablePanel Header={Header}>
-                        <Droppable droppableId={cat.id.toString()}>
-                            {(provided,snapshot) => 
-                                <DroppableLocation isDragging={snapshot.isDraggingOver}>
+                    <CategoryGroup key={cat.id}>
+                        <ExpandablePanel Header={Header}>
+                            <Droppable droppableId={cat.id.toString()}>
+                                {(provided,snapshot) => 
                                     <div ref={provided.innerRef} {...provided.droppableProps}>
                                         {catItems.sort(sortItems).map((item, index) => (
                                             <Item key={item.id}
@@ -96,11 +94,10 @@ const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, wei
                                         )}
                                         {provided.placeholder}
                                     </div>
-                                </DroppableLocation>
-                            }
-                        </Droppable>
-                    </ExpandablePanel>
-                </CategoryGroup>
+                                }
+                            </Droppable>
+                        </ExpandablePanel>
+                    </CategoryGroup>
                 </DragDropContext>
 
             )
