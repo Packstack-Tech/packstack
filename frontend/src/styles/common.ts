@@ -62,7 +62,7 @@ export const PageDescription = styled.div`
 export const SectionHeader = styled.div`
   position: relative;
   display: grid;
-  grid-template-columns:30px minmax(auto, auto) 80px 10px;
+  grid-template-columns: minmax(auto, auto) 80px 10px;
   padding: 8px 20px 8px 8px;
   border-radius: 2px;
   border-bottom: 3px solid ${props => props.theme.hexOpacity(props.theme.color.$GrayBlue, 5)};
@@ -76,6 +76,7 @@ export const SectionHeader = styled.div`
     margin-bottom: 0;
     padding-top: 5px;
     padding-left: 5px;
+    float: left;
   }
   strong {
     text-align:right;

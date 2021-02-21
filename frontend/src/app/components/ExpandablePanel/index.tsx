@@ -20,7 +20,7 @@ const ExpandablePanel: React.FC<ExpandablePanelProps> = ({ Header, children, cat
         <Draggable draggableId={categoryId.toString()} index={categoryIndex} key={categoryId.toString()}>
             {provided => 
               <div ref={provided.innerRef} {...provided.draggableProps} >    
-                  <SectionHeader>
+                  <SectionHeader style={{gridTemplateColumns: '30px minmax(auto, auto) 80px 10px'}}>
                       <Icon component={DragIcon}  {...provided.dragHandleProps}/>
                       {Header}
                       <Caret visible={visible} onClick={() => setVisible(!visible)} />
