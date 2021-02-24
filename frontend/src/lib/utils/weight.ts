@@ -30,7 +30,7 @@ export const getTotalWeight = (unit: WeightUnit, items: (PackItem | Item)[]): Ag
              return { ...acc, exclude: acc.exclude + convertedWeight * quantity };
         }
 
-        if (isWorn && quantity > 0) {
+        if (isWorn && quantity >= 1) {
             return { ...acc, include: acc.include + convertedWeight * (quantity - 1), exclude: acc.exclude + convertedWeight };
         }
         return { ...acc, include: acc.include + convertedWeight * quantity };
