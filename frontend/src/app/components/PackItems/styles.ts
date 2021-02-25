@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const ItemRow = styled.div`
-  padding-bottom: 8px;
-  margin: 8px 0;
+  padding-bottom: 4px;
+  padding-top: 4px;
   border-bottom: 1px dashed ${props => props.theme.color.$GrayBorder};
   
   .remove-item {
@@ -40,3 +40,4 @@ export const WornIndicator = styled.div`
     fill: ${props => props.theme.color.$Orange};
   }
 `;
+

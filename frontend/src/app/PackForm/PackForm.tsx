@@ -106,6 +106,11 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
         setPackItems(items);
     };
 
+    const updateItemList = (newItemList: PackItem[]) => {
+        setHasPendingChanges(true);
+        setPackItems(newItemList);
+    }
+
     const createNewItem  = () => {
         //show the add item view
         dispatch({type: 'setContent', value: SidebarContent(true)});
@@ -344,7 +349,8 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
                             <PackItems items={packItems}
                                        weightUnit={user.default_weight_unit}
                                        removeItem={removeItem}
-                                       updateItem={updateItem}/>
+                                       updateItem={updateItem}
+                                       updateItemList={updateItemList}/>
                             <NavigationConfirmModal
                                 when={hasPendingChanges}
                                 buttonClassName="ant-btn"

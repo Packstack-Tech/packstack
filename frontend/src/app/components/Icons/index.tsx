@@ -80,3 +80,9 @@ export const TempIcon = () => (
     </svg>
 
 );
+
+export const DragIcon = () => (
+    <svg x="0px" y="0px" width="25px" height="25px" viewBox="0 0 25 25" xmlSpace="preserve">
+        <path d="M3,11H21a1,1,0,0,0,0-2H3a1,1,0,0,0,0,2Zm18,2H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z" fill="grey"></path>
+    </svg>
+)

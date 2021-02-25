@@ -61,9 +61,8 @@ export const PageDescription = styled.div`
 
 export const SectionHeader = styled.div`
   position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  display: grid;
+  grid-template-columns: minmax(auto, auto) 80px 10px;
   padding: 8px 20px 8px 8px;
   border-radius: 2px;
   border-bottom: 3px solid ${props => props.theme.hexOpacity(props.theme.color.$GrayBlue, 5)};
@@ -75,6 +74,13 @@ export const SectionHeader = styled.div`
     font-size: 14px;
     text-transform: uppercase;
     margin-bottom: 0;
+    padding-top: 5px;
+    padding-left: 5px;
+    float: left;
+  }
+  strong {
+    text-align:right;
+    padding-top:5px;
   }
 `;
 
@@ -84,7 +90,7 @@ export const Controls = styled.div`
 `;
 
 export const CategoryGroup = styled.div` 
-  margin-bottom: 24px;
+  padding-bottom: 24px;
   ${InventoryItem}:last-of-type {
     border-bottom: none;
   }
