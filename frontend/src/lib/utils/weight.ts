@@ -30,10 +30,9 @@ export const getTotalWeight = (unit: WeightUnit, items: (PackItem | Item)[]): Ag
              return { ...acc, exclude: acc.exclude + convertedWeight * quantity };
         }
 
-        if (isWorn) {
+        if (isWorn && quantity >= 1) {
             return { ...acc, include: acc.include + convertedWeight * (quantity - 1), exclude: acc.exclude + convertedWeight };
         }
-
         return { ...acc, include: acc.include + convertedWeight * quantity };
     }
 
@@ -61,7 +60,6 @@ export const getItemWeight = (unit: WeightUnit, item: PackItem | Item): WeightPr
     const quantity = 'packItem' in item ? item.packItem.quantity : 1;
     const conversionValue = weight_unit ? converter(weight).from(unitDict[weight_unit]).to(unitDict[unit]) : 0;
     const floatValue = parseFloat(conversionValue) * quantity;
-
     return {
         value: floatValue,
         label: floatValue.toFixed(2)
