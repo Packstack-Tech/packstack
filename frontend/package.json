@@ -58,7 +58,7 @@
     "react": "^16.8.6",
     "react-app-polyfill": "^1.0.1",
     "react-beautiful-dnd": "^13.0.0",
-    "react-dev-utils": "^9.0.1",
+    "react-dev-utils": "^11.0.4",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.8.6",
     "react-ga": "^2.5.6",
