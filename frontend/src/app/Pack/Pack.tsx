@@ -71,7 +71,7 @@ const Pack: React.FC<PackSpecs.Props> = ({ getPack, weightUnit, packId }) => {
     }, [pack, unit]);
 
     const componentDecorator = (href: string, text: string, key: number | string) => (
-        <a href={href} key={key} target="_blank">{text}</a>
+        <a href={href} key={key} target="_blank" rel="noopener noreferrer">{text}</a>
     );
 
     if (loading) {

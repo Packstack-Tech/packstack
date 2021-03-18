@@ -127,6 +127,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({ createItem, exportCsv, onSubmit }
                         </Row>
                         <Input
                             label="Price"
+                            type="number"
                             value={values.price || ''}
                             placeholder="0.00"
                             onChange={v => setFieldValue('price', v)}
