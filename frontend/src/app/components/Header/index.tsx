@@ -61,7 +61,7 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
                 <Link to={NEW_PACK}>Create Pack</Link>
             </Menu.Item>
             <Menu.Item key={PROFILE}>
-                <Link to={PROFILE}>Your Packs</Link>
+                <Link to={PROFILE}>My Packs</Link>
             </Menu.Item>
             <Menu.Divider/>
             <Menu.Item key="logout" onClick={() => app.logout()}>
