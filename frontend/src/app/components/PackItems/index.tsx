@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Icon, Tooltip } from 'antd';
 
 import { WeightUnit } from "enums";
 import { PackItem } from "types/item";
@@ -9,6 +10,7 @@ import Item from './Item';
 
 import { getCategories } from "lib/utils/categories";
 import { getWeightByCategory } from "lib/utils/weight";
+import { helpIconStyles } from "styles/common";
 
 import { CategoryGroup } from "styles/common";
 import ExpandablePanel from '../ExpandablePanel';
@@ -128,7 +130,14 @@ const PackItems: React.FC<PackItemProps> = ({ items, removeItem, updateItem, wei
             const catWeight = weightByCategory.find(c => c.id === cat.id);
             const Header = (
                 <>
-                    <h3>{cat.name}</h3>
+                    <h3>
+                        {cat.name}
+                        {cat.exclude_weight &&
+                        <Tooltip title={"Items in this category are excluded from base weight"}
+                                         mouseEnterDelay={.1}>
+                            <Icon type="stop-o" style={helpIconStyles}/>
+                        </Tooltip>}
+                    </h3>
                     <strong>{catWeight!.total.label} {weightUnit}</strong>
                 </>
             );

@@ -27,8 +27,10 @@ const CategoryChart: React.FC<CategoryTableProps> = ({ data, unit }) => {
     const bigThreeWeight = bigThree.reduce((sum, dat) => sum + dat.total.value, 0);
     const excludedWeight = data.reduce((acc: number, cur: CategoryItemSpecs) => acc + cur.excluded.value, 0);
     const consumables = data.find(c => c.name === 'Consumables');
+    const customExcludedCategories = data.find(c => c.level === 'USER' && c.exclude_weight === true);
+    const customExcludedWeight = customExcludedCategories ? customExcludedCategories.total.value : 0;
     const consumablesWeight = consumables ? consumables.total.value : 0;
-    const wornWeight = excludedWeight - consumablesWeight;
+    const wornWeight = excludedWeight - consumablesWeight - customExcludedWeight;
     const baseWeight = totalWeight - excludedWeight;
 
     return (
@@ -53,6 +55,12 @@ const CategoryChart: React.FC<CategoryTableProps> = ({ data, unit }) => {
                 <div>Worn</div>
                 <div>{wornWeight.toFixed(2)} {unit}</div>
             </CatRow>
+            {customExcludedCategories &&
+            <CatRow className="totals">
+                <div>Other Excluded</div>
+                <div>{customExcludedWeight.toFixed(2)} {unit}</div>
+            </CatRow>
+            }
             <CatRow className="totals highlight">
                 <div>Base Weight</div>
                 <div>{baseWeight.toFixed(2)} {unit}</div>

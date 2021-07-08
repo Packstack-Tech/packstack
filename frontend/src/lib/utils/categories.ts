@@ -30,3 +30,8 @@ export const categorySelectValue = (categories: Category[], value: number | stri
         label: currentCategory ? currentCategory.name : value.toString()
     };
 };
+
+export const categoryCheckIfNew = (categories: Category[], value: number | string | undefined): boolean => {
+    if (!value) return false;
+    return categories.find(cat => cat.id === value) ? false : true;
+};
