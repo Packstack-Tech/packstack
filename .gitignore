@@ -1,3 +1,5 @@
 .idea
 init-letsencrypt.sh
 docker-compose.yml
+k8s/
+api/publish-build.sh

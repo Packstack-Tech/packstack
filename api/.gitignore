@@ -17,6 +17,7 @@
 
 # deployment
 deploy.sh
+publish-build.sh
 config/config.json
 prod.Dockerfile
 

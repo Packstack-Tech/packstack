@@ -26,8 +26,6 @@ Join us on [Slack](https://join.slack.com/t/packstackio/shared_invite/enQtODk3NT
     * _change configuration if desired_
 * Seed categories: `yarn run seed:dev`
 * Install frontend packages: `cd ../frontend/ && yarn install`
-* Create a `.env` file and add the following line:
-    * `REACT_APP_API_DEV="http://127.0.0.1:3000/api/v1/"`
 * Start the dev environment: `yarn start`
 * View the project locally at `localhost:3001`
 * 🎉🙌🤘🙌🎉
