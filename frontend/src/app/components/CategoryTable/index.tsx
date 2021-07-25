@@ -23,6 +23,8 @@ const CategoryChart: React.FC<CategoryTableProps> = ({ data, unit }) => {
     ));
 
     const totalWeight = data.reduce((acc: number, cur: CategoryItemSpecs) => acc + cur.total.value, 0);
+    const bigThree = data.filter(({name}) => name === 'Pack' || name === 'Shelter' || name === 'Sleep System');
+    const bigThreeWeight = bigThree.reduce((sum, dat) => sum + dat.total.value, 0);
     const excludedWeight = data.reduce((acc: number, cur: CategoryItemSpecs) => acc + cur.excluded.value, 0);
     const consumables = data.find(c => c.name === 'Consumables');
     const consumablesWeight = consumables ? consumables.total.value : 0;
@@ -38,6 +40,10 @@ const CategoryChart: React.FC<CategoryTableProps> = ({ data, unit }) => {
             <CatRow className="totals highlight">
                 <div>Total</div>
                 <div>{totalWeight.toFixed(2)} {unit}</div>
+            </CatRow>
+            <CatRow className="totals">
+                <div>Big 3</div>
+                <div>{bigThreeWeight.toFixed(2)} {unit}</div>
             </CatRow>
             <CatRow className="totals">
                 <div>Consumable</div>
