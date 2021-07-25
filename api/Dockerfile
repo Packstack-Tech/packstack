@@ -1,14 +1,7 @@
-FROM node:8.16-alpine
+FROM node:12.7.0-alpine
 
-WORKDIR /usr/api
+RUN npm install -g yarn
+RUN yarn install
 
-COPY package.json .
-RUN npm install --quiet
-RUN npm install -g nodemon
-
-COPY . .
-
-COPY wait-for-postgres.sh /wait-for-postgres.sh
-RUN chmod +x /wait-for-postgres.sh
-
-CMD ["/wait-for-postgres.sh", "postgres", "yarn", "run", "dev"]
+EXPOSE 80
+CMD ["yarn", "run", "start"]

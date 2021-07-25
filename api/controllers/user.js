@@ -88,7 +88,7 @@ router.get('/status', authenticate, async (req, res) => {
 });
 
 
-// Request password reset
+// Request password reset TODO update path once domains configed
 router.post('/request-reset', (req, res) => {
     const { email } = req.body;
     models.User.findOne({ where: { email } })
