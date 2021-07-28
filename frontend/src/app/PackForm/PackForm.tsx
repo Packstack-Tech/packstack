@@ -225,7 +225,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
                             <PageTitle>
                                 <h1>{statusLabel} Packing List</h1>
                                 <Controls>
-                                    {packId && packData?.public && (
+                                    {packId && packData && packData.public && (
                                         <a href={getPackPath(packId, values.title)}>
                                             View pack
                                         </a>
