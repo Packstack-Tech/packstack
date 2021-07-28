@@ -1,10 +1,9 @@
 import slugify from 'slugify';
 
-export const HOME = '/';
 export const NEW = 'new';
 
 export const REGISTER = '/register';
-export const LOGIN = '/login';
+export const LOGIN = '/';
 export const REQUEST_RESET = '/request-reset';
 export const RESET_PASSWORD = '/reset/:callbackId';
 
@@ -16,5 +15,5 @@ export const PACK = '/:id/:slug?';
 
 export const getPackPath = (id: number, title: string): string => {
     const slug = slugify(title, { replacement: '-', lower: true });
-    return `/${id}/${slug}`;
+    return `https://packstack.io/pack/${id}/${slug}`;
 };

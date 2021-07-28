@@ -6,7 +6,7 @@ import { Formik, FormikProps } from 'formik';
 import { Row, Col, Button } from "antd";
 import { Input, Select, Textarea, Option } from 'app/components/FormFields';
 
-import { getPackPath } from "routes";
+import { getPackPath, LOGIN } from "routes";
 import { PackFormSpecs } from "./types";
 import { DurationUnit } from "enums";
 import { Item, PackItem } from "types/item";
@@ -70,9 +70,9 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
     async function getData(id: number) {
         try {
             const pack = await getPack(id);
-            const {items, userId, title} = pack;
+            const {items, userId } = pack;
             if (user && user.id !== userId) {
-                history.push(getPackPath(id, title));
+                history.push(LOGIN);
                 return;
             }
             setPackData(pack);
@@ -84,6 +84,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
     }
 
     const addItem = (item: Item) => {
+        // @ts-ignore
         const items = Object.assign([], [...packItems, {
             ...item,
             packItem: {notes: item.notes, quantity: 1, worn: false}
@@ -224,11 +225,10 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
                             <PageTitle>
                                 <h1>{statusLabel} Packing List</h1>
                                 <Controls>
-                                    {packId && (
-                                        <Button type="link"
-                                                onClick={() => history.push(getPackPath(packId, values.title))}>
+                                    {packId && packData?.public && (
+                                        <a href={getPackPath(packId, values.title)}>
                                             View pack
-                                        </Button>
+                                        </a>
                                     )}
                                     <Button type="primary" onClick={submitForm}>
                                         {saveBtnLabel} Pack

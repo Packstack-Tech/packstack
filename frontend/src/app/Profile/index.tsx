@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { HOME } from 'routes';
+import { LOGIN } from 'routes';
 
 import AppConsumer from 'AppContext';
 import Loading from 'app/components/Loading';
@@ -19,7 +19,7 @@ class ProfileContainer extends React.Component<RouteComponentProps> {
                     }
 
                     if (!app.userInfo) {
-                        this.props.history.push(HOME);
+                        this.props.history.push(LOGIN);
                         return null;
                     }
 

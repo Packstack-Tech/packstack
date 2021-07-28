@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { Button } from 'antd';
 import { Formik, FormikProps } from 'formik';
 
-import { HOME } from "routes";
+import { LOGIN } from "routes";
 import { RequestResetSpecs } from "./types";
 
 import { Input } from "app/components/FormFields";
@@ -25,7 +25,7 @@ const RequestReset: React.FC<RequestResetSpecs.Props> = ({ requestReset, history
                         message: 'Password reset email sent',
                         description: 'Check your email to finish resetting your password.'
                     });
-                    history.push(HOME);
+                    history.push(LOGIN);
                 })
         }}
         validationSchema={Yup.object().shape({

@@ -25,7 +25,7 @@ const Statistics: React.FC<StatProps> = ({ pack }) => {
     };
 
     let packUrlLabel = "Pack URL " + (pack.public ? "" : "(private)");
-    const packUrl = `https://packstack.io${getPackPath(id, title)}`;
+    const packUrl = getPackPath(id, title);
 
     return (
         <StatCollection>

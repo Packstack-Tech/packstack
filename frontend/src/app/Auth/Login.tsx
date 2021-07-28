@@ -1,22 +1,26 @@
 import * as React from 'react';
 import * as Yup from 'yup';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from 'react-router-dom';
 import { Button, Alert } from 'antd';
 import { Formik, FormikProps } from 'formik';
 
-import { INVENTORY, REQUEST_RESET, REGISTER } from "routes";
-import { LoginSpecs } from "./types";
+import { INVENTORY, REQUEST_RESET, REGISTER } from 'routes';
+import { LoginSpecs } from './types';
 
 import { AppContext } from 'AppContext';
-import { Input } from "app/components/FormFields";
-import withApi from "app/components/higher-order/with-api";
+import { Input } from 'app/components/FormFields';
+import withApi from 'app/components/higher-order/with-api';
 
 import { Box } from 'styles/common';
-import { AuthWrapper, BottomTray, AuthPage } from "./styles";
+import { AuthWrapper, BottomTray, AuthPage } from './styles';
 
 const LoginPage: React.FC<LoginSpecs.Props> = ({ login, history }) => {
     const [authError, setAuthError] = React.useState<boolean>(false);
     const app = React.useContext(AppContext);
+
+    if (app.userInfo) {
+        return <Redirect to={INVENTORY} />;
+    }
 
     return (
         <Formik
@@ -27,9 +31,7 @@ const LoginPage: React.FC<LoginSpecs.Props> = ({ login, history }) => {
             onSubmit={(values, formikActions) => {
                 setAuthError(false);
                 login(values.emailOrUsername, values.password)
-                    .then(resp =>
-                        app.setAuthToken(resp.authToken).then(() => history.push(INVENTORY))
-                    )
+                    .then(resp => app.setAuthToken(resp.authToken).then(() => history.push(INVENTORY)))
                     .catch(() => {
                         setAuthError(true);
                         formikActions.setSubmitting(false);
@@ -50,29 +52,38 @@ const LoginPage: React.FC<LoginSpecs.Props> = ({ login, history }) => {
                             <Box>
                                 <h1>Sign In</h1>
                                 {authError && (
-                                    <Alert message="Invalid email/username or password. Please try again." type="error"/>
+                                    <Alert
+                                        message="Invalid email/username or password. Please try again."
+                                        type="error"
+                                    />
                                 )}
-                                <Input label="Email/Username"
-                                       value={values.emailOrUsername}
-                                       error={wasSubmitted && !!errors.emailOrUsername}
-                                       errorMsg={errors.emailOrUsername}
-                                       autocomplete="emailOrUsername"
-                                       onChange={v => setFieldValue('emailOrUsername', v)}/>
+                                <Input
+                                    label="Email/Username"
+                                    value={values.emailOrUsername}
+                                    error={wasSubmitted && !!errors.emailOrUsername}
+                                    errorMsg={errors.emailOrUsername}
+                                    autocomplete="emailOrUsername"
+                                    onChange={v => setFieldValue('emailOrUsername', v)}
+                                />
 
-                                <Input label="Password"
-                                       value={values.password}
-                                       error={wasSubmitted && !!errors.password}
-                                       errorMsg={errors.password}
-                                       autocomplete="current-password"
-                                       onChange={v => setFieldValue('password', v)}
-                                       type="password"/>
+                                <Input
+                                    label="Password"
+                                    value={values.password}
+                                    error={wasSubmitted && !!errors.password}
+                                    errorMsg={errors.password}
+                                    autocomplete="current-password"
+                                    onChange={v => setFieldValue('password', v)}
+                                    type="password"
+                                />
 
                                 <div style={{ marginTop: '32px' }}>
-                                    <Button size="large"
-                                            type="primary"
-                                            block={true}
-                                            disabled={isSubmitting}
-                                            onClick={submitForm}>
+                                    <Button
+                                        size="large"
+                                        type="primary"
+                                        block={true}
+                                        disabled={isSubmitting}
+                                        onClick={submitForm}
+                                    >
                                         Sign In
                                     </Button>
                                 </div>
@@ -84,10 +95,10 @@ const LoginPage: React.FC<LoginSpecs.Props> = ({ login, history }) => {
                             </Box>
                         </AuthWrapper>
                     </AuthPage>
-                )
+                );
             }}
         </Formik>
-    )
+    );
 };
 
 const LoginWithApi = withApi<LoginSpecs.ApiProps>(api => ({

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { withRouter, RouteComponentProps } from "react-router";
 import { Button, Icon, Menu, Dropdown } from "antd";
 
-import { HOME, INVENTORY, NEW_PACK, PROFILE, LOGIN, REGISTER } from 'routes';
+import { INVENTORY, NEW_PACK, PROFILE, LOGIN, REGISTER } from 'routes';
 
 import { AppContext } from 'AppContext';
 
@@ -88,7 +88,7 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
     return (
         <HeaderWrapper>
             <LogoWrapper>
-                <Link to={HOME}>
+                <Link to={INVENTORY}>
                     <LogoImg src={Logo} alt="Packstack logo"/>
                 </Link>
             </LogoWrapper>

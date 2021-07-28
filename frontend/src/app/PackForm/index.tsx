@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { HOME, NEW } from 'routes';
+import { LOGIN, NEW } from 'routes';
 
 import { AppContext } from 'AppContext';
 import Loading from 'app/components/Loading';
@@ -24,7 +24,7 @@ const PackFormContainer: React.FC<RouteComponentProps<{ id: string }>> = (routeP
     }
 
     if (!app.userInfo) {
-        routeProps.history.push(HOME);
+        routeProps.history.push(LOGIN);
         return null;
     }
 
