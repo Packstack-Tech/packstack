@@ -8,39 +8,27 @@ The latest release can be found at [Packstack.io](https://packstack.io)
 
 Join us on [Slack](https://join.slack.com/t/packstackio/shared_invite/enQtODk3NTA2NDY0MzIyLWExMzk1YzMwYWFmMzIzY2Q3NDNkNTJjMjBkOGM4MGExYzE1ZTgxZDYwODJlN2ZjOWIyMzMzYmVjNjQ3MDQzYzU).
 
+__Note__: The API has been broken out into [its own repo](https://github.com/maplethorpej/packstack-v1-api).
+
+
 ### Getting started
 
 #### Prerequisites
-* Git
 * Docker
 * Yarn
 
 #### Install
-* Clone the repo: `git clone https://github.com/maplethorpej/packstack.git`
-* Navigate to project root: `cd packstack`
-* Copy and rename `docker-compose-example.yml` to `docker-compose.yml`
-    * _change configuration if desired_
-* Build project: `docker-compose up --build`
-* In a new terminal window, install backend packages: `cd api && yarn install`
-* Copy and rename: `api/config/config-example.json` to `api/config/config.json`
-    * _change configuration if desired_
-* Seed categories: `yarn run seed:dev`
-* Install frontend packages: `cd ../frontend/ && yarn install`
-* Start the dev environment: `yarn start`
-* View the project locally at `localhost:3001`
+* Clone the repo: `git clone https://github.com/maplethorpej/packstack.git packstack-frontend`
+* CD app root: `cd packstack-frontend/app`
+* Install: `yarn install`
+* Start: `yarn start`
+* Setup the [API](https://github.com/maplethorpej/packstack-v1-api)
 * 🎉🙌🤘🙌🎉
 
-__Note__: To stop docker, find the terminal running docker, press `CTRL+C` and run `docker-compose down`.
-
 ### Contributing
-If you’re interested in contributing to Packstack, thank you! – there’s much yet to be done 🙂
+If you’re interested in contributing to Packstack, thank you! – there’s much yet to be done 🙂 Looking for a place to get started? Check out the Issues section.
 
 [Learn more about contributing](CONTRIBUTING.md), and make sure to read our [Code of Conduct](CODE_OF_CONDUCT.md).
-
-### Roadmap
-* Coming soon
-* Coming soon
-* Coming soon
 
 ### License
 [Apache 2.0](LICENSE.txt)
