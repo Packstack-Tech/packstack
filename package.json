@@ -1,0 +1,72 @@
+{
+  "name": "app-v2",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ant-design/icons": "^4.6.2",
+    "@craco/craco": "^6.2.0",
+    "@sentry/browser": "^6.10.0",
+    "antd": "^4.16.10",
+    "axios": "^0.21.1",
+    "convert-units": "^2.3.4",
+    "formik": "^2.2.9",
+    "fuse.js": "^6.4.6",
+    "js-file-download": "^0.4.12",
+    "jwt-decode": "^3.1.2",
+    "lodash": "^4.17.21",
+    "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
+    "react-document-title": "^2.0.3",
+    "react-dom": "^17.0.2",
+    "react-ga": "^3.3.0",
+    "react-router-dom": "^5.2.0",
+    "react-router-navigation-confirm": "^1.1.11",
+    "react-scripts": "4.0.3",
+    "react-select": "^4.3.1",
+    "recharts": "^2.0.10",
+    "slugify": "^1.6.0",
+    "styled-components": "^5.3.0",
+    "typescript": "^4.3.5",
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.9"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/convert-units": "^2.3.4",
+    "@types/jest": "^26.0.24",
+    "@types/lodash": "^4.14.172",
+    "@types/node": "^16.4.13",
+    "@types/react": "^17.0.15",
+    "@types/react-beautiful-dnd": "^13.1.1",
+    "@types/react-document-title": "^2.0.5",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.1.8",
+    "@types/react-select": "^4.0.17",
+    "@types/styled-components": "^5.1.12"
+  }
+}
