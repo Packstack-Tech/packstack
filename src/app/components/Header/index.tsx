@@ -14,7 +14,6 @@ import {
   Navigation,
   MobileNav,
   NavItem,
-  NavBottom,
 } from "./styles";
 
 import Logo from "assets/packstack_logo_horizontal_blue_sm.png";
@@ -28,20 +27,6 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
       <NavItem onClick={() => history.push(INVENTORY)}>Inventory</NavItem>
       <NavItem onClick={() => history.push(NEW_PACK)}>Create Pack</NavItem>
       <NavItem onClick={() => history.push(PROFILE)}>My Packs</NavItem>
-      <NavBottom>
-        <NavItem onClick={() => app.logout()} title="Logout" className="logout">
-          Logout
-        </NavItem>
-        <NavItem
-          onClick={() =>
-            window.open("https://headwayapp.co/packstack-changelog", "_blank")
-          }
-          className="logout"
-        >
-          Release Notes <div className="changelog" />
-        </NavItem>
-        <a href="mailto:jerad@packstack.io">Report an issue</a>
-      </NavBottom>
     </>
   );
 

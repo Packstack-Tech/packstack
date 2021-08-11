@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { InventoryItem } from "app/components/InventorySidebar/styles";
 
 export const Container = styled.div`
-  display: block;
+  display: flex;
 `;
 
 export const Box = styled.div`

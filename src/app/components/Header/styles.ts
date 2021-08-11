@@ -24,27 +24,6 @@ export const NavItem = styled.a`
   }
 `;
 
-export const NavBottom = styled.div`
-  margin-top: auto;
-
-  a {
-    font-family: "Roboto Condensed", sans-serif;
-    font-weight: 600;
-    text-transform: uppercase;
-    display: inline-block;
-    margin-top: 8px;
-  }
-
-  .logout {
-    color: #bbb;
-    padding-top: 0;
-
-    &:hover {
-      color: ${(props) => props.theme.color.$Dark};
-    }
-  }
-`;
-
 export const Navigation = styled.div`
   display: flex;
 
