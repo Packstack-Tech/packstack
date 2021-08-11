@@ -4,11 +4,12 @@ import { Box } from "styles/common";
 export const AuthPage = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: ${props => props.theme.color.$Black};
+  background-color: #E9ECF2;
 `;
 
 export const AuthWrapper = styled.div`
-    margin: 48px auto;
+    margin: 0 auto;
+    padding: 48px 0;
     max-width: 600px;
     width: 100%;
     

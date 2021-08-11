@@ -25,7 +25,7 @@ export const PairGrid = styled.div`
 `;
 
 export const inlineStyles: CSSProperties = {
-    marginBottom: 0
+  marginBottom: 0,
 };
 
 export const PackItemGrid = styled.div`
@@ -50,12 +50,12 @@ export const NotesIndicator = styled.div`
   justify-content: space-between;
 
   svg {
-    fill: #CCC;
+    fill: #ccc;
     width: 20px;
   }
 
   &.active svg {
-    fill: #34ACD4;
+    fill: #34acd4;
     width: 20px;
   }
 `;

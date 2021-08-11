@@ -1,11 +1,7 @@
-import styled from 'styled-components';
-
-export const LogoWrapper = styled.div`
-  margin-bottom: 48px;
-`;
+import styled from "styled-components";
 
 export const LogoImg = styled.img`
-  max-width: 100%;
+  max-width: 140px;
 `;
 
 export const MobileNav = styled.div``;
@@ -18,17 +14,19 @@ export const NavItem = styled.a`
   text-transform: uppercase;
   padding: 4px 0;
   margin: 4px 0;
-  color: ${props => props.theme.color.$Dark};
-  transition: .2s color;
-    
+  color: ${(props) => props.theme.color.$Dark};
+  transition: 0.2s color;
+  margin-left: 16px;
+
   &:hover {
-    color: ${props => props.theme.color.$Orange};
+    cursor: pointer;
+    color: ${(props) => props.theme.color.$Orange};
   }
 `;
 
 export const NavBottom = styled.div`
   margin-top: auto;
-  
+
   a {
     font-family: "Roboto Condensed", sans-serif;
     font-weight: 600;
@@ -36,58 +34,53 @@ export const NavBottom = styled.div`
     display: inline-block;
     margin-top: 8px;
   }
-  
+
   .logout {
-    color: #BBB;
+    color: #bbb;
     padding-top: 0;
-    
+
     &:hover {
-      color: ${props => props.theme.color.$Dark};
+      color: ${(props) => props.theme.color.$Dark};
     }
   }
 `;
 
 export const Navigation = styled.div`
   display: flex;
-  flex-direction: column;
-  height: calc(100% - 100px);
-  
+
   button {
     font-weight: 700;
   }
-  
+
   button:not(.ant-btn-primary) {
-    color: ${props => props.theme.color.$darkBlue};
-    
+    color: ${(props) => props.theme.color.$darkBlue};
+
     &:hover {
-      color: ${props => props.theme.color.$blue};
+      color: ${(props) => props.theme.color.$blue};
     }
-    
+
     &:focus {
-      color: ${props => props.theme.color.$darkBlue};
+      color: ${(props) => props.theme.color.$darkBlue};
     }
   }
 `;
 
 export const HeaderWrapper = styled.div`
-  max-width: ${props => props.theme.layout.$SidebarWidth}px;
+  display: flex;
+  justify-content: space-between;
   padding: 16px;
-  border-top: 4px solid ${props => props.theme.color.$Orange};
-  border-right: 2px solid ${props => props.theme.color.$GrayBorder};
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 99;
+  border-top: 4px solid #2a4c7e;
   background-color: white;
-  
-  @media screen and (min-width: ${props => props.theme.layout.$MobileWidth}px) {
+
+  @media screen and (min-width: ${(props) =>
+      props.theme.layout.$MobileWidth}px) {
     ${MobileNav} {
       display: none;
     }
   }
-  
-  @media screen and (max-width: ${props => props.theme.layout.$MobileWidth - 1}px) {
+
+  @media screen and (max-width: ${(props) =>
+      props.theme.layout.$MobileWidth - 1}px) {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -95,16 +88,12 @@ export const HeaderWrapper = styled.div`
     right: 0;
     max-width: 100%;
     border-right: 0;
-    border-bottom: 2px solid ${props => props.theme.color.$Gray};
-    
-    ${LogoWrapper} {
-      margin-bottom: 0;
-    }
-    
+    border-bottom: 2px solid ${(props) => props.theme.color.$Gray};
+
     ${LogoImg} {
       max-width: 80px;
     }
-    
+
     ${Navigation} {
       display: none;
     }

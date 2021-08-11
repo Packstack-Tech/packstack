@@ -29,7 +29,7 @@ export default class BaseApi implements Api {
     makeRequestConfig(cfg?: AxiosRequestConfig): AxiosRequestConfig {
         const config: AxiosRequestConfig = cfg || {};
         const headers = config.headers || {};
-        const baseURL = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_PROD : process.env.REACT_APP_API_DEV;
+        const baseURL = process.env.REACT_APP_API_URL;
 
         const defaultHeaders = this.makeDefaultHeaders();
         return {

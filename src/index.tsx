@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/browser';
 import { ThemeProvider } from "styled-components";
@@ -12,7 +11,8 @@ import WithAnalytics from 'app/components/higher-order/with-analytics';
 import { HistoryListener } from 'react-router-navigation-confirm';
 
 import { theme } from 'styles/theme';
-import 'styles/style.less';
+import 'antd/dist/antd.css'
+import 'styles/style.css';
 
 Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DNS });
 

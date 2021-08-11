@@ -2,13 +2,7 @@ import styled from 'styled-components';
 import { InventoryItem } from "app/components/InventorySidebar/styles";
 
 export const Container = styled.div`
-  display: flex;
-  margin-left: ${props => props.theme.layout.$SidebarWidth}px;
-  
-  @media screen and (max-width: ${props => props.theme.layout.$MobileWidth - 1}px) {
-    margin-left: 0;
-    display: block;
-  }
+  display: block;
 `;
 
 export const Box = styled.div`
