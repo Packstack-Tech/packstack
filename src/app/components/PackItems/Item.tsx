@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Tooltip } from "antd";
+import { Tooltip, Button } from "antd";
 import { CloseCircleFilled } from "@ant-design/icons";
 
 import { PackItem } from "types/item";
@@ -66,9 +66,13 @@ const Item: React.FC<ItemProps> = ({ item, removeItem, updateItem, index }) => {
                     mouseEnterDelay={0.25}
                     style={{ padding: "8px", textAlign: "center" }}
                   >
-                    <button onClick={() => updateItem(item.id, "worn", !worn)}>
+                    <Button
+                      type="ghost"
+                      className="ant-btn-icon-only"
+                      onClick={() => updateItem(item.id, "worn", !worn)}
+                    >
                       <ShirtIcon />
-                    </button>
+                    </Button>
                   </Tooltip>
                 </WornIndicator>
               </div>

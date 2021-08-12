@@ -5,12 +5,9 @@ export const SidebarWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  background-color: #FFF;
-  border-left: 2px solid ${props => props.theme.color.$GrayBorder};
-  
-  @media screen and (max-width: ${props => props.theme.layout.$MobileWidth - 1}px) {
-    width: 100%;
-  }
+  background-color: #fff;
+  border: 2px solid ${(props) => props.theme.color.$GrayBorder};
+  margin: 0 24px;
 `;
 
 export const Content = styled.div`
@@ -18,12 +15,12 @@ export const Content = styled.div`
 `;
 
 export const Header = styled.div`
-  color: ${props => props.theme.color.$LightBlue};
+  color: ${(props) => props.theme.color.$LightBlue};
   margin: 24px 16px 0;
   padding-bottom: 8px;
   font-family: "Roboto Condensed", sans-serif;
   font-size: 1.35em;
   font-weight: 700;
   text-transform: uppercase;
-  border-bottom: 4px solid ${props => props.theme.color.$Dark};
+  border-bottom: 4px solid #e1eaec;
 `;

@@ -1,14 +1,18 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import { InventoryItem } from "app/components/InventorySidebar/styles";
 
 export const Container = styled.div`
   display: flex;
+
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+  }
 `;
 
 export const Box = styled.div`
   padding: 24px;
-  border: 1px solid ${props => props.theme.color.$GrayBorder};
-  box-shadow: 2px 2px 2px rgba(0,0,0,.05);
+  border: 1px solid ${(props) => props.theme.color.$GrayBorder};
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.05);
   border-radius: 2px;
   background-color: #fff;
 `;
@@ -18,13 +22,12 @@ export const SidebarContainer = styled.div`
 `;
 
 export const PageWrapper = styled.div`
+  width: 100%;
   max-width: 1600px;
-  margin: 40px auto 0;
-  padding: 0 48px;
-  flex: 1;
-  
+  margin: 0 auto;
+  padding: 0 24px;
+
   @media screen and (max-width: 660px) {
-    margin-top: 80px;
     padding: 0 8px;
   }
 `;
@@ -34,15 +37,15 @@ export const PageTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  
+
   h1 {
     font-family: "Lato", sans-serif;
-    color: ${props => props.theme.color.$Black};
+    color: ${(props) => props.theme.color.$Black};
     font-weight: 900;
     font-size: 1.75rem;
     margin-bottom: 8px;
   }
-  
+
   @media screen and (max-width: 660px) {
     flex-direction: column;
   }
@@ -59,12 +62,13 @@ export const SectionHeader = styled.div`
   grid-template-columns: minmax(auto, auto) 80px 10px;
   padding: 8px 20px 8px 8px;
   border-radius: 2px;
-  border-bottom: 3px solid ${props => props.theme.hexOpacity(props.theme.color.$GrayBlue, 5)};
-  background-color: ${props => props.theme.color.$LightGray};
-  
+  border-bottom: 3px solid
+    ${(props) => props.theme.hexOpacity(props.theme.color.$GrayBlue, 5)};
+  background-color: ${(props) => props.theme.color.$LightGray};
+
   h3 {
     font-family: "Roboto Condensed", sans-serif;
-    color: ${props => props.theme.color.$Dark};
+    color: ${(props) => props.theme.color.$Dark};
     font-size: 14px;
     text-transform: uppercase;
     margin-bottom: 0;
@@ -73,8 +77,8 @@ export const SectionHeader = styled.div`
     float: left;
   }
   strong {
-    text-align:right;
-    padding-top:5px;
+    text-align: right;
+    padding-top: 5px;
   }
 `;
 
@@ -83,7 +87,7 @@ export const Controls = styled.div`
   align-items: center;
 `;
 
-export const CategoryGroup = styled.div` 
+export const CategoryGroup = styled.div`
   padding-bottom: 24px;
   ${InventoryItem}:last-of-type {
     border-bottom: none;
@@ -100,77 +104,77 @@ export const Grid = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  
+
   .quarter {
     width: 25%;
   }
-  
+
   .half {
     width: 50%;
   }
-  
+
   .three-quarters {
     width: 75%;
   }
-  
+
   .third {
     width: 33%;
   }
-  
+
   .forty {
     width: 40%;
   }
-  
+
   .sixty {
     width: 60%;
   }
-  
+
   .two-thirds {
     width: 66%;
   }
-  
+
   &.narrow > div {
     margin: 0 12px;
   }
-  
+
   > div {
     margin: 0 24px;
   }
-  
+
   > div:first-of-type {
     margin-left: 0;
   }
-  
+
   > div:last-of-type {
     margin-right: 0;
   }
-  
+
   &.horizontal-center {
     align-items: center;
   }
-  
+
   &.align-bottom {
     align-items: flex-end;
   }
-  
+
   .align-right {
     display: flex;
     justify-content: flex-end;
     align-items: center;
   }
-  
-  @media (max-width: ${props => props.theme.layout.$MobileWidth}px) {
+
+  @media (max-width: ${(props) => props.theme.layout.$MobileWidth}px) {
     flex-direction: column;
-    
+
     > div {
       width: 100% !important;
       margin-left: 0 !important;
       margin-right: 0 !important;
     }
-    
+
     &.column-reverse {
       flex-direction: column-reverse;
-      
+
       > div {
         margin-bottom: 24px;
       }
@@ -179,7 +183,7 @@ export const Grid = styled.div`
 `;
 
 export const helpIconStyles = {
-    fontSize: '10px',
-    marginLeft: '8px',
-    color: '#666'
+  fontSize: "10px",
+  marginLeft: "8px",
+  color: "#666",
 };

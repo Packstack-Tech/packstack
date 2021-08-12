@@ -49,7 +49,9 @@ export const HeaderWrapper = styled.div`
   justify-content: space-between;
   padding: 16px;
   border-top: 4px solid #2a4c7e;
+  border-bottom: 1px solid #eee;
   background-color: white;
+  margin-bottom: 24px;
 
   @media screen and (min-width: ${(props) =>
       props.theme.layout.$MobileWidth}px) {
