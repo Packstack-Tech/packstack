@@ -4,6 +4,7 @@ import FileDownload from "js-file-download";
 import * as Yup from "yup";
 import { Formik, FormikProps } from "formik";
 import { Row, Col, Button } from "antd";
+import { RollbackOutlined } from "@ant-design/icons";
 import { Input, Select, Textarea } from "app/components/FormFields";
 import { Option } from "app/components/FormFields/types";
 
@@ -133,10 +134,9 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
       // show the new item form with a FAB to return to the inventory list
       return (
         <div>
-          <ItemForm onSubmit={onNewItemCreated}></ItemForm>
+          <ItemForm onSubmit={onNewItemCreated} />
           <FloatingActionButton
-            icon="rollback"
-            visible={true}
+            icon={<RollbackOutlined />}
             onClick={cancelNewItem}
             tooltip="Go back to the inventory list"
           ></FloatingActionButton>
@@ -194,13 +194,13 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
       <Formik
         initialValues={{
           title: packData?.title || "",
-          description: packData ? packData.description : "",
-          duration: packData ? packData.duration : undefined,
-          duration_unit: packData ? packData.duration_unit : undefined,
-          temp_range: packData ? packData.temp_range : "",
-          season: packData ? packData.season : "",
-          gender: packData ? packData.gender : undefined,
-          public: packData ? packData.public : false,
+          description: packData?.description || "",
+          duration: packData?.duration || undefined,
+          duration_unit: packData?.duration_unit || undefined,
+          temp_range: packData?.temp_range || "",
+          season: packData?.season || "",
+          gender: packData?.gender || undefined,
+          public: packData?.public || false,
         }}
         validationSchema={Yup.object().shape({
           title: Yup.string().required("Trail name or location is required."),
@@ -247,8 +247,13 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
               <PageTitle>
                 <h1>{statusLabel} Packing List</h1>
                 <Controls>
-                  {packId && packData && packData.public && (
-                    <a href={getPackPath(packId, values.title)}>View pack</a>
+                  {packId && packData?.public && (
+                    <a
+                      href={getPackPath(packId, values.title)}
+                      style={{ marginRight: "8px" }}
+                    >
+                      View pack
+                    </a>
                   )}
                   <Button type="primary" onClick={submitForm}>
                     {saveBtnLabel} Pack
@@ -260,7 +265,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
                 <Grid>
                   <div className="two-thirds">
                     <Input
-                      label="Location / Trail"
+                      label="Location / Trail Name"
                       placeholder="Isle Royale National Park"
                       error={wasSubmitted && !!errors.title}
                       errorMsg={errors.title}
@@ -274,7 +279,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
 
                     <Textarea
                       label="Field Notes"
-                      placeholder="Additional notes about this trip..."
+                      placeholder="What would someone want to know when preparing for this trip?"
                       value={values.description || ""}
                       onChange={(v) => {
                         setFieldValue("description", v);
@@ -367,7 +372,8 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
                         setFieldValue("public", v);
                         setHasPendingChanges(true);
                       }}
-                      tip="When public, the pack will be viewable by anyone with a link"
+                      tip="Public packs have access to the weight breakdown page."
+                      style={{ marginTop: "8px" }}
                     />
                   </div>
                 </Grid>
