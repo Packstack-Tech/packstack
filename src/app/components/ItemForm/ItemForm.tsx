@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import FileDownload from "js-file-download";
 import { Formik, FormikProps } from "formik";
 import { Row, Col, Button } from "antd";
-import { UploadOutlined } from '@ant-design/icons'
+import { UploadOutlined } from "@ant-design/icons";
 import { Input, Select, SelectCreatable } from "../FormFields";
 import { Option } from "app/components/FormFields/types";
 
