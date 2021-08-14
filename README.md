@@ -2,9 +2,7 @@
 
 Packstack makes it easy for backpackers to plan their expeditions. At its core, Packstack features a flexible, versatile gear inventory management system that makes building packing lists simple.
 
-Packstack is built with React, Typescript, NodeJS, Docker and Postgres.
-
-The latest release can be found at [Packstack.io](https://packstack.io)
+The latest release can be found at [Packstack.io](https://app.packstack.io)
 
 Join us on [Slack](https://join.slack.com/t/packstackio/shared_invite/enQtODk3NTA2NDY0MzIyLWExMzk1YzMwYWFmMzIzY2Q3NDNkNTJjMjBkOGM4MGExYzE1ZTgxZDYwODJlN2ZjOWIyMzMzYmVjNjQ3MDQzYzU).
 

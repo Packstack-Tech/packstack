@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Lato:400,900|Roboto+Condensed:400,700&display=swap');
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+html {
+  font-size: 1em;
+}
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #ccc;
+}
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #ccc;
+}
+:-ms-input-placeholder {
+  /* IE 10+ */
+  color: #ccc;
+}
+:-moz-placeholder {
+  /* Firefox 18- */
+  color: #ccc;
+}
+body {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.65);
+  font-family: "Open Sans", sans-serif;
+  line-height: 1;
+}
+body p {
+  line-height: 1.5rem;
+}
+body .ant-form-item label {
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1rem;
+  color: #30475F;
+}
+body .ant-form-item-label {
+  line-height: 1rem;
+  margin-bottom: 8px;
+}
+body .ant-tooltip-inner {
+  padding: 8px;
+  text-align: center;
+  line-height: 1.25rem;
+  width: fit-content;
+}
+body .ant-spin-dot {
+  font-size: 30px;
+  width: 1.75rem;
+  height: 1.75rem;
+}
+body .ant-form-explain {
+  margin-top: 3px;
+}
+body .ant-table-tbody > tr > td {
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+  padding: 12px 8px !important;
+}
+body textarea.ant-input {
+  line-height: 1.75rem;
+}
+body h2 {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1rem;
+  margin-bottom: 0;
+  color: #006788;
+}
+body .pack-title h2:hover {
+  color: #4183C4;
+}
+body h3 {
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+  line-height: 1rem;
+}
+body .remove-link {
+  color: #888;
+}
+body .remove-link:hover {
+  color: #F88762;
+}
+.item-name {
+  font-weight: 700;
+}
+.mobile-nav .ant-dropdown-menu-item {
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: "Open Sans", sans-serif;
+}
+.navigation-confirm-modal-footer {
+  font-family: "Open Sans", sans-serif;
+  margin: 0.3em;
+  float: right;
+}
+.navigation-confirm-modal-footer button {
+  margin: 0.3em;
+}
+.navigation-confirm-modal-body {
+  font-family: "Open Sans", sans-serif;
+  margin: 0.8em 0.5em;
+}
+@media screen and (max-width: 660px) {
+  html {
+    font-size: 0.85em;
+  }
+}
