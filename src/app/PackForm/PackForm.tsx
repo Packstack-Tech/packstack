@@ -222,6 +222,7 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
             });
             updatePack(payload)
               .then(() => {
+                getData(packId);
                 alertSuccess({ message: "Packing list saved" });
                 setHasPendingChanges(false);
               })
@@ -364,16 +365,14 @@ const PackForm: React.FC<PackFormSpecs.Props> = ({
                       </Col>
                     </Row>
                     <SwitchInput
-                      label="Pack Privacy"
+                      label="Public"
                       checked={values.public}
-                      checkedText="Public"
-                      uncheckedText="Private"
                       onChange={(v) => {
                         setFieldValue("public", v);
                         setHasPendingChanges(true);
                       }}
-                      tip="Public packs have access to the weight breakdown page."
-                      style={{ marginTop: "8px" }}
+                      tip="Making your pack public gives you access to the list view."
+                      style={{ marginTop: "12px" }}
                     />
                   </div>
                 </Grid>
