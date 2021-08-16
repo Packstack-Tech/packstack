@@ -1,6 +1,10 @@
 import * as React from "react";
 import { Menu, Dropdown } from "antd";
-import { CaretDownFilled, CheckCircleFilled, PlusOutlined } from "@ant-design/icons";
+import {
+  CaretDownFilled,
+  CheckCircleFilled,
+  PlusOutlined,
+} from "@ant-design/icons";
 
 import { Item } from "types/item";
 import { Category } from "types/category";
@@ -80,10 +84,12 @@ const InventorySidebar: React.FC<SidebarProps> = ({
   const renderInventory = () => {
     const cats = categoryFilter ? [categoryFilter] : categories;
     return cats.map((category) => {
-      let catItems = items.filter((i) => i.categoryId === category.id);
-      catItems = searchItems(catItems, filterText);
+      const categoryItems = items.filter((i) => i.categoryId === category.id);
+      const filteredItem = !!filterText
+        ? searchItems(categoryItems, filterText)
+        : categoryItems;
 
-      if (!catItems.length) {
+      if (!filteredItem.length) {
         return null;
       }
 
@@ -92,7 +98,7 @@ const InventorySidebar: React.FC<SidebarProps> = ({
           <CategoryHeader>
             <h3>{category.name}</h3>
           </CategoryHeader>
-          {renderCategoryItems(catItems)}
+          {renderCategoryItems(filteredItem)}
         </CategoryGroup>
       );
     });

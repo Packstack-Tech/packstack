@@ -1,22 +1,19 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import DocumentTitle from "react-document-title";
 
 import { InventorySpecs } from "./types";
 import { Item as ItemType } from "types/item";
 import { Category } from "types/category";
 
-import { AppContext } from "AppContext";
 import withApi from "app/components/higher-order/with-api";
 import ItemForm from "app/components/ItemForm";
 import { MessageArea } from "app/components/MessageArea";
 import Loading from "app/components/Loading";
 import { useSidebar } from "app/components/Sidebar/Context";
-import { Input, Select } from "app/components/FormFields";
-import { Option } from "app/components/FormFields/types";
+import { Input } from "app/components/FormFields";
 
 import { getCategories } from "lib/utils/categories";
 import { searchItems } from "lib/utils/search";
-import { weightUnitOptions } from "lib/utils/form";
 
 import Table from "./Table";
 import { PageTitle, PageDescription, PageWrapper } from "styles/common";
@@ -24,12 +21,7 @@ import { PageTitle, PageDescription, PageWrapper } from "styles/common";
 const Inventory: React.FC<InventorySpecs.Props> = ({
   getItems,
   updateItem,
-  updateUser,
 }) => {
-  const { userInfo: user, fetchUser } = useContext(AppContext);
-  const [defaultUnit, setDefaultUnit] = useState(
-    user ? user.default_weight_unit : ""
-  );
   const [items, setItems] = useState<ItemType[]>([]);
   const [filterText, setFilterText] = useState<string>("");
   const [categories, setCategories] = useState<Category[]>([]);
@@ -44,9 +36,9 @@ const Inventory: React.FC<InventorySpecs.Props> = ({
     return function cleanup() {
       dispatch({ type: "reset" });
     };
-  }, [user]);
+  }, []);
 
-  function fetchItems() {
+  const fetchItems = useCallback(() => {
     getItems()
       .then((items) => {
         const categories = getCategories(items);
@@ -59,19 +51,21 @@ const Inventory: React.FC<InventorySpecs.Props> = ({
         setLoading(false);
       })
       .catch((err) => console.warn(err));
-  }
+  }, [getItems]);
 
-  function renderTables() {
+  const categoryTables = useMemo(() => {
     const tables = categories.map((cat) => {
-      let catItems = items.filter((i) => i.categoryId === cat.id);
-      catItems = searchItems(catItems, filterText);
+      const categoryItems = items.filter((i) => i.categoryId === cat.id);
+      const filteredItem = !!filterText
+        ? searchItems(categoryItems, filterText)
+        : categoryItems;
 
-      if (!catItems.length) return null;
+      if (!filteredItem.length) return null;
       return (
         <Table
           key={cat.id}
           category={cat}
-          items={catItems}
+          items={filteredItem}
           fetchItems={fetchItems}
           updateItem={updateItem}
         />
@@ -79,14 +73,14 @@ const Inventory: React.FC<InventorySpecs.Props> = ({
     });
 
     return <div style={{ minWidth: "100%" }}>{tables}</div>;
-  }
+  }, [filterText, categories, items, fetchItems, updateItem]);
 
   const renderEmptyList = () => (
     <MessageArea>Get started by adding your inventory.</MessageArea>
   );
 
   const InventoryTable = !!categories.length
-    ? renderTables()
+    ? categoryTables
     : renderEmptyList();
   return (
     <DocumentTitle title={`Packstack | Inventory`}>
@@ -116,22 +110,9 @@ const Inventory: React.FC<InventorySpecs.Props> = ({
               <Input
                 placeholder="search items..."
                 value={filterText}
-                style={{ width: "50%" }}
-                onChange={(v) => setFilterText(v.toString())}
+                style={{ width: "75%" }}
+                onChange={(v) => setFilterText(`${v}`)}
                 last={true}
-              />
-              <Select
-                label="Default Weight Unit"
-                defaultValue={{
-                  value: defaultUnit,
-                  label: defaultUnit,
-                }}
-                last={true}
-                options={weightUnitOptions()}
-                onChange={(option: Option<string>) => {
-                  setDefaultUnit(option.value);
-                  updateUser(user!.username, option.value).then(fetchUser);
-                }}
               />
             </div>
             {InventoryTable}
