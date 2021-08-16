@@ -6,12 +6,8 @@ import { Item as ItemType } from "types/item";
 import { Update } from "types/api/item";
 
 import { AppContext } from "AppContext";
-import {
-  Input,
-  SelectCreatable,
-  Select,
-} from "app/components/FormFields";
-import { Option } from 'app/components/FormFields/types'
+import { Input, SelectCreatable, Select } from "app/components/FormFields";
+import { Option } from "app/components/FormFields/types";
 import { alertSuccess, alertWarn } from "app/components/Notifications";
 import EditItem from "app/components/EditItem";
 import { DotIcon } from "app/components/Icons";
