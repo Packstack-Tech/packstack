@@ -13,7 +13,6 @@ import {
   HeaderWrapper,
   Navigation,
   MobileNav,
-  NavItem,
 } from "./styles";
 
 import Logo from "assets/packstack_logo_horizontal_blue_sm.png";
@@ -24,16 +23,27 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
 
   const renderAuthenticatedNav = () => (
     <>
-      <NavItem onClick={() => history.push(INVENTORY)}>Inventory</NavItem>
-      <NavItem onClick={() => history.push(NEW_PACK)}>Create Pack</NavItem>
-      <NavItem onClick={() => history.push(PROFILE)}>My Packs</NavItem>
+      <Button onClick={() => history.push(INVENTORY)}>Inventory</Button>
+      <Button onClick={() => history.push(PROFILE)}>Packs</Button>
+      <Button onClick={() => history.push(NEW_PACK)}>
+        Create Pack
+      </Button>
+      <a
+        href="https://www.reddit.com/r/packstack/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <Button type="dashed">Discuss</Button>
+      </a>
     </>
   );
 
   const renderUnauthenticatedNav = () => (
     <>
-      <NavItem onClick={() => history.push(LOGIN)}>Sign In</NavItem>
-      <NavItem onClick={() => history.push(REGISTER)}>Register</NavItem>
+      <Button onClick={() => history.push(LOGIN)}>Sign In</Button>
+      <Button type="primary" onClick={() => history.push(REGISTER)}>
+        Register
+      </Button>
     </>
   );
 
@@ -46,7 +56,7 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
         <Link to={NEW_PACK}>Create Pack</Link>
       </Menu.Item>
       <Menu.Item key={PROFILE}>
-        <Link to={PROFILE}>My Packs</Link>
+        <Link to={PROFILE}>Packs</Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="logout" onClick={() => app.logout()}>

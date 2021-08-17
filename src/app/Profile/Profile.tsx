@@ -68,7 +68,7 @@ class Profile extends React.Component<ProfileSpecs.Props, ProfileSpecs.State> {
       <DocumentTitle title={`Packstack | My Packs`}>
         <>
           <PageTitle>
-            <h1>My Packs</h1>
+            <h1>Packs</h1>
           </PageTitle>
           <Grid>
             <div className="two-thirds">

@@ -6,29 +6,13 @@ export const LogoImg = styled.img`
 
 export const MobileNav = styled.div``;
 
-export const NavItem = styled.a`
-  font-family: "Roboto Condensed", sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  display: block;
-  text-transform: uppercase;
-  padding: 4px 0;
-  margin: 4px 0;
-  color: ${(props) => props.theme.color.$Dark};
-  transition: 0.2s color;
-  margin-left: 16px;
-
-  &:hover {
-    cursor: pointer;
-    color: ${(props) => props.theme.color.$Orange};
-  }
-`;
-
 export const Navigation = styled.div`
   display: flex;
+  align-items: center;
 
   button {
     font-weight: 700;
+    margin-left: 8px;
   }
 
   button:not(.ant-btn-primary) {
