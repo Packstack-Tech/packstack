@@ -1,10 +1,15 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const LogoImg = styled.img`
   max-width: 140px;
-`;
+`
 
-export const MobileNav = styled.div``;
+export const MobileNav = styled.div``
+
+export const DonateBtn = styled.a`
+  font-weight: 700;
+  color: ${(props) => props.theme.color.$Green} !important;
+`
 
 export const Navigation = styled.div`
   display: flex;
@@ -12,7 +17,6 @@ export const Navigation = styled.div`
 
   button {
     font-weight: 700;
-    margin-left: 8px;
   }
 
   button:not(.ant-btn-primary) {
@@ -26,7 +30,7 @@ export const Navigation = styled.div`
       color: ${(props) => props.theme.color.$darkBlue};
     }
   }
-`;
+`
 
 export const HeaderWrapper = styled.div`
   display: flex;
@@ -63,4 +67,4 @@ export const HeaderWrapper = styled.div`
       display: none;
     }
   }
-`;
+`

@@ -1,42 +1,74 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
-import { withRouter, RouteComponentProps } from "react-router";
-import { Button, Menu, Dropdown } from "antd";
-import { ArrowDownOutlined } from "@ant-design/icons";
+import * as React from "react"
+import { Link } from "react-router-dom"
+import { withRouter, RouteComponentProps } from "react-router"
+import { Button, Menu, Dropdown } from "antd"
+import { ArrowDownOutlined, EllipsisOutlined } from "@ant-design/icons"
 
-import { INVENTORY, NEW_PACK, PROFILE, LOGIN, REGISTER } from "routes";
+import { INVENTORY, NEW_PACK, PROFILE, LOGIN, REGISTER } from "routes"
 
-import { AppContext } from "AppContext";
+import { AppContext } from "AppContext"
 
 import {
   LogoImg,
   HeaderWrapper,
   Navigation,
   MobileNav,
-} from "./styles";
+  DonateBtn,
+} from "./styles"
 
-import Logo from "assets/packstack_logo_horizontal_blue_sm.png";
+import Logo from "assets/packstack_logo_horizontal_blue_sm.png"
 
 const Header: React.FC<RouteComponentProps> = ({ history }) => {
-  const app = React.useContext(AppContext);
-  const loggedIn = !!app.userInfo;
+  const app = React.useContext(AppContext)
+  const loggedIn = !!app.userInfo
+
+  const additionalOptions = (
+    <Menu>
+      <Menu.Item>
+        <DonateBtn
+          href="https://www.patreon.com/packstack"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Donate
+        </DonateBtn>
+      </Menu.Item>
+      <Menu.Item>
+        <a
+          href="https://www.reddit.com/r/packstack/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Feedback
+        </a>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="logout" onClick={() => app.logout()}>
+        Logout
+      </Menu.Item>
+    </Menu>
+  )
 
   const renderAuthenticatedNav = () => (
     <>
-      <Button onClick={() => history.push(INVENTORY)}>Inventory</Button>
-      <Button onClick={() => history.push(PROFILE)}>Packs</Button>
-      <Button onClick={() => history.push(NEW_PACK)}>
+      <Button onClick={() => history.push(INVENTORY)} type="text">
+        Inventory
+      </Button>
+      <Button onClick={() => history.push(PROFILE)} type="text">
+        Packs
+      </Button>
+      <Button onClick={() => history.push(NEW_PACK)} type="text">
         Create Pack
       </Button>
-      <a
-        href="https://www.reddit.com/r/packstack/"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <Button type="dashed">Discuss</Button>
-      </a>
+      <Dropdown overlay={additionalOptions}>
+        <Button
+          icon={<EllipsisOutlined />}
+          shape="circle"
+          style={{ marginLeft: 8 }}
+        />
+      </Dropdown>
     </>
-  );
+  )
 
   const renderUnauthenticatedNav = () => (
     <>
@@ -45,7 +77,7 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
         Register
       </Button>
     </>
-  );
+  )
 
   const mobileAuthMenu = () => (
     <Menu className="mobile-nav">
@@ -59,11 +91,30 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
         <Link to={PROFILE}>Packs</Link>
       </Menu.Item>
       <Menu.Divider />
+      <Menu.Item>
+        <DonateBtn
+          href="https://www.patreon.com/packstack"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Donate
+        </DonateBtn>
+      </Menu.Item>
+      <Menu.Item>
+        <a
+          href="https://www.reddit.com/r/packstack/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Feedback
+        </a>
+      </Menu.Item>
+      <Menu.Divider />
       <Menu.Item key="logout" onClick={() => app.logout()}>
         Logout
       </Menu.Item>
     </Menu>
-  );
+  )
 
   const mobileUnauthMenu = () => (
     <Menu className="mobile-nav">
@@ -74,13 +125,13 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
         <Link to={REGISTER}>Register</Link>
       </Menu.Item>
     </Menu>
-  );
+  )
 
   const navState = loggedIn
     ? renderAuthenticatedNav()
-    : renderUnauthenticatedNav();
-  const mobileNavState = loggedIn ? mobileAuthMenu() : mobileUnauthMenu();
-  const navigation = app.isBooting ? null : navState;
+    : renderUnauthenticatedNav()
+  const mobileNavState = loggedIn ? mobileAuthMenu() : mobileUnauthMenu()
+  const navigation = app.isBooting ? null : navState
 
   return (
     <HeaderWrapper>
@@ -100,7 +151,7 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
         </Dropdown>
       </MobileNav>
     </HeaderWrapper>
-  );
-};
+  )
+}
 
-export default withRouter(Header);
+export default withRouter(Header)
