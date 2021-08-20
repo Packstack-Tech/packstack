@@ -42,6 +42,15 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
           Feedback
         </a>
       </Menu.Item>
+      <Menu.Item>
+        <a
+          href="https://github.com/Packstack-Tech"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Open Source
+        </a>
+      </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="logout" onClick={() => app.logout()}>
         Logout
@@ -107,6 +116,15 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
           rel="noreferrer"
         >
           Feedback
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a
+          href="https://github.com/Packstack-Tech"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Open Source
         </a>
       </Menu.Item>
       <Menu.Divider />
