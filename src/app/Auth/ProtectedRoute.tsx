@@ -1,30 +1,26 @@
-import * as React from 'react';
-import { Redirect, Route } from "react-router";
+import * as React from "react"
+import { Redirect, Route } from "react-router"
+import { useUserQuery } from "queries/user"
 
-import { LOGIN } from "routes";
-import AppConsumer from 'AppContext';
+import { LOGIN } from "routes"
 
 interface ProtectedProps {
-    component: React.ComponentType<any>;
-    path: string;
+  component: React.ComponentType<any>
+  path: string
 }
 
 const ProtectedRoute: React.FC<ProtectedProps> = ({ component, path }) => {
-    return (
-        <AppConsumer>
-            {app => {
-                if (app.isBooting) {
-                    return null;
-                }
+  const user = useUserQuery()
 
-                if (app.userInfo) {
-                    return <Route path={path} component={component} />
-                }
+  if (user.isLoading) {
+    return null
+  }
 
-                return <Redirect to={LOGIN} />
-            }}
-        </AppConsumer>
-    )
-};
+  if (user.data) {
+    return <Route path={path} component={component} />
+  }
 
-export default ProtectedRoute;
+  return <Redirect to={LOGIN} />
+}
+
+export default ProtectedRoute

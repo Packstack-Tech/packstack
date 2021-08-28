@@ -1,26 +1,23 @@
-import * as React from "react";
-import * as Yup from "yup";
-import { Link, Redirect } from "react-router-dom";
-import { Button, Alert } from "antd";
-import { Formik, FormikProps } from "formik";
+import { FC, useState } from "react"
+import * as Yup from "yup"
+import { useHistory } from "react-router"
+import { Link } from "react-router-dom"
+import { Button, Alert } from "antd"
+import { Formik, FormikProps } from "formik"
 
-import { INVENTORY, REQUEST_RESET, REGISTER } from "routes";
-import { LoginSpecs } from "./types";
+import { INVENTORY, REQUEST_RESET, REGISTER } from "routes"
+import { LoginSpecs } from "./types"
 
-import { AppContext } from "AppContext";
-import { Input } from "app/components/FormFields";
-import withApi from "app/components/higher-order/with-api";
+import { Input } from "app/components/FormFields"
+import { useUserLogin } from "queries/user"
 
-import { Box } from "styles/common";
-import { AuthWrapper, BottomTray, AuthPage } from "./styles";
+import { Box } from "styles/common"
+import { AuthWrapper, BottomTray, AuthPage } from "./styles"
 
-const LoginPage: React.FC<LoginSpecs.Props> = ({ login, history }) => {
-  const [authError, setAuthError] = React.useState<boolean>(false);
-  const app = React.useContext(AppContext);
-
-  if (app.userInfo) {
-    return <Redirect to={INVENTORY} />;
-  }
+export const Login: FC = () => {
+  const [authError, setAuthError] = useState<boolean>(false)
+  const history = useHistory()
+  const userLogin = useUserLogin()
 
   return (
     <Formik
@@ -28,16 +25,20 @@ const LoginPage: React.FC<LoginSpecs.Props> = ({ login, history }) => {
         emailOrUsername: "",
         password: "",
       }}
-      onSubmit={(values, formikActions) => {
-        setAuthError(false);
-        login(values.emailOrUsername, values.password)
-          .then((resp) =>
-            app.setAuthToken(resp.authToken).then(() => history.push(INVENTORY))
-          )
-          .catch(() => {
-            setAuthError(true);
-            formikActions.setSubmitting(false);
-          });
+      onSubmit={({ emailOrUsername, password }, formikActions) => {
+        setAuthError(false)
+        userLogin.mutate(
+          { emailOrUsername, password },
+          {
+            onSuccess: () => {
+              history.push(INVENTORY)
+            },
+            onError: () => {
+              setAuthError(true)
+              formikActions.setSubmitting(false)
+            },
+          }
+        )
       }}
       validationSchema={Yup.object().shape({
         emailOrUsername: Yup.string().required("Email or Username is required"),
@@ -52,8 +53,8 @@ const LoginPage: React.FC<LoginSpecs.Props> = ({ login, history }) => {
           submitForm,
           submitCount,
           isSubmitting,
-        } = props;
-        const wasSubmitted = submitCount > 0;
+        } = props
+        const wasSubmitted = submitCount > 0
 
         return (
           <AuthPage>
@@ -104,14 +105,8 @@ const LoginPage: React.FC<LoginSpecs.Props> = ({ login, history }) => {
               </Box>
             </AuthWrapper>
           </AuthPage>
-        );
+        )
       }}
     </Formik>
-  );
-};
-
-const LoginWithApi = withApi<LoginSpecs.ApiProps>((api) => ({
-  login: api.UserService.login,
-}))(LoginPage);
-
-export default LoginWithApi;
+  )
+}

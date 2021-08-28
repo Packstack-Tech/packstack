@@ -1,5 +1,6 @@
-import { lazy, Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
+import { lazy, Suspense } from "react"
+import { Route, Switch } from "react-router-dom"
+import { useUserQuery } from "queries/user"
 
 import {
   REGISTER,
@@ -9,42 +10,47 @@ import {
   PROFILE,
   REQUEST_RESET,
   RESET_PASSWORD,
-} from "./routes";
+} from "./routes"
 
-import ProtectedRoute from "app/Auth/ProtectedRoute";
+import { Login } from "app/Auth/Login"
+import { Register } from "app/Auth/Register"
 
-import { Container } from "styles/common";
-import Header from "app/components/Header";
-import { Sidebar, SidebarContext } from "app/components/Sidebar";
+import ProtectedRoute from "app/Auth/ProtectedRoute"
 
-const Login = lazy(() => import("app/Auth/Login"));
-const Registration = lazy(() => import("app/Auth/Register"));
-const RequestReset = lazy(() => import("app/Auth/RequestReset"));
-const ResetPassword = lazy(() => import("app/Auth/ResetPassword"));
-const Inventory = lazy(() => import("app/Inventory"));
-const PackForm = lazy(() => import("app/PackForm"));
-const Profile = lazy(() => import("app/Profile"));
+import { Container } from "styles/common"
+import Header from "app/components/Header"
+import { Sidebar, SidebarContext } from "app/components/Sidebar"
 
-const App = () => (
-  <div>
-    <Header />
-    <Container>
-      <SidebarContext>
-        <Suspense fallback={<div style={{ flex: 1 }} />}>
-          <Switch>
-            <Route path={LOGIN} exact component={Login} />
-            <Route path={REGISTER} component={Registration} />
-            <Route path={REQUEST_RESET} component={RequestReset} />
-            <Route path={RESET_PASSWORD} component={ResetPassword} />
-            <ProtectedRoute path={INVENTORY} component={Inventory} />
-            <ProtectedRoute path={PACK_FORM} component={PackForm} />
-            <ProtectedRoute path={PROFILE} component={Profile} />
-          </Switch>
-        </Suspense>
-        <Sidebar />
-      </SidebarContext>
-    </Container>
-  </div>
-);
+const RequestReset = lazy(() => import("app/Auth/RequestReset"))
+const ResetPassword = lazy(() => import("app/Auth/ResetPassword"))
+const Inventory = lazy(() => import("app/Inventory"))
+const PackForm = lazy(() => import("app/PackForm"))
+const Profile = lazy(() => import("app/Profile"))
 
-export default App;
+const App = () => {
+  useUserQuery()
+
+  return (
+    <div>
+      <Header />
+      <Container>
+        <SidebarContext>
+          <Suspense fallback={<div style={{ flex: 1 }} />}>
+            <Switch>
+              <Route path={LOGIN} exact component={Login} />
+              <Route path={REGISTER} component={Register} />
+              <Route path={REQUEST_RESET} component={RequestReset} />
+              <Route path={RESET_PASSWORD} component={ResetPassword} />
+              <ProtectedRoute path={INVENTORY} component={Inventory} />
+              <ProtectedRoute path={PACK_FORM} component={PackForm} />
+              <ProtectedRoute path={PROFILE} component={Profile} />
+            </Switch>
+          </Suspense>
+          <Sidebar />
+        </SidebarContext>
+      </Container>
+    </div>
+  )
+}
+
+export default App
