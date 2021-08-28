@@ -1,14 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "react-query"
 import { useHistory } from "react-router"
 import { INVENTORY } from "routes"
-import {
-  getUserStatus,
-  loginUser,
-  updateUser,
-  registerUser,
-  requestPasswordReset,
-  resetPassword,
-} from "lib/api/api"
+import { getUserStatus, loginUser, updateUser, registerUser } from "lib/api/api"
 import { AuthToken } from "types/api/user"
 import { WeightUnit } from "enums"
 import { User } from "types/user"
@@ -107,14 +100,4 @@ export const useUpdateUser = () => {
     const data = await updateUser(params.username, params.default_weight_unit)
     return data.data
   })
-}
-
-export const useRequestPasswordReset = () => {
-  return useMutation((email: string) => requestPasswordReset(email))
-}
-
-export const useResetPassword = () => {
-  return useMutation((params: { callbackId: string; password: string }) =>
-    resetPassword(params.callbackId, params.password)
-  )
 }

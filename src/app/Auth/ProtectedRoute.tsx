@@ -9,7 +9,10 @@ interface ProtectedProps {
   path: string
 }
 
-const ProtectedRoute: React.FC<ProtectedProps> = ({ component, path }) => {
+export const ProtectedRoute: React.FC<ProtectedProps> = ({
+  component,
+  path,
+}) => {
   const user = useUserQuery()
 
   if (user.isLoading) {
@@ -22,5 +25,3 @@ const ProtectedRoute: React.FC<ProtectedProps> = ({ component, path }) => {
 
   return <Redirect to={LOGIN} />
 }
-
-export default ProtectedRoute

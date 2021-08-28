@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react"
+import { Suspense } from "react"
 import { Route, Switch } from "react-router-dom"
 import { useUserQuery } from "queries/user"
 
@@ -12,20 +12,21 @@ import {
   RESET_PASSWORD,
 } from "./routes"
 
-import { Login } from "app/Auth/Login"
-import { Register } from "app/Auth/Register"
+import {
+  Login,
+  Register,
+  RequestReset,
+  ResetPassword,
+  ProtectedRoute,
+} from "app/Auth"
 
-import ProtectedRoute from "app/Auth/ProtectedRoute"
+import Inventory from "app/Inventory"
+import PackForm from "app/PackForm"
+import Profile from "app/Profile"
 
-import { Container } from "styles/common"
 import Header from "app/components/Header"
 import { Sidebar, SidebarContext } from "app/components/Sidebar"
-
-const RequestReset = lazy(() => import("app/Auth/RequestReset"))
-const ResetPassword = lazy(() => import("app/Auth/ResetPassword"))
-const Inventory = lazy(() => import("app/Inventory"))
-const PackForm = lazy(() => import("app/PackForm"))
-const Profile = lazy(() => import("app/Profile"))
+import { Container } from "styles/common"
 
 const App = () => {
   useUserQuery()

@@ -1,72 +1,72 @@
-import * as React from "react";
-import { isEqual } from "lodash";
-import { Tooltip } from "antd";
+import { useState, useRef, useEffect, memo } from "react"
+import { isEqual } from "lodash"
+import { Tooltip } from "antd"
 
-import { Item as ItemType } from "types/item";
-import { Update } from "types/api/item";
+import { Item as ItemType } from "types/item"
+import { Update } from "types/api/item"
 
-import { AppContext } from "AppContext";
-import { Input, SelectCreatable, Select } from "app/components/FormFields";
-import { Option } from "app/components/FormFields/types";
-import { alertSuccess, alertWarn } from "app/components/Notifications";
-import EditItem from "app/components/EditItem";
-import { DotIcon } from "app/components/Icons";
+import { Input, SelectCreatable, Select } from "app/components/FormFields"
+import { Option } from "app/components/FormFields/types"
+import { alertSuccess, alertWarn } from "app/components/Notifications"
+import EditItem from "app/components/EditItem"
+import { DotIcon } from "app/components/Icons"
 
-import { categoryOptions, weightUnitOptions } from "lib/utils/form";
-import { categorySelectValue } from "lib/utils/categories";
+import { categoryOptions, weightUnitOptions } from "lib/utils/form"
+import { categorySelectValue } from "lib/utils/categories"
+import { useCategories } from "hooks/useCategories"
 
-import { Grid, PairGrid, NotesIndicator, inlineStyles } from "styles/grid";
+import { Grid, PairGrid, NotesIndicator, inlineStyles } from "styles/grid"
+import { useUserQuery } from "queries/user"
 
 interface ItemProps {
-  item: ItemType;
-  fetchItems: () => void;
-  updateItem: Update;
+  item: ItemType
+  fetchItems: () => void
+  updateItem: Update
 }
 
 const Item: React.FC<ItemProps> = ({ item, updateItem, fetchItems }) => {
-  const app = React.useContext(AppContext);
-  const firstRender = React.useRef(true);
-  const [copy, setCopy] = React.useState<ItemType>(item);
-  const [catId, setCatId] = React.useState<number | string>(item.categoryId);
-  const [wUnit, setWUnit] = React.useState<any>(item.weight_unit);
-  const [editVisible, setEditVisible] = React.useState<boolean>(false);
+  const firstRender = useRef(true)
+  const user = useUserQuery()
+  const [copy, setCopy] = useState<ItemType>(item)
+  const [catId, setCatId] = useState<number | string>(item.categoryId)
+  const [wUnit, setWUnit] = useState<any>(item.weight_unit)
+  const [editVisible, setEditVisible] = useState<boolean>(false)
+  const categories = useCategories()
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!firstRender.current) {
-      handleSave();
+      handleSave()
     }
-    firstRender.current = false;
-  }, [catId, wUnit]);
+    firstRender.current = false
+  }, [catId, wUnit])
 
   function update(key: string, value: any) {
-    const i = Object.assign({}, { ...copy, [key]: value });
-    setCopy(i);
+    const i = Object.assign({}, { ...copy, [key]: value })
+    setCopy(i)
   }
 
   function handleSave() {
-    if (!copy.name || isEqual(copy, item)) return;
-    const newCategory = !app.categories
-      .map((c) => c.id)
-      .includes(copy.categoryId);
+    if (!copy.name || isEqual(copy, item)) return
+    const newCategory = categories.map((c) => c.id).includes(copy.categoryId)
     const withDefaults = {
       ...copy,
       price: copy.price || 0,
       weight: copy.weight || 0,
-    };
+    }
     updateItem({ ...withDefaults, newCategory })
       .then((newItem) => {
-        setCopy(newItem);
-        alertSuccess({ message: "Item Updated.", duration: 2 });
+        setCopy(newItem)
+        alertSuccess({ message: "Item Updated.", duration: 2 })
         if (newCategory) {
-          app.fetchUser();
+          user.refetch()
         }
       })
-      .catch(() => alertWarn({ message: "Error updating item." }));
+      .catch(() => alertWarn({ message: "Error updating item." }))
   }
 
-  const categoryValue = categorySelectValue(app.categories, copy.categoryId);
-  const { product_name, name, weight_unit, weight, price, notes } = copy;
-  const hasNotes = notes !== "";
+  const categoryValue = categorySelectValue(categories, copy.categoryId)
+  const { product_name, name, weight_unit, weight, price, notes } = copy
+  const hasNotes = notes !== ""
   return (
     <>
       <Grid>
@@ -98,11 +98,11 @@ const Item: React.FC<ItemProps> = ({ item, updateItem, fetchItems }) => {
         />
         <div>
           <SelectCreatable
-            options={categoryOptions(app.categories)}
+            options={categoryOptions(categories)}
             value={categoryValue}
             onChange={(option: Option<number>) => {
-              update("categoryId", option.value);
-              setCatId(option.value);
+              update("categoryId", option.value)
+              setCatId(option.value)
             }}
             style={inlineStyles}
           />
@@ -125,8 +125,8 @@ const Item: React.FC<ItemProps> = ({ item, updateItem, fetchItems }) => {
               }
             }
             onChange={(option: Option<string>) => {
-              update("weight_unit", option.value);
-              setWUnit(option.value);
+              update("weight_unit", option.value)
+              setWUnit(option.value)
             }}
             style={inlineStyles}
           />
@@ -152,16 +152,16 @@ const Item: React.FC<ItemProps> = ({ item, updateItem, fetchItems }) => {
         updateItem={update}
         fetchItems={fetchItems}
         categoryValue={categoryValue}
-        categories={app.categories}
+        categories={categories}
         onClose={() => setEditVisible(false)}
         onOk={() => {
-          setEditVisible(false);
-          handleSave();
+          setEditVisible(false)
+          handleSave()
         }}
         onCancel={() => setEditVisible(false)}
       />
     </>
-  );
-};
+  )
+}
 
-export default React.memo(Item);
+export default memo(Item)

@@ -1,27 +1,25 @@
-import { Delete, Get, Update, UploadCSV } from "types/api/item";
-import { Update as UpdateUser } from "types/api/user";
+import { Delete, Get, Update, UploadCSV } from "types/api/item"
 
 export declare module InventorySpecs {
-    export interface ApiProps {
-        getItems: Get;
-        updateItem: Update;
-        deleteItem: Delete;
-        updateUser: UpdateUser;
-    }
+  export interface ApiProps {
+    getItems: Get
+    updateItem: Update
+    deleteItem: Delete
+  }
 
-    export type Props = ApiProps;
+  export type Props = ApiProps
 }
 
 export declare module UploadModalSpecs {
-    export interface ApiProps {
-        upload: UploadCSV;
-    }
+  export interface ApiProps {
+    upload: UploadCSV
+  }
 
-    export interface OwnProps {
-        visible: boolean;
-        fetchItems: () => void;
-        hideModal: () => void;
-    }
+  export interface OwnProps {
+    visible: boolean
+    fetchItems: () => void
+    hideModal: () => void
+  }
 
-    export type Props = OwnProps & ApiProps;
+  export type Props = OwnProps & ApiProps
 }
