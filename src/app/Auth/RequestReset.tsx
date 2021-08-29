@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Yup from 'yup';
 import { Button } from 'antd';
-import { Formik, FormikProps } from 'formik';
+import { Formik, FormikProps, Form } from 'formik';
 
 import { LOGIN } from "routes";
 import { RequestResetSpecs } from "./types";
@@ -33,29 +33,31 @@ const RequestReset: React.FC<RequestResetSpecs.Props> = ({ requestReset, history
         })}
     >
         {(props: FormikProps<RequestResetSpecs.FormValues>) => {
-            const { values, errors, setFieldValue, submitForm, submitCount, isSubmitting } = props;
+            const { values, errors, setFieldValue, submitCount, isSubmitting } = props;
             const wasSubmitted = submitCount > 0;
 
             return (
                 <AuthPage>
                     <AuthWrapper>
                         <Box>
-                            <h1>Password Reset</h1>
-                            <Input label="Email"
-                                   value={values.email}
-                                   error={wasSubmitted && !!errors.email}
-                                   errorMsg={errors.email}
-                                   onChange={v => setFieldValue('email', v)}/>
+                            <Form>
+                                <h1>Password Reset</h1>
+                                <Input label="Email"
+                                       value={values.email}
+                                       error={wasSubmitted && !!errors.email}
+                                       errorMsg={errors.email}
+                                       onChange={v => setFieldValue('email', v)}/>
 
-                            <div style={{ marginTop: '32px' }}>
-                                <Button size="large"
-                                        type="primary"
-                                        block={true}
-                                        disabled={isSubmitting}
-                                        onClick={submitForm}>
-                                    Reset Password
-                                </Button>
-                            </div>
+                                <div style={{ marginTop: '32px' }}>
+                                    <Button size="large"
+                                            htmlType="submit"
+                                            type="primary"
+                                            block={true}
+                                            disabled={isSubmitting}>
+                                        Reset Password
+                                    </Button>
+                                </div>
+                            </Form>
                         </Box>
                     </AuthWrapper>
                 </AuthPage>

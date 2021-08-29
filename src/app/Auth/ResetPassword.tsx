@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Yup from 'yup';
 import { Alert, Button } from 'antd';
-import { Formik, FormikProps } from 'formik';
+import { Formik, FormikProps, Form } from 'formik';
 
 import { LOGIN } from "routes";
 import { ResetPasswordSpecs } from "./types";
@@ -42,7 +42,7 @@ const ResetPassword: React.FC<ResetPasswordSpecs.Props> = ({ resetPassword, hist
             })}
         >
             {(props: FormikProps<ResetPasswordSpecs.FormValues>) => {
-                const { values, errors, setFieldValue, submitForm, submitCount, isSubmitting } = props;
+                const { values, errors, setFieldValue, submitCount, isSubmitting } = props;
                 const wasSubmitted = submitCount > 0;
                 setMatchError(wasSubmitted && values.password !== values.confirmPassword);
 
@@ -55,31 +55,33 @@ const ResetPassword: React.FC<ResetPasswordSpecs.Props> = ({ resetPassword, hist
                                     <Alert message="Passwords do not match." type="error"
                                            style={{ marginBottom: '16px' }}/>
                                 )}
-                                <Input label="New Password"
-                                       type="password"
-                                       value={values.password}
-                                       error={wasSubmitted && !!errors.password}
-                                       errorMsg={errors.password}
-                                       autocomplete="new-password"
-                                       onChange={v => setFieldValue('password', v)}/>
+                                <Form>
+                                    <Input label="New Password"
+                                           type="password"
+                                           value={values.password}
+                                           error={wasSubmitted && !!errors.password}
+                                           errorMsg={errors.password}
+                                           autocomplete="new-password"
+                                           onChange={v => setFieldValue('password', v)}/>
 
-                                <Input label="Repeat New Password"
-                                       type="password"
-                                       value={values.confirmPassword}
-                                       error={wasSubmitted && !!errors.confirmPassword}
-                                       errorMsg={errors.confirmPassword}
-                                       autocomplete="new-password"
-                                       onChange={v => setFieldValue('confirmPassword', v)}/>
+                                    <Input label="Repeat New Password"
+                                           type="password"
+                                           value={values.confirmPassword}
+                                           error={wasSubmitted && !!errors.confirmPassword}
+                                           errorMsg={errors.confirmPassword}
+                                           autocomplete="new-password"
+                                           onChange={v => setFieldValue('confirmPassword', v)}/>
 
-                                <div style={{ marginTop: '32px' }}>
-                                    <Button size="large"
-                                            type="primary"
-                                            block={true}
-                                            disabled={isSubmitting}
-                                            onClick={submitForm}>
-                                        Reset Password
-                                    </Button>
-                                </div>
+                                    <div style={{ marginTop: '32px' }}>
+                                        <Button size="large"
+                                                htmlType="submit"
+                                                type="primary"
+                                                block={true}
+                                                disabled={isSubmitting}>
+                                            Reset Password
+                                        </Button>
+                                    </div>
+                                </Form>
                             </Box>
                         </AuthWrapper>
                     </AuthPage>
