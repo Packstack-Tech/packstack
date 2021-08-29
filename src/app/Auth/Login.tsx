@@ -64,6 +64,7 @@ const LoginPage: React.FC<LoginSpecs.Props> = ({ login, history }) => {
                   <Alert
                     message="Invalid email/username or password. Please try again."
                     type="error"
+                    style={{ marginBottom: '16px' }}
                   />
                 )}
                 <Input

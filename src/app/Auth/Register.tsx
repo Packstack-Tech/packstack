@@ -53,7 +53,11 @@ const RegistrationPage: React.FC<RegisterSpecs.Props> = ({ register, history }) 
                             <Box>
                                 <h1>Create Account</h1>
                                 {authError && (
-                                    <Alert message="Username/email already registered. Please login." type="error"/>
+                                    <Alert
+                                        message="Username/email already registered. Please login."
+                                        type="error"
+                                        style={{ marginBottom: '16px' }}
+                                    />
                                 )}
                                 <Input label="Username"
                                        value={values.username}
