@@ -5,14 +5,18 @@ import { useHistory, useLocation } from "react-router"
 import { Formik, FormikProps } from "formik"
 
 import { LOGIN } from "routes"
-import { ResetPasswordSpecs } from "./types"
-import { resetPassword } from "lib/api/api"
+import { resetPassword } from "api/api"
 
 import { Input } from "app/components/FormFields"
 import { alertError, alertSuccess } from "app/components/Notifications"
 
 import { Box } from "styles/common"
 import { AuthWrapper, AuthPage } from "./styles"
+
+export type FormValues = {
+  password: string
+  confirmPassword: string
+}
 
 export const ResetPassword: FC = () => {
   const history = useHistory()
@@ -48,7 +52,7 @@ export const ResetPassword: FC = () => {
         confirmPassword: Yup.string().required("Passwords must match"),
       })}
     >
-      {(props: FormikProps<ResetPasswordSpecs.FormValues>) => {
+      {(props: FormikProps<FormValues>) => {
         const {
           values,
           errors,

@@ -1,63 +1,48 @@
-import * as React from "react"
-import { withRouter, RouteComponentProps } from "react-router"
+import { FC } from "react"
 import { Link } from "react-router-dom"
 import { Popconfirm } from "antd"
 
 import { getPackPath } from "routes"
 import { PackOverview } from "types/pack"
+import { useDeletePack, useCopyPack } from "queries/packs"
 
 import { PackWrapper, Metadata, UserOptions } from "./styles"
 
 interface Props {
   pack: PackOverview
-  currentUserId?: number
-  deletePack?: (id: number) => void
-  copyPack?: (id: number) => void
 }
 
-const PackItem: React.FC<Props & RouteComponentProps> = ({
-  pack,
-  currentUserId,
-  deletePack,
-  copyPack,
-}) => {
+export const PackItem: FC<Props> = ({ pack }) => {
   const { id, title } = pack
+  const deletePack = useDeletePack()
+  const copyPack = useCopyPack()
 
-  const metadata = () => {
-    const { duration, duration_unit, season, itemCount } = pack
-    const durationDisplay = !!duration && (
-      <div>
-        {duration} {duration_unit}
-      </div>
-    )
-    const seasonDisplay = !!season && <div>{season}</div>
-    return (
+  const { duration, duration_unit, season, itemCount } = pack
+  const durationDisplay = !!duration && (
+    <div>
+      {duration} {duration_unit}
+    </div>
+  )
+  const seasonDisplay = !!season && <div>{season}</div>
+
+  const handleDelete = () => {
+    deletePack.mutate({ id: pack.id })
+  }
+
+  const handleCopy = () => {
+    copyPack.mutate({ id: pack.id })
+  }
+
+  return (
+    <PackWrapper>
+      <Link to={`/pack/${id}`} className="pack-link">
+        {title}
+      </Link>
       <Metadata>
         <div>{itemCount} Items</div>
         {durationDisplay}
         {seasonDisplay}
       </Metadata>
-    )
-  }
-
-  const handleDelete = () => {
-    if (deletePack) {
-      deletePack(pack.id)
-    }
-  }
-
-  function copy() {
-    if (copyPack) {
-      copyPack(pack.id)
-    }
-  }
-
-  const userOptions = () => {
-    if (pack.user.id !== currentUserId) {
-      return null
-    }
-
-    return (
       <UserOptions>
         {pack.public && (
           <a href={getPackPath(id, title)} target="_blank" rel="noreferrer">
@@ -65,7 +50,7 @@ const PackItem: React.FC<Props & RouteComponentProps> = ({
           </a>
         )}
         <Link to={`/pack/${id}`}>edit</Link>
-        <a href="#" onClick={copy}>
+        <a href="#" onClick={handleCopy}>
           copy
         </a>
         <Popconfirm
@@ -79,18 +64,6 @@ const PackItem: React.FC<Props & RouteComponentProps> = ({
           </a>
         </Popconfirm>
       </UserOptions>
-    )
-  }
-
-  return (
-    <PackWrapper>
-      <Link to={`/pack/${id}`} className="pack-link">
-        {title}
-      </Link>
-      {metadata()}
-      {userOptions()}
     </PackWrapper>
   )
 }
-
-export default withRouter(PackItem)

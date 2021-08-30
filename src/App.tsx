@@ -20,11 +20,11 @@ import {
   ProtectedRoute,
 } from "app/Auth"
 
-import Inventory from "app/Inventory"
+import { Inventory } from "app/Inventory"
 import PackForm from "app/PackForm"
-import Profile from "app/Profile"
+import { Profile } from "app/Profile"
 
-import Header from "app/components/Header"
+import { Header } from "app/components/Header"
 import { Sidebar, SidebarContext } from "app/components/Sidebar"
 import { Container } from "styles/common"
 

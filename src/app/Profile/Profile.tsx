@@ -1,70 +1,34 @@
-import * as React from "react";
-import { Formik, FormikProps } from "formik";
-import * as Yup from "yup";
-import { Button } from "antd";
-import DocumentTitle from "react-document-title";
+import { FC } from "react"
+import { Formik, FormikProps } from "formik"
+import * as Yup from "yup"
+import { Button } from "antd"
+import DocumentTitle from "react-document-title"
 
-import { ProfileSpecs } from "./types";
+import { Input, Select } from "app/components/FormFields"
+import { Option } from "app/components/FormFields/types"
+import { alertError, alertSuccess } from "app/components/Notifications"
+import PackList from "app/components/PackList"
+import { PageWrapper } from "styles/common"
+import { weightUnitOptions } from "lib/utils/form"
 
-import { Input, Select } from "app/components/FormFields";
-import { Option } from "app/components/FormFields/types";
-import { alertError, alertSuccess } from "app/components/Notifications";
-import PackList from "app/components/PackList";
-import { weightUnitOptions } from "lib/utils/form";
+import { PageTitle, Box, Grid } from "styles/common"
+import { usePacksQuery } from "queries/packs"
+import { useUserData } from "hooks/useUserData"
+import { useUpdateUser } from "queries/user"
+import { WeightUnit } from "enums"
 
-import { PageTitle, Box, Grid } from "styles/common";
+interface FormValues {
+  username: string
+  default_weight_unit: WeightUnit
+}
 
-class Profile extends React.Component<ProfileSpecs.Props, ProfileSpecs.State> {
-  constructor(props: ProfileSpecs.Props) {
-    super(props);
-    this.state = {
-      loading: true,
-      packs: [],
-    };
-  }
+export const Profile: FC = () => {
+  const user = useUserData()
+  const updateUser = useUpdateUser()
+  const packs = usePacksQuery(user.id)
 
-  componentDidMount() {
-    this.fetchPacks();
-  }
-
-  fetchPacks = () => {
-    const {
-      getPacks,
-      user: { id },
-    } = this.props;
-    this.setState({ loading: true });
-    getPacks(id)
-      .then((packs) => {
-        this.setState({ packs, loading: false });
-      })
-      .catch(() => {
-        alertError({ message: "Unable to retrieve profile." });
-        this.setState({ loading: false });
-      });
-  };
-
-  deletePack = (id: number) => {
-    this.props
-      .deletePack(id)
-      .then(() => this.fetchPacks())
-      .catch(() => alertError({ message: "Error while deleting pack." }));
-  };
-
-  copyPack = (id: number) => {
-    this.props
-      .copyPack(id)
-      .then(() => this.fetchPacks())
-      .catch(() => alertError({ message: "Error while copying pack." }));
-  };
-
-  render() {
-    const {
-      user: { username, id, default_weight_unit },
-      updateUser,
-      fetchUser,
-    } = this.props;
-    const { loading, packs } = this.state;
-    return (
+  return (
+    <PageWrapper>
       <DocumentTitle title={`Packstack | My Packs`}>
         <>
           <PageTitle>
@@ -73,44 +37,41 @@ class Profile extends React.Component<ProfileSpecs.Props, ProfileSpecs.State> {
           <Grid>
             <div className="two-thirds">
               <h3>Packs</h3>
-              <PackList
-                loading={loading}
-                packs={packs}
-                currentUserId={id}
-                deletePack={this.deletePack}
-                copyPack={this.copyPack}
-              />
+              <PackList loading={packs.isLoading} packs={packs.data || []} />
             </div>
             <div className="third">
               <h3>Settings</h3>
               <Box>
                 <Formik
-                  initialValues={{ username, default_weight_unit }}
+                  initialValues={{
+                    username: user.username,
+                    default_weight_unit: user.default_weight_unit,
+                  }}
                   validationSchema={Yup.object().shape({
                     username: Yup.string().required(
                       "Username cannot be empty."
                     ),
                   })}
                   onSubmit={(values) => {
-                    updateUser(values.username, values.default_weight_unit)
-                      .then(() => {
-                        fetchUser();
-                        alertSuccess({ message: "User settings updated!" });
-                      })
-                      .catch(() =>
+                    updateUser.mutate(values, {
+                      onSuccess: () => {
+                        alertSuccess({ message: "User settings updated!" })
+                      },
+                      onError: () => {
                         alertError({ message: "Unable to update user" })
-                      );
+                      },
+                    })
                   }}
                 >
-                  {(props: FormikProps<ProfileSpecs.SettingsForm>) => {
+                  {(props: FormikProps<FormValues>) => {
                     const {
                       values,
                       setFieldValue,
                       submitForm,
                       submitCount,
                       errors,
-                    } = props;
-                    const wasSubmitted = submitCount > 0;
+                    } = props
+                    const wasSubmitted = submitCount > 0
 
                     return (
                       <>
@@ -124,8 +85,8 @@ class Profile extends React.Component<ProfileSpecs.Props, ProfileSpecs.State> {
                         <Select
                           label="Default Weight Unit"
                           defaultValue={{
-                            value: default_weight_unit,
-                            label: default_weight_unit,
+                            value: user.default_weight_unit,
+                            label: user.default_weight_unit,
                           }}
                           last={true}
                           options={weightUnitOptions()}
@@ -142,7 +103,7 @@ class Profile extends React.Component<ProfileSpecs.Props, ProfileSpecs.State> {
                           Save
                         </Button>
                       </>
-                    );
+                    )
                   }}
                 </Formik>
               </Box>
@@ -150,8 +111,6 @@ class Profile extends React.Component<ProfileSpecs.Props, ProfileSpecs.State> {
           </Grid>
         </>
       </DocumentTitle>
-    );
-  }
+    </PageWrapper>
+  )
 }
-
-export default Profile;

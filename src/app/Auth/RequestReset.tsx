@@ -5,14 +5,17 @@ import { useHistory } from "react-router"
 import { Formik, FormikProps } from "formik"
 
 import { LOGIN } from "routes"
-import { RequestResetSpecs } from "./types"
-import { requestPasswordReset } from "lib/api/api"
+import { requestPasswordReset } from "api/api"
 
 import { Input } from "app/components/FormFields"
 import { alertSuccess } from "app/components/Notifications"
 
 import { Box } from "styles/common"
 import { AuthWrapper, AuthPage } from "./styles"
+
+export type FormValues = {
+  email: string
+}
 
 export const RequestReset: FC = () => {
   const history = useHistory()
@@ -34,7 +37,7 @@ export const RequestReset: FC = () => {
         email: Yup.string().required("Email is required"),
       })}
     >
-      {(props: FormikProps<RequestResetSpecs.FormValues>) => {
+      {(props: FormikProps<FormValues>) => {
         const {
           values,
           errors,

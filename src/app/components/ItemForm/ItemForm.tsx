@@ -1,42 +1,38 @@
-import * as React from "react";
-import * as Yup from "yup";
-import FileDownload from "js-file-download";
-import { Formik, FormikProps } from "formik";
-import { Row, Col, Button } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
-import { Input, Select, SelectCreatable } from "../FormFields";
-import { Option } from "app/components/FormFields/types";
+import { FC, useState } from "react"
+import * as Yup from "yup"
+import FileDownload from "js-file-download"
+import { Formik, FormikProps } from "formik"
+import { Row, Col, Button } from "antd"
+import { UploadOutlined } from "@ant-design/icons"
+import { Input, Select, SelectCreatable } from "../FormFields"
+import { Option } from "app/components/FormFields/types"
 
-import { AppContext } from "AppContext";
-import { CreateItem, ItemConstants } from "types/item";
-import { FormSpecs } from "./types";
+import { CreateItem, ItemConstants } from "types/item"
+import { categoryOptions, weightUnitOptions } from "lib/utils/form"
+import { categorySelectValue } from "lib/utils/categories"
+import { exportCsv } from "api/api"
 
-import withApi from "app/components/higher-order/with-api";
-import { categoryOptions, weightUnitOptions } from "lib/utils/form";
-import { categorySelectValue } from "lib/utils/categories";
+import { UploadModal } from "app/Inventory/UploadModal"
+import { alertError, alertSuccess } from "../Notifications"
 
-import UploadModal from "app/Inventory/UploadModal";
-import { alertError, alertSuccess } from "../Notifications";
+import { SidebarContainer } from "styles/common"
+import { OptionsRows } from "./styles"
+import { useUserData } from "hooks/useUserData"
+import { useCategories } from "hooks/useCategories"
+import { useCreateItem } from "queries/items"
+import { useUserQuery } from "queries/user"
 
-import { SidebarContainer } from "styles/common";
-import { OptionsRows } from "./styles";
-
-const ItemForm: React.FC<FormSpecs.Props> = ({
-  createItem,
-  exportCsv,
-  onSubmit,
-}) => {
-  const [uploadVisibility, showUploadModal] = React.useState<boolean>(false);
-  const app = React.useContext(AppContext);
-  if (!app.userInfo) {
-    return null;
-  }
+export const ItemForm: FC = () => {
+  const user = useUserData()
+  const userQuery = useUserQuery()
+  const categories = useCategories()
+  const createItem = useCreateItem()
+  const [uploadVisibility, showUploadModal] = useState<boolean>(false)
 
   function exportItems() {
-    exportCsv().then((data) => FileDownload(data, "inventory.csv"));
+    exportCsv().then((data) => FileDownload(data.data, "inventory.csv"))
   }
 
-  const { default_weight_unit } = app.userInfo;
   return (
     <Formik
       initialValues={{
@@ -44,7 +40,7 @@ const ItemForm: React.FC<FormSpecs.Props> = ({
         categoryId: undefined,
         product_name: "",
         weight: undefined,
-        weight_unit: default_weight_unit,
+        weight_unit: user.default_weight_unit,
         price: undefined,
         product_url: "",
         newCategory: false,
@@ -55,20 +51,22 @@ const ItemForm: React.FC<FormSpecs.Props> = ({
         categoryId: Yup.string().required("Category is required"),
       })}
       onSubmit={(values, formikActions) => {
-        createItem(values)
-          .then(() => {
-            onSubmit();
-            formikActions.setSubmitting(false);
-            formikActions.resetForm();
-            alertSuccess({ message: "Item added" });
+        createItem.mutate(values, {
+          onSuccess: () => {
+            formikActions.resetForm()
+            alertSuccess({ message: "Item added" })
+
             if (values.newCategory) {
-              app.fetchUser();
+              userQuery.refetch()
             }
-          })
-          .catch(() => {
-            formikActions.setSubmitting(false);
-            alertError({ message: "An error occurred" });
-          });
+          },
+          onError: () => {
+            alertError({ message: "An error occurred" })
+          },
+          onSettled: () => {
+            formikActions.setSubmitting(false)
+          },
+        })
       }}
     >
       {(props: FormikProps<CreateItem>) => {
@@ -79,13 +77,10 @@ const ItemForm: React.FC<FormSpecs.Props> = ({
           submitCount,
           submitForm,
           isSubmitting,
-        } = props;
-        const wasSubmitted = submitCount > 0;
-        const weightUnit = values.weight_unit;
-        const categoryValue = categorySelectValue(
-          app.categories,
-          values.categoryId
-        );
+        } = props
+        const wasSubmitted = submitCount > 0
+        const weightUnit = values.weight_unit
+        const categoryValue = categorySelectValue(categories, values.categoryId)
 
         return (
           <SidebarContainer>
@@ -100,13 +95,13 @@ const ItemForm: React.FC<FormSpecs.Props> = ({
             <SelectCreatable
               label="Category"
               placeholder="Select a category..."
-              options={categoryOptions(app.categories)}
+              options={categoryOptions(categories)}
               value={categoryValue || null}
               onChange={(option: Option<number>) => {
-                const value = option ? option.value : undefined;
-                const isNewCategory = Boolean(option && option.__isNew__);
-                setFieldValue("categoryId", value);
-                setFieldValue("newCategory", isNewCategory);
+                const value = option ? option.value : undefined
+                const isNewCategory = Boolean(option && option.__isNew__)
+                setFieldValue("categoryId", value)
+                setFieldValue("newCategory", isNewCategory)
               }}
               error={wasSubmitted && !!errors.categoryId}
               errorMsg={errors.categoryId}
@@ -193,19 +188,11 @@ const ItemForm: React.FC<FormSpecs.Props> = ({
 
             <UploadModal
               visible={uploadVisibility}
-              fetchItems={onSubmit}
               hideModal={() => showUploadModal(false)}
             />
           </SidebarContainer>
-        );
+        )
       }}
     </Formik>
-  );
-};
-
-const ItemFormWithProps = withApi<FormSpecs.ApiProps>((api) => ({
-  createItem: api.ItemService.create,
-  exportCsv: api.ItemService.exportCSV,
-}))(ItemForm);
-
-export default ItemFormWithProps;
+  )
+}

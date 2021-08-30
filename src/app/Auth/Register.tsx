@@ -7,13 +7,18 @@ import { Button, Alert } from "antd"
 import { Formik, FormikProps } from "formik"
 
 import { INVENTORY, LOGIN, REQUEST_RESET } from "routes"
-import { RegisterSpecs } from "./types"
 import { useUserRegister } from "queries/user"
 
 import { Input } from "app/components/FormFields"
 
 import { Box } from "styles/common"
 import { AuthWrapper, BottomTray, AuthPage } from "./styles"
+
+export type FormValues = {
+  username: string
+  password: string
+  email: string
+}
 
 export const Register: FC = () => {
   const [authError, setAuthError] = useState<boolean>(false)
@@ -29,18 +34,15 @@ export const Register: FC = () => {
       }}
       onSubmit={(values, formikActions) => {
         setAuthError(false)
-        registerUser.mutate(
-          { ...values },
-          {
-            onSuccess: () => {
-              history.push(INVENTORY)
-            },
-            onError: () => {
-              setAuthError(true)
-              formikActions.setSubmitting(false)
-            },
-          }
-        )
+        registerUser.mutate(values, {
+          onSuccess: () => {
+            history.push(INVENTORY)
+          },
+          onError: () => {
+            setAuthError(true)
+            formikActions.setSubmitting(false)
+          },
+        })
       }}
       validationSchema={Yup.object().shape({
         username: Yup.string().required("Username is required"),
@@ -48,7 +50,7 @@ export const Register: FC = () => {
         email: Yup.string().required().email("Email isn't valid"),
       })}
     >
-      {(props: FormikProps<RegisterSpecs.FormValues>) => {
+      {(props: FormikProps<FormValues>) => {
         const {
           values,
           errors,

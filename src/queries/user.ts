@@ -1,12 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "react-query"
 import { useHistory } from "react-router"
 import { INVENTORY } from "routes"
-import { getUserStatus, loginUser, updateUser, registerUser } from "lib/api/api"
-import { AuthToken } from "types/api/user"
-import { WeightUnit } from "enums"
-import { User } from "types/user"
+import { getAuthToken } from "api/http"
+import { getUserStatus, loginUser, updateUser, registerUser } from "api/api"
+import { Login, Register, BaseUser } from "types/user"
 
-const USER_QUERY = "user-query"
+export const USER_QUERY = "user-query"
 export const useUserQuery = () => {
   const history = useHistory()
   return useQuery(
@@ -23,24 +22,16 @@ export const useUserQuery = () => {
         localStorage.removeItem("AUTH_TOKEN")
       },
       retry: 0,
-      enabled: !!localStorage.getItem("AUTH_TOKEN"),
+      enabled: !!getAuthToken(),
     }
   )
 }
 
 export const useUserLogin = () => {
   const queryClient = useQueryClient()
-  return useMutation<
-    AuthToken,
-    Error,
-    {
-      emailOrUsername: string
-      password: string
-    },
-    unknown
-  >(
-    async (params) => {
-      const data = await loginUser(params.emailOrUsername, params.password)
+  return useMutation(
+    async (params: Login) => {
+      const data = await loginUser(params)
       return data.data
     },
     {
@@ -54,22 +45,9 @@ export const useUserLogin = () => {
 
 export const useUserRegister = () => {
   const queryClient = useQueryClient()
-  return useMutation<
-    AuthToken,
-    Error,
-    {
-      username: string
-      password: string
-      email: string
-    },
-    unknown
-  >(
-    async (params) => {
-      const data = await registerUser(
-        params.username,
-        params.password,
-        params.email
-      )
+  return useMutation(
+    async (params: Register) => {
+      const data = await registerUser(params)
       return data.data
     },
     {
@@ -81,23 +59,17 @@ export const useUserRegister = () => {
   )
 }
 
-export const useUserLogout = () => {
-  const queryClient = useQueryClient()
-  localStorage.removeItem("AUTH_TOKEN")
-  queryClient.invalidateQueries(USER_QUERY)
-}
-
 export const useUpdateUser = () => {
-  return useMutation<
-    User,
-    Error,
-    {
-      username: string
-      default_weight_unit: WeightUnit | string
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (params: BaseUser) => {
+      const data = await updateUser(params)
+      return data.data
     },
-    unknown
-  >(async (params) => {
-    const data = await updateUser(params.username, params.default_weight_unit)
-    return data.data
-  })
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(USER_QUERY)
+      },
+    }
+  )
 }

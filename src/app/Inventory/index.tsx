@@ -1,12 +1,9 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react"
+import { FC, useState, useEffect } from "react"
 import DocumentTitle from "react-document-title"
 
-import { InventorySpecs } from "./types"
-import { Item as ItemType } from "types/item"
 import { Category } from "types/category"
 
-import withApi from "app/components/higher-order/with-api"
-import ItemForm from "app/components/ItemForm"
+import { ItemForm } from "app/components/ItemForm"
 import { MessageArea } from "app/components/MessageArea"
 import Loading from "app/components/Loading"
 import { useSidebar } from "app/components/Sidebar/Context"
@@ -14,74 +11,33 @@ import { Input } from "app/components/FormFields"
 
 import { getCategories } from "lib/utils/categories"
 import { searchItems } from "lib/utils/search"
+import { useItemsQuery } from "queries/items"
 
-import Table from "./Table"
+import { CategoryTable } from "./CategoryTable"
 import { PageTitle, PageDescription, PageWrapper } from "styles/common"
 
-const Inventory: React.FC<InventorySpecs.Props> = ({
-  getItems,
-  updateItem,
-}) => {
-  const [items, setItems] = useState<ItemType[]>([])
+export const Inventory: FC = () => {
+  const items = useItemsQuery()
   const [filterText, setFilterText] = useState<string>("")
   const [categories, setCategories] = useState<Category[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
   const { dispatch } = useSidebar()
 
   useEffect(() => {
-    fetchItems()
     dispatch({ type: "setTitle", value: "Add Item" })
-    dispatch({ type: "setContent", value: <ItemForm onSubmit={fetchItems} /> })
+    dispatch({ type: "setContent", value: <ItemForm /> })
 
     return function cleanup() {
       dispatch({ type: "reset" })
     }
   }, [])
 
-  const fetchItems = useCallback(() => {
-    getItems()
-      .then((items) => {
-        const categories = getCategories(items)
-        const rowItems = Object.assign(
-          [],
-          items.map((i) => ({ ...i, refresh: fetchItems }))
-        )
-        setItems(rowItems)
-        setCategories(categories)
-        setLoading(false)
-      })
-      .catch((err) => console.warn(err))
-  }, [getItems])
+  useEffect(() => {
+    if (items.isSuccess) {
+      const categories = getCategories(items.data)
+      setCategories(categories)
+    }
+  }, [items.data, items.isSuccess])
 
-  const categoryTables = useMemo(() => {
-    const tables = categories.map((cat) => {
-      const categoryItems = items.filter((i) => i.categoryId === cat.id)
-      const filteredItem = !!filterText
-        ? searchItems(categoryItems, filterText)
-        : categoryItems
-
-      if (!filteredItem.length) return null
-      return (
-        <Table
-          key={cat.id}
-          category={cat}
-          items={filteredItem}
-          fetchItems={fetchItems}
-          updateItem={updateItem}
-        />
-      )
-    })
-
-    return <div style={{ minWidth: "100%" }}>{tables}</div>
-  }, [filterText, categories, items, fetchItems, updateItem])
-
-  const renderEmptyList = () => (
-    <MessageArea>Get started by adding your inventory.</MessageArea>
-  )
-
-  const InventoryTable = !!categories.length
-    ? categoryTables
-    : renderEmptyList()
   return (
     <DocumentTitle title={`Packstack | Inventory`}>
       <PageWrapper>
@@ -95,7 +51,7 @@ const Inventory: React.FC<InventorySpecs.Props> = ({
           </p>
         </PageDescription>
 
-        {loading ? (
+        {items.isLoading ? (
           <Loading size="large" />
         ) : (
           <>
@@ -115,18 +71,32 @@ const Inventory: React.FC<InventorySpecs.Props> = ({
                 last={true}
               />
             </div>
-            {InventoryTable}
+            {categories.length > 0 ? (
+              <div style={{ minWidth: "100%" }}>
+                {categories.map((cat) => {
+                  const categoryItems = (items.data || []).filter(
+                    (i) => i.categoryId === cat.id
+                  )
+                  const filteredItem = !!filterText
+                    ? searchItems(categoryItems, filterText)
+                    : categoryItems
+
+                  if (!filteredItem.length) return null
+                  return (
+                    <CategoryTable
+                      key={cat.id}
+                      category={cat}
+                      items={filteredItem}
+                    />
+                  )
+                })}
+              </div>
+            ) : (
+              <MessageArea>Get started by adding your inventory.</MessageArea>
+            )}
           </>
         )}
       </PageWrapper>
     </DocumentTitle>
   )
 }
-
-const InventoryWithApi = withApi<InventorySpecs.ApiProps>((api) => ({
-  getItems: api.ItemService.get,
-  updateItem: api.ItemService.update,
-  deleteItem: api.ItemService.delete,
-}))(Inventory)
-
-export default InventoryWithApi

@@ -1,5 +1,3 @@
-import { WeightUnit } from "enums"
-import { AuthToken } from "types/api/user"
 import {
   Item,
   CreateItem,
@@ -8,28 +6,20 @@ import {
   PackItemAttr,
 } from "types/item"
 import { Pack, PackOverview, CreatePack, UpdatePack } from "types/pack"
-import { User } from "types/user"
+import { User, BaseUser, Register, Login, AuthToken } from "types/user"
 import http from "./http"
 
 /**
  * User API endpoints
- * TODO: rename user fns and add types
  */
 export const getUserStatus = () => http.get<User>("/status")
 
-export const loginUser = (emailOrUsername: string, password: string) =>
-  http.post<AuthToken>("/login", { emailOrUsername, password })
+export const loginUser = (data: Login) => http.post<AuthToken>("/login", data)
 
-export const registerUser = (
-  username: string,
-  password: string,
-  email: string
-) => http.post<AuthToken>("/register", { username, password, email })
+export const registerUser = (data: Register) =>
+  http.post<AuthToken>("/register", data)
 
-export const updateUser = (
-  username: string,
-  default_weight_unit: WeightUnit | string
-) => http.put<User>("/user", { username, default_weight_unit })
+export const updateUser = (data: BaseUser) => http.put<User>("/user", data)
 
 export const requestPasswordReset = (email: string) =>
   http.post<null>("request-reset", { email })

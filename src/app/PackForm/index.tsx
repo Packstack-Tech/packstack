@@ -1,33 +1,30 @@
-import { useMemo } from "react"
+import { useMemo, FC } from "react"
 import { useParams } from "react-router-dom"
 
 import { NEW } from "routes"
+import { usePackQuery } from "queries/packs"
+import Loading from "app/components/Loading"
 
-import PackForm from "./PackForm"
+import { PackForm } from "./PackForm"
 import { PageWrapper } from "styles/common"
 
-const PackFormContainer: React.FC<RouteComponentProps<{ id: string }>> = (
-  routeProps
-) => {
+const PackFormContainer: FC = () => {
   const params = useParams<{ id: string }>()
 
   const packId = useMemo(() => {
     const routeId = params.id
-    return routeId === NEW ? null : parseInt(routeId, 10)
+    return routeId === NEW ? undefined : parseInt(routeId, 10)
   }, [params])
+
+  const pack = usePackQuery(packId)
 
   return (
     <PageWrapper>
-      <PackForm
-        packId={packId}
-        getPack={app.api.PackService.get}
-        getItems={app.api.ItemService.get}
-        exportItems={app.api.PackService.exportItems}
-        createPack={app.api.PackService.create}
-        updatePack={app.api.PackService.update}
-        user={app.userInfo}
-        {...routeProps}
-      />
+      {pack.isLoading ? (
+        <Loading size="large" />
+      ) : (
+        <PackForm pack={pack.data} />
+      )}
     </PageWrapper>
   )
 }

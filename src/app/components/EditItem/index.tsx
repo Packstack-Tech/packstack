@@ -1,22 +1,32 @@
-import * as React from "react";
-import { Button, Col, Modal, Row, Popconfirm } from "antd";
+import * as React from "react"
+import { Button, Col, Modal, Row, Popconfirm } from "antd"
 
-import { FormSpecs } from "./types";
+import { ItemConstants } from "types/item"
+import { Category } from "types/category"
+import { Item } from "types/item"
 
-import { Input, Select, SelectCreatable } from "app/components/FormFields";
-import { Option } from "app/components/FormFields/types";
-import { ItemConstants } from "types/item";
+import { Input, Select, SelectCreatable } from "app/components/FormFields"
+import { Option } from "app/components/FormFields/types"
 
-import withApi from "app/components/higher-order/with-api";
-import { categoryOptions, weightUnitOptions } from "lib/utils/form";
+import { categoryOptions, weightUnitOptions } from "lib/utils/form"
+import { useDeleteItem } from "queries/items"
 
-import { ButtonGroup, ModalTitle } from "./styles";
+import { ButtonGroup, ModalTitle } from "./styles"
 
-const EditForm: React.FC<FormSpecs.Props> = ({
-  deleteItem,
+interface Props {
+  record: Item
+  updateItem: (key: string, value: any) => void
+  categoryValue?: Option<number>
+  categories: Category[]
+  onClose: () => void
+  onCancel: () => void
+  visible: boolean
+  onOk: () => void
+}
+
+export const EditItem: React.FC<Props> = ({
   categoryValue,
   categories,
-  fetchItems,
   updateItem,
   onCancel,
   visible,
@@ -24,12 +34,15 @@ const EditForm: React.FC<FormSpecs.Props> = ({
   onOk,
   record,
 }) => {
+  const deleteItem = useDeleteItem()
   const handleDelete = () => {
-    deleteItem(record.id).then(() => {
-      onClose();
-      fetchItems();
-    });
-  };
+    deleteItem.mutate(
+      { id: record.id },
+      {
+        onSuccess: () => onClose(),
+      }
+    )
+  }
 
   const renderFooter = () => (
     <ButtonGroup>
@@ -52,10 +65,10 @@ const EditForm: React.FC<FormSpecs.Props> = ({
         </Button>
       </div>
     </ButtonGroup>
-  );
+  )
 
   const { product_name, name, weight_unit, weight, price, product_url, notes } =
-    record;
+    record
   return (
     <Modal
       title={<ModalTitle>Edit Item</ModalTitle>}
@@ -142,11 +155,5 @@ const EditForm: React.FC<FormSpecs.Props> = ({
         last={true}
       />
     </Modal>
-  );
-};
-
-const EditWithApi = withApi<FormSpecs.ApiProps>((api) => ({
-  deleteItem: api.ItemService.delete,
-}))(EditForm);
-
-export default EditWithApi;
+  )
+}

@@ -1,12 +1,12 @@
-import * as React from "react"
+import { FC } from "react"
 import { Link } from "react-router-dom"
-import { withRouter, RouteComponentProps } from "react-router"
+import { useHistory } from "react-router"
+import { useQueryClient } from "react-query"
 import { Button, Menu, Dropdown } from "antd"
 import { ArrowDownOutlined, EllipsisOutlined } from "@ant-design/icons"
 
 import { INVENTORY, NEW_PACK, PROFILE, LOGIN, REGISTER } from "routes"
-
-import { AppContext } from "AppContext"
+import { useUserQuery, USER_QUERY } from "queries/user"
 
 import {
   LogoImg,
@@ -18,9 +18,16 @@ import {
 
 import Logo from "assets/packstack_logo_horizontal_blue_sm.png"
 
-const Header: React.FC<RouteComponentProps> = ({ history }) => {
-  const app = React.useContext(AppContext)
-  const loggedIn = !!app.userInfo
+export const Header: FC = () => {
+  const history = useHistory()
+  const user = useUserQuery()
+  const queryClient = useQueryClient()
+  const loggedIn = !!user.data
+
+  const logout = () => {
+    localStorage.removeItem("AUTH_TOKEN")
+    queryClient.invalidateQueries(USER_QUERY)
+  }
 
   const additionalOptions = (
     <Menu>
@@ -52,7 +59,7 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
         </a>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="logout" onClick={() => app.logout()}>
+      <Menu.Item key="logout" onClick={logout}>
         Logout
       </Menu.Item>
     </Menu>
@@ -128,7 +135,7 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
         </a>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="logout" onClick={() => app.logout()}>
+      <Menu.Item key="logout" onClick={logout}>
         Logout
       </Menu.Item>
     </Menu>
@@ -149,14 +156,13 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
     ? renderAuthenticatedNav()
     : renderUnauthenticatedNav()
   const mobileNavState = loggedIn ? mobileAuthMenu() : mobileUnauthMenu()
-  const navigation = app.isBooting ? null : navState
 
   return (
     <HeaderWrapper>
       <Link to={INVENTORY}>
         <LogoImg src={Logo} alt="Packstack logo" />
       </Link>
-      <Navigation>{navigation}</Navigation>
+      <Navigation>{navState}</Navigation>
       <MobileNav>
         <Dropdown
           overlay={() => mobileNavState}
@@ -171,5 +177,3 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
     </HeaderWrapper>
   )
 }
-
-export default withRouter(Header)

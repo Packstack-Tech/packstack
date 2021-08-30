@@ -15,7 +15,14 @@ import "antd/dist/antd.css"
 import "styles/style.css"
 
 Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DNS })
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+})
 
 ReactDOM.render(
   <QueryClientProvider client={queryClient}>
