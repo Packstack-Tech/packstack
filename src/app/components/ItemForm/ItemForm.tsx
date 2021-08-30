@@ -98,9 +98,8 @@ export const ItemForm: FC = () => {
               options={categoryOptions(categories)}
               value={categoryValue || null}
               onChange={(option: Option<number>) => {
-                const value = option ? option.value : undefined
                 const isNewCategory = Boolean(option && option.__isNew__)
-                setFieldValue("categoryId", value)
+                setFieldValue("categoryId", option?.value)
                 setFieldValue("newCategory", isNewCategory)
               }}
               error={wasSubmitted && !!errors.categoryId}
