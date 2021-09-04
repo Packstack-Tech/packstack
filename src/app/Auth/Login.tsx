@@ -66,6 +66,7 @@ export const Login: FC = () => {
                   <Alert
                     message="Invalid email/username or password. Please try again."
                     type="error"
+                    style={{ marginBottom: '16px' }}
                   />
                 )}
                 <Input

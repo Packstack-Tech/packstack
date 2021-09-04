@@ -70,6 +70,7 @@ export const Register: FC = () => {
                   <Alert
                     message="Username/email already registered. Please login."
                     type="error"
+                    style={{ marginBottom: '16px' }}
                   />
                 )}
                 <Input
