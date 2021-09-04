@@ -2,7 +2,7 @@ import { useState, FC } from "react"
 import * as Yup from "yup"
 import { Alert, Button } from "antd"
 import { useHistory, useLocation } from "react-router"
-import { Formik, FormikProps } from "formik"
+import { Formik, FormikProps, Form } from "formik"
 
 import { LOGIN } from "routes"
 import { resetPassword } from "api/api"
@@ -57,7 +57,6 @@ export const ResetPassword: FC = () => {
           values,
           errors,
           setFieldValue,
-          submitForm,
           submitCount,
           isSubmitting,
         } = props
@@ -70,45 +69,47 @@ export const ResetPassword: FC = () => {
           <AuthPage>
             <AuthWrapper>
               <Box>
-                <h1>Password Reset</h1>
-                {matchError && (
-                  <Alert
-                    message="Passwords do not match."
-                    type="error"
-                    style={{ marginBottom: "16px" }}
+                <Form>
+                  <h1>Password Reset</h1>
+                  {matchError && (
+                    <Alert
+                      message="Passwords do not match."
+                      type="error"
+                      style={{ marginBottom: "16px" }}
+                    />
+                  )}
+                  <Input
+                    label="New Password"
+                    type="password"
+                    value={values.password}
+                    error={wasSubmitted && !!errors.password}
+                    errorMsg={errors.password}
+                    autocomplete="new-password"
+                    onChange={(v) => setFieldValue("password", v)}
                   />
-                )}
-                <Input
-                  label="New Password"
-                  type="password"
-                  value={values.password}
-                  error={wasSubmitted && !!errors.password}
-                  errorMsg={errors.password}
-                  autocomplete="new-password"
-                  onChange={(v) => setFieldValue("password", v)}
-                />
 
-                <Input
-                  label="Repeat New Password"
-                  type="password"
-                  value={values.confirmPassword}
-                  error={wasSubmitted && !!errors.confirmPassword}
-                  errorMsg={errors.confirmPassword}
-                  autocomplete="new-password"
-                  onChange={(v) => setFieldValue("confirmPassword", v)}
-                />
+                  <Input
+                    label="Repeat New Password"
+                    type="password"
+                    value={values.confirmPassword}
+                    error={wasSubmitted && !!errors.confirmPassword}
+                    errorMsg={errors.confirmPassword}
+                    autocomplete="new-password"
+                    onChange={(v) => setFieldValue("confirmPassword", v)}
+                  />
 
-                <div style={{ marginTop: "32px" }}>
-                  <Button
-                    size="large"
-                    type="primary"
-                    block={true}
-                    disabled={isSubmitting}
-                    onClick={submitForm}
-                  >
-                    Reset Password
-                  </Button>
-                </div>
+                  <div style={{ marginTop: "32px" }}>
+                    <Button
+                      size="large"
+                      type="primary"
+                      block={true}
+                      disabled={isSubmitting}
+                      htmlType="submit"
+                    >
+                      Reset Password
+                    </Button>
+                  </div>
+                </Form>
               </Box>
             </AuthWrapper>
           </AuthPage>
