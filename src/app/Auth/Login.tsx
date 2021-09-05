@@ -3,7 +3,7 @@ import * as Yup from "yup"
 import { useHistory } from "react-router"
 import { Link } from "react-router-dom"
 import { Button, Alert } from "antd"
-import { Formik, FormikProps } from "formik"
+import { Formik, FormikProps, Form } from "formik"
 
 import { INVENTORY, REQUEST_RESET, REGISTER } from "routes"
 
@@ -51,7 +51,6 @@ export const Login: FC = () => {
           values,
           errors,
           setFieldValue,
-          submitForm,
           submitCount,
           isSubmitting,
         } = props
@@ -66,43 +65,46 @@ export const Login: FC = () => {
                   <Alert
                     message="Invalid email/username or password. Please try again."
                     type="error"
+                    style={{ marginBottom: '16px' }}
                   />
                 )}
-                <Input
-                  label="Email/Username"
-                  value={values.emailOrUsername}
-                  error={wasSubmitted && !!errors.emailOrUsername}
-                  errorMsg={errors.emailOrUsername}
-                  autocomplete="emailOrUsername"
-                  onChange={(v) => setFieldValue("emailOrUsername", v)}
-                />
+                <Form>
+                  <Input
+                    label="Email/Username"
+                    value={values.emailOrUsername}
+                    error={wasSubmitted && !!errors.emailOrUsername}
+                    errorMsg={errors.emailOrUsername}
+                    autocomplete="emailOrUsername"
+                    onChange={(v) => setFieldValue("emailOrUsername", v)}
+                  />
 
-                <Input
-                  label="Password"
-                  value={values.password}
-                  error={wasSubmitted && !!errors.password}
-                  errorMsg={errors.password}
-                  autocomplete="current-password"
-                  onChange={(v) => setFieldValue("password", v)}
-                  type="password"
-                />
+                  <Input
+                    label="Password"
+                    value={values.password}
+                    error={wasSubmitted && !!errors.password}
+                    errorMsg={errors.password}
+                    autocomplete="current-password"
+                    onChange={(v) => setFieldValue("password", v)}
+                    type="password"
+                  />
 
-                <div style={{ marginTop: "32px" }}>
-                  <Button
-                    size="large"
-                    type="primary"
-                    block={true}
-                    disabled={isSubmitting}
-                    onClick={submitForm}
-                  >
-                    Sign In
-                  </Button>
-                </div>
+                  <div style={{ marginTop: "32px" }}>
+                    <Button
+                      size="large"
+                      type="primary"
+                      block={true}
+                      disabled={isSubmitting}
+                      htmlType="submit"
+                    >
+                      Sign In
+                    </Button>
+                  </div>
 
-                <BottomTray>
-                  <Link to={REGISTER}>Register</Link>
-                  <Link to={REQUEST_RESET}>Reset Password</Link>
-                </BottomTray>
+                  <BottomTray>
+                    <Link to={REGISTER}>Register</Link>
+                    <Link to={REQUEST_RESET}>Reset Password</Link>
+                  </BottomTray>
+                </Form>
               </Box>
             </AuthWrapper>
           </AuthPage>

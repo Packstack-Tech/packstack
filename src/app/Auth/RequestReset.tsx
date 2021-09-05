@@ -2,7 +2,7 @@ import { FC } from "react"
 import * as Yup from "yup"
 import { Button } from "antd"
 import { useHistory } from "react-router"
-import { Formik, FormikProps } from "formik"
+import { Formik, FormikProps, Form } from "formik"
 
 import { LOGIN } from "routes"
 import { requestPasswordReset } from "api/api"
@@ -42,7 +42,6 @@ export const RequestReset: FC = () => {
           values,
           errors,
           setFieldValue,
-          submitForm,
           submitCount,
           isSubmitting,
         } = props
@@ -52,26 +51,28 @@ export const RequestReset: FC = () => {
           <AuthPage>
             <AuthWrapper>
               <Box>
-                <h1>Password Reset</h1>
-                <Input
-                  label="Email"
-                  value={values.email}
-                  error={wasSubmitted && !!errors.email}
-                  errorMsg={errors.email}
-                  onChange={(v) => setFieldValue("email", v)}
-                />
+                <Form>
+                  <h1>Password Reset</h1>
+                  <Input
+                    label="Email"
+                    value={values.email}
+                    error={wasSubmitted && !!errors.email}
+                    errorMsg={errors.email}
+                    onChange={(v) => setFieldValue("email", v)}
+                  />
 
-                <div style={{ marginTop: "32px" }}>
-                  <Button
-                    size="large"
-                    type="primary"
-                    block={true}
-                    disabled={isSubmitting}
-                    onClick={submitForm}
-                  >
-                    Reset Password
-                  </Button>
-                </div>
+                  <div style={{ marginTop: "32px" }}>
+                    <Button
+                      size="large"
+                      type="primary"
+                      block={true}
+                      disabled={isSubmitting}
+                      htmlType="submit"
+                    >
+                      Reset Password
+                    </Button>
+                  </div>
+                </Form>
               </Box>
             </AuthWrapper>
           </AuthPage>
