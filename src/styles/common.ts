@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { InventoryItem } from "app/components/InventorySidebar/styles";
+import styled from "styled-components"
+import { InventoryItem } from "app/components/InventorySidebar/styles"
 
 export const Container = styled.div`
   display: flex;
@@ -7,7 +7,11 @@ export const Container = styled.div`
   @media screen and (max-width: 800px) {
     flex-direction: column;
   }
-`;
+`
+
+export const Content = styled.div`
+  flex: 1;
+`
 
 export const Box = styled.div`
   padding: 24px;
@@ -15,11 +19,11 @@ export const Box = styled.div`
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.05);
   border-radius: 2px;
   background-color: #fff;
-`;
+`
 
 export const SidebarContainer = styled.div`
   padding: 16px;
-`;
+`
 
 export const PageWrapper = styled.div`
   width: 100%;
@@ -30,7 +34,7 @@ export const PageWrapper = styled.div`
   @media screen and (max-width: 660px) {
     padding: 0 8px;
   }
-`;
+`
 
 export const PageTitle = styled.div`
   margin-bottom: 16px;
@@ -49,12 +53,12 @@ export const PageTitle = styled.div`
   @media screen and (max-width: 660px) {
     flex-direction: column;
   }
-`;
+`
 
 export const PageDescription = styled.div`
   color: #999;
   font-size: 18px;
-`;
+`
 
 export const SectionHeader = styled.div`
   position: relative;
@@ -80,25 +84,25 @@ export const SectionHeader = styled.div`
     text-align: right;
     padding-top: 5px;
   }
-`;
+`
 
 export const Controls = styled.div`
   display: inline-flex;
   align-items: center;
-`;
+`
 
 export const CategoryGroup = styled.div`
   padding-bottom: 24px;
   ${InventoryItem}:last-of-type {
     border-bottom: none;
   }
-`;
+`
 
 export const InventoryContainer = styled.div`
   ${CategoryGroup}:first-of-type h3 {
     border-top: 0;
   }
-`;
+`
 
 export const Grid = styled.div`
   display: flex;
@@ -180,10 +184,10 @@ export const Grid = styled.div`
       }
     }
   }
-`;
+`
 
 export const helpIconStyles = {
   fontSize: "10px",
   marginLeft: "8px",
   color: "#666",
-};
+}

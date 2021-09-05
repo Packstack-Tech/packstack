@@ -29,10 +29,16 @@ export const usePackQuery = (id?: number) => {
 
 const PACKS_QUERY = "packs-query"
 export const usePacksQuery = (userId: number) => {
-  return useQuery(PACKS_QUERY, async () => {
-    const resp = await fetchPacks(userId)
-    return resp.data
-  })
+  return useQuery(
+    PACKS_QUERY,
+    async () => {
+      const resp = await fetchPacks(userId)
+      return resp.data
+    },
+    {
+      refetchOnMount: true,
+    }
+  )
 }
 
 export const useCreatePack = () => {

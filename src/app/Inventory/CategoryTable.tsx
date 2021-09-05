@@ -4,7 +4,7 @@ import { Category } from "types/category"
 import { Item as ItemType } from "types/item"
 
 import Item from "./Item"
-import ExpandablePanel from "../components/ExpandablePanel"
+import { ExpandablePanel } from "../components/ExpandablePanel"
 
 interface Props {
   category: Category

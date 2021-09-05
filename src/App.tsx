@@ -25,8 +25,6 @@ import PackForm from "app/PackForm"
 import { Profile } from "app/Profile"
 
 import { Header } from "app/components/Header"
-import { Sidebar, SidebarContext } from "app/components/Sidebar"
-import { Container } from "styles/common"
 
 const App = () => {
   useUserQuery()
@@ -34,22 +32,17 @@ const App = () => {
   return (
     <div>
       <Header />
-      <Container>
-        <SidebarContext>
-          <Suspense fallback={<div style={{ flex: 1 }} />}>
-            <Switch>
-              <Route path={LOGIN} exact component={Login} />
-              <Route path={REGISTER} component={Register} />
-              <Route path={REQUEST_RESET} component={RequestReset} />
-              <Route path={RESET_PASSWORD} component={ResetPassword} />
-              <ProtectedRoute path={INVENTORY} component={Inventory} />
-              <ProtectedRoute path={PACK_FORM} component={PackForm} />
-              <ProtectedRoute path={PROFILE} component={Profile} />
-            </Switch>
-          </Suspense>
-          <Sidebar />
-        </SidebarContext>
-      </Container>
+      <Suspense fallback={<div style={{ flex: 1 }} />}>
+        <Switch>
+          <Route path={LOGIN} exact component={Login} />
+          <Route path={REGISTER} component={Register} />
+          <Route path={REQUEST_RESET} component={RequestReset} />
+          <Route path={RESET_PASSWORD} component={ResetPassword} />
+          <ProtectedRoute path={INVENTORY} component={Inventory} />
+          <ProtectedRoute path={PACK_FORM} component={PackForm} />
+          <ProtectedRoute path={PROFILE} component={Profile} />
+        </Switch>
+      </Suspense>
     </div>
   )
 }

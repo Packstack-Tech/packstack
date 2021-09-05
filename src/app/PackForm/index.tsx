@@ -1,4 +1,4 @@
-import { useMemo, FC } from "react"
+import { useMemo, useEffect, useState, FC } from "react"
 import { useParams } from "react-router-dom"
 
 import { NEW } from "routes"
@@ -9,6 +9,7 @@ import { PackForm } from "./PackForm"
 import { PageWrapper } from "styles/common"
 
 const PackFormContainer: FC = () => {
+  const [transition, setTransition] = useState(false)
   const params = useParams<{ id: string }>()
 
   const packId = useMemo(() => {
@@ -16,14 +17,23 @@ const PackFormContainer: FC = () => {
     return routeId === NEW ? undefined : parseInt(routeId, 10)
   }, [params])
 
+  // stupid hack to reset form
+  useEffect(() => {
+    setTransition(true)
+  }, [packId])
+
+  useEffect(() => {
+    setTransition(false)
+  }, [transition])
+
   const pack = usePackQuery(packId)
 
   return (
     <PageWrapper>
-      {pack.isLoading ? (
+      {pack.isLoading || transition ? (
         <Loading size="large" />
       ) : (
-        <PackForm pack={pack.data} />
+        <PackForm pack={packId ? pack.data : undefined} />
       )}
     </PageWrapper>
   )

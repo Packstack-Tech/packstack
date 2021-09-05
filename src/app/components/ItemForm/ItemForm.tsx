@@ -22,7 +22,11 @@ import { useCategories } from "hooks/useCategories"
 import { useCreateItem } from "queries/items"
 import { useUserQuery } from "queries/user"
 
-export const ItemForm: FC = () => {
+interface Props {
+  onSave?: () => void
+}
+
+export const ItemForm: FC<Props> = ({ onSave }) => {
   const user = useUserData()
   const userQuery = useUserQuery()
   const categories = useCategories()
@@ -58,6 +62,10 @@ export const ItemForm: FC = () => {
 
             if (values.newCategory) {
               userQuery.refetch()
+            }
+
+            if (onSave) {
+              onSave()
             }
           },
           onError: () => {

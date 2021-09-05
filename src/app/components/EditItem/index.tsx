@@ -1,9 +1,9 @@
 import { FC } from "react"
 import { Formik, FormikProps } from "formik"
 import { Button, Col, Modal, Row, Popconfirm } from "antd"
+import * as Yup from "yup"
 
 import { WeightUnit } from "enums"
-import { ItemConstants } from "types/item"
 import { Item } from "types/item"
 
 import { alertSuccess, alertWarn } from "app/components/Notifications"
@@ -17,6 +17,7 @@ import { useUserData } from "hooks/useUserData"
 import { useCategories } from "hooks/useCategories"
 
 import { ButtonGroup, ModalTitle } from "./styles"
+import { useUserQuery } from "queries/user"
 
 interface Props {
   record: Item
@@ -37,6 +38,7 @@ type FormValues = {
 }
 
 export const EditItem: FC<Props> = ({ onCancel, visible, onClose, record }) => {
+  const userQuery = useUserQuery()
   const user = useUserData()
   const categories = useCategories()
   const deleteItem = useDeleteItem()
@@ -78,14 +80,30 @@ export const EditItem: FC<Props> = ({ onCancel, visible, onClose, record }) => {
             {
               onSuccess: () => {
                 alertSuccess({ message: "Item Updated.", duration: 2 })
+                if (newCategory) {
+                  userQuery.refetch()
+                }
                 onClose()
               },
               onError: () => alertWarn({ message: "Error updating item." }),
             }
           )
         }}
+        validationSchema={Yup.object().shape({
+          name: Yup.string()
+            .required("Item name is required.")
+            .max(200, "200 characters max."),
+          product_name: Yup.string().max(500, "500 characters max"),
+          notes: Yup.string().max(500, "500 characters max"),
+          product_url: Yup.string().max(500, "500 characters max"),
+        })}
       >
-        {({ setFieldValue, submitForm, values }: FormikProps<FormValues>) => {
+        {({
+          setFieldValue,
+          submitForm,
+          errors,
+          values,
+        }: FormikProps<FormValues>) => {
           const categoryValue = categorySelectValue(
             categories,
             values.categoryId
@@ -97,7 +115,8 @@ export const EditItem: FC<Props> = ({ onCancel, visible, onClose, record }) => {
                 placeholder="Backpack, Compass, etc..."
                 value={values.name}
                 onChange={(v) => setFieldValue("name", v)}
-                allowedLength={ItemConstants.name}
+                error={!!errors.name}
+                errorMsg={errors.name}
               />
 
               <SelectCreatable
@@ -115,8 +134,9 @@ export const EditItem: FC<Props> = ({ onCancel, visible, onClose, record }) => {
                 label="Product Name"
                 placeholder="Osprey Renn 65"
                 value={values.product_name}
-                allowedLength={ItemConstants.product_name}
                 onChange={(v) => setFieldValue("product_name", v)}
+                error={!!errors.product_name}
+                errorMsg={errors.product_name}
               />
 
               <Row gutter={8}>
@@ -157,7 +177,8 @@ export const EditItem: FC<Props> = ({ onCancel, visible, onClose, record }) => {
                 type="url"
                 value={values.product_url}
                 onChange={(v) => setFieldValue("product_url", v)}
-                allowedLength={ItemConstants.product_url}
+                error={!!errors.product_url}
+                errorMsg={errors.product_url}
               />
 
               <Input
@@ -165,7 +186,8 @@ export const EditItem: FC<Props> = ({ onCancel, visible, onClose, record }) => {
                 value={values.notes}
                 placeholder="Care instructions, further details, etc..."
                 onChange={(v) => setFieldValue("notes", v)}
-                allowedLength={ItemConstants.notes}
+                error={!!errors.notes}
+                errorMsg={errors.notes}
                 last={true}
               />
 
@@ -183,7 +205,9 @@ export const EditItem: FC<Props> = ({ onCancel, visible, onClose, record }) => {
                   </Popconfirm>
                 </div>
                 <div>
-                  <Button onClick={onCancel}>Cancel</Button>
+                  <Button onClick={onCancel} style={{ marginRight: "8px" }}>
+                    Cancel
+                  </Button>
                   <Button
                     type="primary"
                     disabled={updateItem.isLoading || deleteItem.isLoading}

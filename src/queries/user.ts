@@ -1,13 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "react-query"
-import { useHistory } from "react-router"
-import { INVENTORY } from "routes"
 import { getAuthToken } from "api/http"
 import { getUserStatus, loginUser, updateUser, registerUser } from "api/api"
 import { Login, Register, BaseUser } from "types/user"
 
 export const USER_QUERY = "user-query"
 export const useUserQuery = () => {
-  const history = useHistory()
   return useQuery(
     USER_QUERY,
     async () => {
@@ -15,9 +12,6 @@ export const useUserQuery = () => {
       return resp.data
     },
     {
-      onSuccess: () => {
-        history.push(INVENTORY)
-      },
       onError: () => {
         localStorage.removeItem("AUTH_TOKEN")
       },

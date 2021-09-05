@@ -9,11 +9,17 @@ import {
 import { CreateItem, UpdateItem } from "types/item"
 
 const ITEMS_QUERY = "items-query"
-export const useItemsQuery = (id?: number) => {
-  return useQuery([ITEMS_QUERY, id], async () => {
-    const resp = await fetchItems(id)
-    return resp.data
-  })
+export const useItemsQuery = () => {
+  return useQuery(
+    ITEMS_QUERY,
+    async () => {
+      const resp = await fetchItems()
+      return resp.data
+    },
+    {
+      refetchOnMount: true,
+    }
+  )
 }
 
 export const useCreateItem = () => {

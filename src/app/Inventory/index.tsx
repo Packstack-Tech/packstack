@@ -6,7 +6,8 @@ import { Category } from "types/category"
 import { ItemForm } from "app/components/ItemForm"
 import { MessageArea } from "app/components/MessageArea"
 import Loading from "app/components/Loading"
-import { useSidebar } from "app/components/Sidebar/Context"
+import { Sidebar } from "app/components/Sidebar"
+import { Content, Container } from "styles/common"
 import { Input } from "app/components/FormFields"
 
 import { getCategories } from "lib/utils/categories"
@@ -20,16 +21,6 @@ export const Inventory: FC = () => {
   const items = useItemsQuery()
   const [filterText, setFilterText] = useState<string>("")
   const [categories, setCategories] = useState<Category[]>([])
-  const { dispatch } = useSidebar()
-
-  useEffect(() => {
-    dispatch({ type: "setTitle", value: "Add Item" })
-    dispatch({ type: "setContent", value: <ItemForm /> })
-
-    return function cleanup() {
-      dispatch({ type: "reset" })
-    }
-  }, [])
 
   useEffect(() => {
     if (items.isSuccess) {
@@ -40,63 +31,70 @@ export const Inventory: FC = () => {
 
   return (
     <DocumentTitle title={`Packstack | Inventory`}>
-      <PageWrapper>
-        <PageTitle>
-          <h1>Inventory</h1>
-        </PageTitle>
-        <PageDescription>
-          <p>
-            Add all of the gear you own. Whenever you create a new pack, you'll
-            be able to select items from your inventory.
-          </p>
-        </PageDescription>
+      <Container>
+        <Content>
+          <PageWrapper>
+            <PageTitle>
+              <h1>Inventory</h1>
+            </PageTitle>
+            <PageDescription>
+              <p>
+                Add all of the gear you own. Whenever you create a new pack,
+                you'll be able to select items from your inventory.
+              </p>
+            </PageDescription>
 
-        {items.isLoading ? (
-          <Loading size="large" />
-        ) : (
-          <>
-            <div
-              style={{
-                marginBottom: "16px",
-                display: "flex",
-                alignItems: "flex-end",
-                justifyContent: "space-between",
-              }}
-            >
-              <Input
-                placeholder="search items..."
-                value={filterText}
-                style={{ width: "75%" }}
-                onChange={(v) => setFilterText(`${v}`)}
-                last={true}
-              />
-            </div>
-            {categories.length > 0 ? (
-              <div style={{ minWidth: "100%" }}>
-                {categories.map((cat) => {
-                  const categoryItems = (items.data || []).filter(
-                    (i) => i.categoryId === cat.id
-                  )
-                  const filteredItem = !!filterText
-                    ? searchItems(categoryItems, filterText)
-                    : categoryItems
-
-                  if (!filteredItem.length) return null
-                  return (
-                    <CategoryTable
-                      key={cat.id}
-                      category={cat}
-                      items={filteredItem}
-                    />
-                  )
-                })}
-              </div>
+            {items.isLoading ? (
+              <Loading size="large" />
             ) : (
-              <MessageArea>Get started by adding your inventory.</MessageArea>
+              <>
+                <div
+                  style={{
+                    marginBottom: "16px",
+                    display: "flex",
+                    alignItems: "flex-end",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Input
+                    placeholder="search items..."
+                    value={filterText}
+                    style={{ width: "75%" }}
+                    onChange={(v) => setFilterText(`${v}`)}
+                    last={true}
+                  />
+                </div>
+                {categories.length > 0 ? (
+                  <div style={{ minWidth: "100%" }}>
+                    {categories.map((cat) => {
+                      const categoryItems = (items.data || []).filter(
+                        (i) => i.categoryId === cat.id
+                      )
+                      const filteredItem = !!filterText
+                        ? searchItems(categoryItems, filterText)
+                        : categoryItems
+
+                      if (!filteredItem.length) return null
+                      return (
+                        <CategoryTable
+                          key={cat.id}
+                          category={cat}
+                          items={filteredItem}
+                        />
+                      )
+                    })}
+                  </div>
+                ) : (
+                  <MessageArea>
+                    Get started by adding your inventory.
+                  </MessageArea>
+                )}
+              </>
             )}
-          </>
-        )}
-      </PageWrapper>
+          </PageWrapper>
+        </Content>
+        <Sidebar title="Add Item" content={<ItemForm />} />
+      </Container>
     </DocumentTitle>
   )
 }
