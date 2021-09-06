@@ -1,12 +1,11 @@
-import * as React from "react"
+import { FC } from "react"
 import { Link } from "react-router-dom"
-import { withRouter, RouteComponentProps } from "react-router"
+import { useHistory } from "react-router"
 import { Button, Menu, Dropdown } from "antd"
 import { ArrowDownOutlined, EllipsisOutlined } from "@ant-design/icons"
 
 import { INVENTORY, NEW_PACK, PROFILE, LOGIN, REGISTER } from "routes"
-
-import { AppContext } from "AppContext"
+import { useUserQuery } from "queries/user"
 
 import {
   LogoImg,
@@ -18,13 +17,19 @@ import {
 
 import Logo from "assets/packstack_logo_horizontal_blue_sm.png"
 
-const Header: React.FC<RouteComponentProps> = ({ history }) => {
-  const app = React.useContext(AppContext)
-  const loggedIn = !!app.userInfo
+export const Header: FC = () => {
+  const history = useHistory()
+  const user = useUserQuery()
+  const loggedIn = !!user.data
+
+  const logout = () => {
+    localStorage.removeItem("AUTH_TOKEN")
+    window.location.reload()
+  }
 
   const additionalOptions = (
     <Menu>
-      <Menu.Item>
+      <Menu.Item key="donate">
         <DonateBtn
           href="https://www.patreon.com/packstack"
           target="_blank"
@@ -33,7 +38,7 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
           Donate
         </DonateBtn>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item key="feedback">
         <a
           href="https://www.reddit.com/r/packstack/"
           target="_blank"
@@ -42,7 +47,7 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
           Feedback
         </a>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item key="open-source">
         <a
           href="https://github.com/Packstack-Tech"
           target="_blank"
@@ -52,7 +57,7 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
         </a>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="logout" onClick={() => app.logout()}>
+      <Menu.Item key="logout" onClick={logout}>
         Logout
       </Menu.Item>
     </Menu>
@@ -128,7 +133,7 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
         </a>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="logout" onClick={() => app.logout()}>
+      <Menu.Item key="logout" onClick={logout}>
         Logout
       </Menu.Item>
     </Menu>
@@ -149,14 +154,13 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
     ? renderAuthenticatedNav()
     : renderUnauthenticatedNav()
   const mobileNavState = loggedIn ? mobileAuthMenu() : mobileUnauthMenu()
-  const navigation = app.isBooting ? null : navState
 
   return (
     <HeaderWrapper>
       <Link to={INVENTORY}>
         <LogoImg src={Logo} alt="Packstack logo" />
       </Link>
-      <Navigation>{navigation}</Navigation>
+      <Navigation>{navState}</Navigation>
       <MobileNav>
         <Dropdown
           overlay={() => mobileNavState}
@@ -171,5 +175,3 @@ const Header: React.FC<RouteComponentProps> = ({ history }) => {
     </HeaderWrapper>
   )
 }
-
-export default withRouter(Header)

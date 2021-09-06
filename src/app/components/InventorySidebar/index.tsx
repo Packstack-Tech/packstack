@@ -21,8 +21,9 @@ import {
 } from "./styles"
 import { Input } from "../FormFields"
 import FloatingActionButton from "../FloatingActionButton"
+import { useItemsQuery } from "queries/items"
+
 interface SidebarProps {
-  items: Item[]
   addItem: (item: Item) => void
   removeItem: (id: number) => void
   createNewItem: () => void
@@ -30,25 +31,18 @@ interface SidebarProps {
 }
 
 const InventorySidebar: React.FC<SidebarProps> = ({
-  items,
   addItem,
   removeItem,
   currentItems,
   createNewItem,
 }) => {
+  const { data } = useItemsQuery()
+  const items = data || []
   const categories = getCategories(items)
   const [filterText, setFilterText] = React.useState<string>("")
   const [categoryFilter, setCategoryFilter] = React.useState<Category | null>(
     null
   )
-
-  const handleAddItem = (id: number) => {
-    const item = items.find((item) => item.id === id)
-    if (!item) {
-      return
-    }
-    addItem(item)
-  }
 
   const renderCategoryItems = (catItems: Item[]) =>
     catItems.map((item) => {
@@ -59,7 +53,7 @@ const InventorySidebar: React.FC<SidebarProps> = ({
         if (isSelected) {
           removeItem(id)
         } else {
-          handleAddItem(id)
+          addItem(item)
         }
       }
 
@@ -151,13 +145,4 @@ const InventorySidebar: React.FC<SidebarProps> = ({
   )
 }
 
-function isEqual(prev: SidebarProps, next: SidebarProps) {
-  const { currentItems: prevItems, items: prevInventory } = prev
-  const { currentItems: nextItems, items: nextInventory } = next
-  return (
-    prevItems.length === nextItems.length &&
-    prevInventory.length === nextInventory.length
-  )
-}
-
-export default React.memo(InventorySidebar, isEqual)
+export default InventorySidebar

@@ -1,58 +1,42 @@
-import * as React from "react";
-import { Modal, Alert } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { createRef } from "react"
+import { Modal, Alert } from "antd"
+import { UploadOutlined } from "@ant-design/icons"
 
-import { UploadModalSpecs } from "./types";
+import { useUploadCsv } from "queries/items"
+import { alertSuccess } from "app/components/Notifications"
 
-import withApi from "app/components/higher-order/with-api";
-import { alertSuccess } from "app/components/Notifications";
+import { ModalTitle } from "app/components/EditItem/styles"
+import { UploadInputWrapper, UploadInstructions } from "./styles"
 
-import { ModalTitle } from "app/components/EditItem/styles";
-import { UploadInputWrapper, UploadInstructions } from "./styles";
+interface Props {
+  visible: boolean
+  hideModal: () => void
+}
 
-const UploadModal: React.FC<UploadModalSpecs.Props> = ({
-  visible,
-  upload,
-  fetchItems,
-  hideModal,
-}) => {
-  const fileInput = React.createRef<HTMLInputElement>();
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [error, hasError] = React.useState<boolean>(false);
+export const UploadModal: React.FC<Props> = ({ visible, hideModal }) => {
+  const upload = useUploadCsv()
+  const fileInput = createRef<HTMLInputElement>()
 
   function handleSubmit() {
     if (fileInput.current && fileInput.current.files) {
-      const file = fileInput.current.files[0];
+      const file = fileInput.current.files[0]
       if (!file) {
-        return;
+        return
       }
-      const formData = new FormData();
-      formData.append("file", file, file.name);
+      const formData = new FormData()
+      formData.append("file", file, file.name)
 
-      setLoading(true);
-      upload(formData)
-        .then(() => {
-          alertSuccess({ message: "Items successfully uploaded." });
-          fetchItems();
-          setLoading(false);
-          hideModal();
-          hasError(false);
-        })
-        .catch((err) => {
-          hasError(true);
-          setLoading(false);
-        });
+      upload.mutate(
+        { file: formData },
+        {
+          onSuccess: () => {
+            alertSuccess({ message: "Items successfully uploaded." })
+            hideModal()
+          },
+        }
+      )
     }
   }
-
-  const errorMsg = () => (
-    <Alert
-      type="error"
-      description={`Make sure you're uploading a CSV file with the correct structure.`}
-      message={`An error occurred.`}
-      closable
-    />
-  );
 
   return (
     <Modal
@@ -62,7 +46,14 @@ const UploadModal: React.FC<UploadModalSpecs.Props> = ({
       onCancel={hideModal}
       footer={false}
     >
-      {error && errorMsg()}
+      {upload.isError && (
+        <Alert
+          type="error"
+          description="Make sure you're uploading a CSV file with the correct structure."
+          message="An error occurred."
+          closable
+        />
+      )}
 
       <UploadInstructions>
         <p>
@@ -80,7 +71,7 @@ const UploadModal: React.FC<UploadModalSpecs.Props> = ({
             id="file"
             ref={fileInput}
             onChange={handleSubmit}
-            disabled={loading}
+            disabled={upload.isLoading}
           />
           <label htmlFor="file">
             <UploadOutlined /> Upload CSV
@@ -135,11 +126,5 @@ const UploadModal: React.FC<UploadModalSpecs.Props> = ({
         </div>
       </UploadInstructions>
     </Modal>
-  );
-};
-
-const ModalWithApi = withApi<UploadModalSpecs.ApiProps>((api) => ({
-  upload: api.ItemService.uploadCSV,
-}))(UploadModal);
-
-export default ModalWithApi;
+  )
+}
