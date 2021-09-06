@@ -1,12 +1,11 @@
 import { FC } from "react"
 import { Link } from "react-router-dom"
 import { useHistory } from "react-router"
-import { useQueryClient } from "react-query"
 import { Button, Menu, Dropdown } from "antd"
 import { ArrowDownOutlined, EllipsisOutlined } from "@ant-design/icons"
 
 import { INVENTORY, NEW_PACK, PROFILE, LOGIN, REGISTER } from "routes"
-import { useUserQuery, USER_QUERY } from "queries/user"
+import { useUserQuery } from "queries/user"
 
 import {
   LogoImg,
@@ -21,17 +20,16 @@ import Logo from "assets/packstack_logo_horizontal_blue_sm.png"
 export const Header: FC = () => {
   const history = useHistory()
   const user = useUserQuery()
-  const queryClient = useQueryClient()
   const loggedIn = !!user.data
 
   const logout = () => {
     localStorage.removeItem("AUTH_TOKEN")
-    queryClient.invalidateQueries(USER_QUERY)
+    window.location.reload()
   }
 
   const additionalOptions = (
     <Menu>
-      <Menu.Item>
+      <Menu.Item key="donate">
         <DonateBtn
           href="https://www.patreon.com/packstack"
           target="_blank"
@@ -40,7 +38,7 @@ export const Header: FC = () => {
           Donate
         </DonateBtn>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item key="feedback">
         <a
           href="https://www.reddit.com/r/packstack/"
           target="_blank"
@@ -49,7 +47,7 @@ export const Header: FC = () => {
           Feedback
         </a>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item key="open-source">
         <a
           href="https://github.com/Packstack-Tech"
           target="_blank"

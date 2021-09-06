@@ -20,7 +20,7 @@ import InventorySidebar from "app/components/InventorySidebar"
 import { PackItems } from "app/components/PackItems"
 import { alertError, alertSuccess } from "app/components/Notifications"
 import { Sidebar } from "app/components/Sidebar"
-import { Container, Content } from "styles/common"
+import { Container, Content, PageWrapper } from "styles/common"
 import { NavigationConfirmModal } from "react-router-navigation-confirm"
 
 import { PageTitle, Controls, Box, Grid, PageDescription } from "styles/common"

@@ -28,7 +28,7 @@ export const SidebarContainer = styled.div`
 export const PageWrapper = styled.div`
   width: 100%;
   max-width: 1600px;
-  margin: 0 auto;
+  margin: 24px auto 0;
   padding: 0 24px;
 
   @media screen and (max-width: 660px) {

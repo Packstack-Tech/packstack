@@ -31,9 +31,9 @@ export const Inventory: FC = () => {
 
   return (
     <DocumentTitle title={`Packstack | Inventory`}>
-      <Container>
-        <Content>
-          <PageWrapper>
+      <PageWrapper>
+        <Container>
+          <Content>
             <PageTitle>
               <h1>Inventory</h1>
             </PageTitle>
@@ -91,10 +91,10 @@ export const Inventory: FC = () => {
                 )}
               </>
             )}
-          </PageWrapper>
-        </Content>
-        <Sidebar title="Add Item" content={<ItemForm />} />
-      </Container>
+          </Content>
+          <Sidebar title="Add Item" content={<ItemForm />} />
+        </Container>
+      </PageWrapper>
     </DocumentTitle>
   )
 }

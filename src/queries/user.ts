@@ -1,5 +1,4 @@
 import { useQuery, useMutation, useQueryClient } from "react-query"
-import { getAuthToken } from "api/http"
 import { getUserStatus, loginUser, updateUser, registerUser } from "api/api"
 import { Login, Register, BaseUser } from "types/user"
 
@@ -16,7 +15,6 @@ export const useUserQuery = () => {
         localStorage.removeItem("AUTH_TOKEN")
       },
       retry: 0,
-      enabled: !!getAuthToken(),
     }
   )
 }
@@ -31,7 +29,7 @@ export const useUserLogin = () => {
     {
       onSuccess: (data) => {
         localStorage.setItem("AUTH_TOKEN", data.authToken)
-        queryClient.invalidateQueries(USER_QUERY)
+        queryClient.refetchQueries(USER_QUERY)
       },
     }
   )
@@ -47,7 +45,7 @@ export const useUserRegister = () => {
     {
       onSuccess: (data) => {
         localStorage.setItem("AUTH_TOKEN", data.authToken)
-        queryClient.invalidateQueries(USER_QUERY)
+        queryClient.refetchQueries(USER_QUERY)
       },
     }
   )

@@ -1,14 +1,13 @@
-import { FC, useState } from "react"
+import { FC, useState, useEffect } from "react"
 import * as Yup from "yup"
-import { useHistory } from "react-router"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { Button, Alert } from "antd"
 import { Formik, FormikProps, Form } from "formik"
 
 import { INVENTORY, REQUEST_RESET, REGISTER } from "routes"
 
 import { Input } from "app/components/FormFields"
-import { useUserLogin } from "queries/user"
+import { useUserLogin, useUserQuery } from "queries/user"
 
 import { Box } from "styles/common"
 import { AuthWrapper, BottomTray, AuthPage } from "./styles"
@@ -20,8 +19,15 @@ export type FormValues = {
 
 export const Login: FC = () => {
   const [authError, setAuthError] = useState<boolean>(false)
+  const user = useUserQuery()
   const history = useHistory()
   const userLogin = useUserLogin()
+
+  useEffect(() => {
+    if (user.isSuccess) {
+      history.push(INVENTORY)
+    }
+  }, [user.isSuccess, history])
 
   return (
     <Formik
@@ -32,9 +38,6 @@ export const Login: FC = () => {
       onSubmit={(values, formikActions) => {
         setAuthError(false)
         userLogin.mutate(values, {
-          onSuccess: () => {
-            history.push(INVENTORY)
-          },
           onError: () => {
             setAuthError(true)
             formikActions.setSubmitting(false)
@@ -47,13 +50,8 @@ export const Login: FC = () => {
       })}
     >
       {(props: FormikProps<FormValues>) => {
-        const {
-          values,
-          errors,
-          setFieldValue,
-          submitCount,
-          isSubmitting,
-        } = props
+        const { values, errors, setFieldValue, submitCount, isSubmitting } =
+          props
         const wasSubmitted = submitCount > 0
 
         return (
@@ -65,7 +63,7 @@ export const Login: FC = () => {
                   <Alert
                     message="Invalid email/username or password. Please try again."
                     type="error"
-                    style={{ marginBottom: '16px' }}
+                    style={{ marginBottom: "16px" }}
                   />
                 )}
                 <Form>

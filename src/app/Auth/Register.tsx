@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useState, useEffect } from "react"
 import * as Yup from "yup"
 import { Link } from "react-router-dom"
 import { useHistory } from "react-router"
@@ -7,7 +7,7 @@ import { Button, Alert } from "antd"
 import { Formik, FormikProps, Form } from "formik"
 
 import { INVENTORY, LOGIN, REQUEST_RESET } from "routes"
-import { useUserRegister } from "queries/user"
+import { useUserQuery, useUserRegister } from "queries/user"
 
 import { Input } from "app/components/FormFields"
 
@@ -22,8 +22,15 @@ export type FormValues = {
 
 export const Register: FC = () => {
   const [authError, setAuthError] = useState<boolean>(false)
+  const user = useUserQuery()
   const history = useHistory()
   const registerUser = useUserRegister()
+
+  useEffect(() => {
+    if (user.isSuccess) {
+      history.push(INVENTORY)
+    }
+  }, [user.isSuccess, history])
 
   return (
     <Formik
@@ -35,9 +42,6 @@ export const Register: FC = () => {
       onSubmit={(values, formikActions) => {
         setAuthError(false)
         registerUser.mutate(values, {
-          onSuccess: () => {
-            history.push(INVENTORY)
-          },
           onError: () => {
             setAuthError(true)
             formikActions.setSubmitting(false)
@@ -51,13 +55,8 @@ export const Register: FC = () => {
       })}
     >
       {(props: FormikProps<FormValues>) => {
-        const {
-          values,
-          errors,
-          setFieldValue,
-          submitCount,
-          isSubmitting,
-        } = props
+        const { values, errors, setFieldValue, submitCount, isSubmitting } =
+          props
         const wasSubmitted = submitCount > 0
 
         return (
@@ -69,7 +68,7 @@ export const Register: FC = () => {
                   <Alert
                     message="Username/email already registered. Please login."
                     type="error"
-                    style={{ marginBottom: '16px' }}
+                    style={{ marginBottom: "16px" }}
                   />
                 )}
                 <Form>
