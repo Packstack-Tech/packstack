@@ -1,34 +1,31 @@
-import * as React from 'react';
-import { PackOverview } from "types/pack";
+import * as React from "react"
+import { PackOverview } from "types/pack"
 
-import Loading from "app/components/Loading";
+import Loading from "app/components/Loading"
 
-import Item from './PackItem';
+import { PackItem } from "./PackItem"
 
 interface Props {
-    packs: PackOverview[];
-    loading: boolean;
-    currentUserId?: number;
-    deletePack?: (id: number) => void;
-    copyPack?: (id: number) => void;
+  packs: PackOverview[]
+  loading: boolean
 }
 
-const PackList: React.FC<Props> = ({ packs, loading, currentUserId, deletePack, copyPack }) => {
-    if (loading) {
-        return <Loading size="large"/>
-    }
+const PackList: React.FC<Props> = ({ packs, loading }) => {
+  if (loading) {
+    return <Loading size="large" />
+  }
 
-    if (!packs.length) {
-        return (
-            <p>No packs created yet!</p>
-        )
-    }
+  if (!packs.length) {
+    return <p>No packs created yet!</p>
+  }
 
-    return (
-        <div>
-            {packs.map(p => <Item key={p.id} pack={p} currentUserId={currentUserId} deletePack={deletePack} copyPack={copyPack} />)}
-        </div>
-    )
-};
+  return (
+    <div>
+      {packs.map((pack) => (
+        <PackItem key={pack.id} pack={pack} />
+      ))}
+    </div>
+  )
+}
 
-export default PackList;
+export default PackList

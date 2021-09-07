@@ -4,11 +4,12 @@ import { ThemeProvider } from "styled-components"
 import DocumentTitle from "react-document-title"
 import { BrowserRouter as Router, Route } from "react-router-dom"
 
+import { ChakraProvider } from "@chakra-ui/react"
+import { QueryClient, QueryClientProvider } from "react-query"
+
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"
-import { AppProvider } from "./AppContext"
 import WithAnalytics from "app/components/higher-order/with-analytics"
-import { ChakraProvider } from "@chakra-ui/react"
 import { HistoryListener } from "react-router-navigation-confirm"
 
 import { theme } from "styles/theme"
@@ -17,8 +18,17 @@ import "styles/style.css"
 
 Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DNS })
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+})
+
 ReactDOM.render(
-  <AppProvider>
+  <QueryClientProvider client={queryClient}>
     <ThemeProvider theme={theme}>
       <DocumentTitle title={`Packstack | Backpacking packing lists`}>
         <Router>
@@ -34,7 +44,7 @@ ReactDOM.render(
         </Router>
       </DocumentTitle>
     </ThemeProvider>
-  </AppProvider>,
+  </QueryClientProvider>,
   document.getElementById("root")
 )
 

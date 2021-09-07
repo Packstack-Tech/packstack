@@ -1,45 +1,42 @@
-import * as React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useMemo, useEffect, useState, FC } from "react"
+import { useParams } from "react-router-dom"
 
-import { LOGIN, NEW } from 'routes';
+import { NEW } from "routes"
+import { usePackQuery } from "queries/packs"
+import Loading from "app/components/Loading"
 
-import { AppContext } from 'AppContext';
-import Loading from 'app/components/Loading';
-import PackForm from './PackForm';
-import { useContext } from "react";
-import { PageWrapper } from "styles/common";
+import { PackForm } from "./PackForm"
+import { PageWrapper } from "styles/common"
 
-const PackFormContainer: React.FC<RouteComponentProps<{ id: string }>> = (routeProps) => {
-    const app = useContext(AppContext);
-    const [packId, setPackId] = React.useState<null | number>(null);
+const PackFormContainer: FC = () => {
+  const [transition, setTransition] = useState(false)
+  const params = useParams<{ id: string }>()
 
-    React.useEffect(() => {
-        const routeId = routeProps.match.params.id;
-        const packId = routeId === NEW ? null : parseInt(routeId, 10);
-        setPackId(packId);
-    }, [routeProps.match.params.id]);
+  const packId = useMemo(() => {
+    const routeId = params.id
+    return routeId === NEW ? undefined : parseInt(routeId, 10)
+  }, [params])
 
-    if (app.isBooting) {
-        return <Loading size="large"/>;
-    }
+  // stupid hack to reset form
+  useEffect(() => {
+    setTransition(true)
+  }, [packId])
 
-    if (!app.userInfo) {
-        routeProps.history.push(LOGIN);
-        return null;
-    }
+  useEffect(() => {
+    setTransition(false)
+  }, [transition])
 
-    return (
-        <PageWrapper>
-            <PackForm packId={packId}
-                      getPack={app.api.PackService.get}
-                      getItems={app.api.ItemService.get}
-                      exportItems={app.api.PackService.exportItems}
-                      createPack={app.api.PackService.create}
-                      updatePack={app.api.PackService.update}
-                      user={app.userInfo}
-                      {...routeProps}/>
-        </PageWrapper>
-    )
-};
+  const pack = usePackQuery(packId)
 
-export default PackFormContainer;
+  return (
+    <PageWrapper>
+      {pack.isLoading || transition ? (
+        <Loading size="large" />
+      ) : (
+        <PackForm pack={packId ? pack.data : undefined} />
+      )}
+    </PageWrapper>
+  )
+}
+
+export default PackFormContainer
