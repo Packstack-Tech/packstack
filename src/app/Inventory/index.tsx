@@ -10,8 +10,8 @@ import { Sidebar } from "app/components/Sidebar"
 import { Content, Container } from "styles/common"
 import { Input } from "app/components/FormFields"
 
-import { getCategories } from "lib/utils/categories"
-import { searchItems } from "lib/utils/search"
+import { getCategories } from "utils/categories"
+import { searchItems } from "utils/search"
 import { useItemsQuery } from "queries/items"
 
 import { CategoryTable } from "./CategoryTable"

@@ -1,23 +1,23 @@
-import * as React from "react";
-import styled from "styled-components";
+import * as React from "react"
+import styled from "styled-components"
 
-import { WeightUnit } from "enums";
-import { PackItem } from "types/item";
-import { weightUnitOptions } from "lib/utils/form";
+import { WeightUnit } from "enums"
+import { PackItem } from "types/item"
+import { weightUnitOptions } from "utils/form"
 
-import { Select } from "app/components/FormFields";
-import { Option } from "app/components/FormFields/types";
+import { Select } from "app/components/FormFields"
+import { Option } from "app/components/FormFields/types"
 
 const WeightContainer = styled.div`
   display: flex;
   align-items: baseline;
   justify-content: flex-end;
-`;
+`
 
 interface Props {
-  unit: WeightUnit;
-  items: PackItem[];
-  selectUnit: (unit: WeightUnit) => void;
+  unit: WeightUnit
+  items: PackItem[]
+  selectUnit: (unit: WeightUnit) => void
 }
 
 const WeightSelector: React.FC<Props> = ({ unit, items, selectUnit }) => {
@@ -32,14 +32,14 @@ const WeightSelector: React.FC<Props> = ({ unit, items, selectUnit }) => {
             // const unit = Object.keys(WeightUnit).find(
             //   (key) => WeightUnit[key] === option.value
             // );
-            // @ts-ignore 
-            selectUnit(WeightUnit[option]);
+            // @ts-ignore
+            selectUnit(WeightUnit[option])
           }}
           last={true}
         />
       </WeightContainer>
     </div>
-  );
-};
+  )
+}
 
-export default WeightSelector;
+export default WeightSelector

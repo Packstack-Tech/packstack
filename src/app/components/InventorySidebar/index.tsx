@@ -9,8 +9,8 @@ import {
 import { Item } from "types/item"
 import { Category } from "types/category"
 
-import { getCategories } from "lib/utils/categories"
-import { searchItems } from "lib/utils/search"
+import { getCategories } from "utils/categories"
+import { searchItems } from "utils/search"
 
 import { CategoryGroup, InventoryContainer } from "styles/common"
 import {

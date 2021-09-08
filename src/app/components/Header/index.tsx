@@ -4,7 +4,7 @@ import { useHistory } from "react-router"
 import { Button, Menu, Dropdown } from "antd"
 import { ArrowDownOutlined, EllipsisOutlined } from "@ant-design/icons"
 
-import { INVENTORY, NEW_PACK, PROFILE, LOGIN, REGISTER } from "routes"
+import { INVENTORY, NEW_PACK, PACKS, SETTINGS, LOGIN, REGISTER } from "routes"
 import { useUserQuery } from "queries/user"
 
 import {
@@ -19,8 +19,7 @@ import Logo from "assets/packstack_logo_horizontal_blue_sm.png"
 
 export const Header: FC = () => {
   const history = useHistory()
-  const user = useUserQuery()
-  const loggedIn = !!user.data
+  const { isSuccess: loggedIn } = useUserQuery()
 
   const logout = () => {
     localStorage.removeItem("AUTH_TOKEN")
@@ -29,14 +28,8 @@ export const Header: FC = () => {
 
   const additionalOptions = (
     <Menu>
-      <Menu.Item key="donate">
-        <DonateBtn
-          href="https://www.patreon.com/packstack"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Donate
-        </DonateBtn>
+      <Menu.Item key="settings" onClick={() => history.push(SETTINGS)}>
+        Settings
       </Menu.Item>
       <Menu.Item key="feedback">
         <a
@@ -44,17 +37,17 @@ export const Header: FC = () => {
           target="_blank"
           rel="noreferrer"
         >
-          Feedback
+          Give Feedback
         </a>
       </Menu.Item>
-      <Menu.Item key="open-source">
-        <a
-          href="https://github.com/Packstack-Tech"
+      <Menu.Item key="donate">
+        <DonateBtn
+          href="https://www.patreon.com/packstack"
           target="_blank"
           rel="noreferrer"
         >
-          Open Source
-        </a>
+          ❤️ Donate
+        </DonateBtn>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="logout" onClick={logout}>
@@ -68,7 +61,7 @@ export const Header: FC = () => {
       <Button onClick={() => history.push(INVENTORY)} type="text">
         Inventory
       </Button>
-      <Button onClick={() => history.push(PROFILE)} type="text">
+      <Button onClick={() => history.push(PACKS)} type="text">
         Packs
       </Button>
       <Button onClick={() => history.push(NEW_PACK)} type="text">
@@ -98,13 +91,25 @@ export const Header: FC = () => {
       <Menu.Item key={INVENTORY}>
         <Link to={INVENTORY}>Inventory</Link>
       </Menu.Item>
+      <Menu.Item key={PACKS}>
+        <Link to={PACKS}>Packs</Link>
+      </Menu.Item>
       <Menu.Item key={NEW_PACK}>
         <Link to={NEW_PACK}>Create Pack</Link>
       </Menu.Item>
-      <Menu.Item key={PROFILE}>
-        <Link to={PROFILE}>Packs</Link>
+      <Menu.Item key={SETTINGS}>
+        <Link to={SETTINGS}>Settings</Link>
       </Menu.Item>
       <Menu.Divider />
+      <Menu.Item>
+        <a
+          href="https://www.reddit.com/r/packstack/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Give Feedback
+        </a>
+      </Menu.Item>
       <Menu.Item>
         <DonateBtn
           href="https://www.patreon.com/packstack"
@@ -113,24 +118,6 @@ export const Header: FC = () => {
         >
           Donate
         </DonateBtn>
-      </Menu.Item>
-      <Menu.Item>
-        <a
-          href="https://www.reddit.com/r/packstack/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Feedback
-        </a>
-      </Menu.Item>
-      <Menu.Item>
-        <a
-          href="https://github.com/Packstack-Tech"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Open Source
-        </a>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="logout" onClick={logout}>

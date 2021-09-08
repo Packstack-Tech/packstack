@@ -7,9 +7,10 @@ import {
   LOGIN,
   INVENTORY,
   PACK_FORM,
-  PROFILE,
+  PACKS,
   REQUEST_RESET,
   RESET_PASSWORD,
+  SETTINGS,
 } from "./routes"
 
 import {
@@ -22,7 +23,8 @@ import {
 
 import { Inventory } from "app/Inventory"
 import PackForm from "app/PackForm"
-import { Profile } from "app/Profile"
+import { Packs } from "app/Packs"
+import { Settings } from "app/Settings"
 
 import { Header } from "app/components/Header"
 
@@ -40,7 +42,8 @@ const App = () => {
           <Route path={RESET_PASSWORD} component={ResetPassword} />
           <ProtectedRoute path={INVENTORY} component={Inventory} />
           <ProtectedRoute path={PACK_FORM} component={PackForm} />
-          <ProtectedRoute path={PROFILE} component={Profile} />
+          <ProtectedRoute path={PACKS} component={Packs} />
+          <ProtectedRoute path={SETTINGS} component={Settings} />
         </Switch>
       </Suspense>
     </div>

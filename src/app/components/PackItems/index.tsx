@@ -8,8 +8,8 @@ import { Category } from "types/category"
 import { MessageArea } from "app/components/MessageArea"
 import Item from "./Item"
 
-import { getCategories } from "lib/utils/categories"
-import { getWeightByCategory } from "lib/utils/weight"
+import { getCategories } from "utils/categories"
+import { getWeightByCategory } from "utils/weight"
 import { ExpandablePanel } from "../ExpandablePanel"
 
 import { CategoryGroup } from "styles/common"

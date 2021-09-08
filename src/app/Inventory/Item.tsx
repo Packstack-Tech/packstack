@@ -9,8 +9,8 @@ import { alertSuccess, alertWarn } from "app/components/Notifications"
 import { EditItem } from "app/components/EditItem"
 import { DotIcon } from "app/components/Icons"
 
-import { categoryOptions, weightUnitOptions } from "lib/utils/form"
-import { categorySelectValue } from "lib/utils/categories"
+import { categoryOptions, weightUnitOptions } from "utils/form"
+import { categorySelectValue } from "utils/categories"
 import { useCategories } from "hooks/useCategories"
 
 import { Grid, PairGrid, NotesIndicator, inlineStyles } from "styles/grid"

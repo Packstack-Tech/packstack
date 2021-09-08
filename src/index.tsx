@@ -29,21 +29,23 @@ const queryClient = new QueryClient({
 
 ReactDOM.render(
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider theme={theme}>
-      <DocumentTitle title={`Packstack | Backpacking packing lists`}>
-        <Router>
-          <Route
-            render={(props) => (
-              <WithAnalytics {...props}>
-                <HistoryListener>
-                  <App />
-                </HistoryListener>
-              </WithAnalytics>
-            )}
-          />
-        </Router>
-      </DocumentTitle>
-    </ThemeProvider>
+    <ChakraProvider>
+      <ThemeProvider theme={theme}>
+        <DocumentTitle title={`Packstack | Backpacking packing lists`}>
+          <Router>
+            <Route
+              render={(props) => (
+                <WithAnalytics {...props}>
+                  <HistoryListener>
+                    <App />
+                  </HistoryListener>
+                </WithAnalytics>
+              )}
+            />
+          </Router>
+        </DocumentTitle>
+      </ThemeProvider>
+    </ChakraProvider>
   </QueryClientProvider>,
   document.getElementById("root")
 )

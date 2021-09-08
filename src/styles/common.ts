@@ -36,6 +36,13 @@ export const PageWrapper = styled.div`
   }
 `
 
+export const PageMiniWrapper = styled.div`
+  width: 100%;
+  max-width: 800px;
+  margin: 24px auto 0;
+  padding: 0 24px;
+`
+
 export const PageTitle = styled.div`
   margin-bottom: 16px;
   display: flex;

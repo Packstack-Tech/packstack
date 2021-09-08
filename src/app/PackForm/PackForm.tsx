@@ -14,7 +14,7 @@ import { DurationUnit } from "enums"
 import { Item, PackItem } from "types/item"
 import { Pack, BasePack, PackConstants } from "types/pack"
 
-import { durationUnitOptions, genderOptions } from "lib/utils/form"
+import { durationUnitOptions, genderOptions } from "utils/form"
 
 import InventorySidebar from "app/components/InventorySidebar"
 import { PackItems } from "app/components/PackItems"

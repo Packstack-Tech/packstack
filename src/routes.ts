@@ -8,7 +8,8 @@ export const REQUEST_RESET = "/request-reset"
 export const RESET_PASSWORD = "/reset/:callbackId"
 
 export const INVENTORY = "/inventory"
-export const PROFILE = "/profile"
+export const PACKS = "/packs"
+export const SETTINGS = "/settings"
 export const NEW_PACK = "/pack/new"
 export const PACK_FORM = "/pack/:id"
 
