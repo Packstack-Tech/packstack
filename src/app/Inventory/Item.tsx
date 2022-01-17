@@ -117,20 +117,24 @@ const Item: React.FC<Props> = ({ item }) => {
             style={inlineStyles}
           />
         </div>
-        <Input
-          value={product_name || ""}
-          placeholder="product name"
-          onChange={(v) => update("product_name", v)}
-          onBlur={() => handleSave("product_name")}
-          style={inlineStyles}
-        />
-        <Input
-          value={manufacturer || ""}
-          placeholder="manufacturer"
-          onChange={(v) => update("manufacturer", v)}
-          onBlur={() => handleSave("manufacturer")}
-          style={inlineStyles}
-        />
+        <div>
+          <Input
+            value={product_name || ""}
+            placeholder="product name"
+            onChange={(v) => update("product_name", v)}
+            onBlur={() => handleSave("product_name")}
+            style={inlineStyles}
+          />
+        </div>
+        <div>
+          <Input
+            value={manufacturer || ""}
+            placeholder="manufacturer"
+            onChange={(v) => update("manufacturer", v)}
+            onBlur={() => handleSave("manufacturer")}
+            style={inlineStyles}
+          />
+        </div>
         <div>
           <SelectCreatable
             options={categoryOptions(categories)}
