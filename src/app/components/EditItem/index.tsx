@@ -35,6 +35,7 @@ type FormValues = {
   price: number
   product_url: string
   notes: string
+  manufacturer: string
 }
 
 export const EditItem: FC<Props> = ({ onCancel, visible, onClose, record }) => {
@@ -70,6 +71,7 @@ export const EditItem: FC<Props> = ({ onCancel, visible, onClose, record }) => {
           price: record.price || 0,
           product_url: record.product_url || "",
           notes: record.notes || "",
+          manufacturer: record.manufacturer || "",
         }}
         onSubmit={(values) => {
           const newCategory = !categories.find(
@@ -96,6 +98,7 @@ export const EditItem: FC<Props> = ({ onCancel, visible, onClose, record }) => {
           product_name: Yup.string().max(500, "500 characters max"),
           notes: Yup.string().max(500, "500 characters max"),
           product_url: Yup.string().max(500, "500 characters max"),
+          manufacturer: Yup.string().max(200, "200 characters max"),
         })}
       >
         {({
@@ -132,11 +135,19 @@ export const EditItem: FC<Props> = ({ onCancel, visible, onClose, record }) => {
 
               <Input
                 label="Product Name"
-                placeholder="Osprey Renn 65"
+                placeholder="Renn 65"
                 value={values.product_name}
                 onChange={(v) => setFieldValue("product_name", v)}
                 error={!!errors.product_name}
                 errorMsg={errors.product_name}
+              />
+              <Input
+                label="Manufacturer"
+                placeholder="Osprey"
+                value={values.manufacturer}
+                onChange={(v) => setFieldValue("manufacturer", v)}
+                error={!!errors.manufacturer}
+                errorMsg={errors.manufacturer}
               />
 
               <Row gutter={8}>
@@ -219,7 +230,7 @@ export const EditItem: FC<Props> = ({ onCancel, visible, onClose, record }) => {
                 </div>
               </ButtonGroup>
             </>
-          )
+          );
         }}
       </Formik>
     </Modal>

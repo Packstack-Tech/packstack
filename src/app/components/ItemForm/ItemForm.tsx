@@ -49,6 +49,7 @@ export const ItemForm: FC<Props> = ({ onSave }) => {
         product_url: "",
         newCategory: false,
         notes: "",
+        manufacturer: "",
       }}
       validationSchema={Yup.object().shape({
         name: Yup.string().required("Item name is required"),
@@ -106,9 +107,9 @@ export const ItemForm: FC<Props> = ({ onSave }) => {
               options={categoryOptions(categories)}
               value={categoryValue || null}
               onChange={(option: Option<number>) => {
-                const isNewCategory = Boolean(option && option.__isNew__)
-                setFieldValue("categoryId", option?.value)
-                setFieldValue("newCategory", isNewCategory)
+                const isNewCategory = Boolean(option && option.__isNew__);
+                setFieldValue("categoryId", option?.value);
+                setFieldValue("newCategory", isNewCategory);
               }}
               error={wasSubmitted && !!errors.categoryId}
               errorMsg={errors.categoryId}
@@ -117,9 +118,16 @@ export const ItemForm: FC<Props> = ({ onSave }) => {
             <Input
               label="Product Name"
               value={values.product_name || ""}
-              placeholder="Osprey Renn 65"
+              placeholder="Renn 65"
               onChange={(v) => setFieldValue("product_name", v)}
               allowedLength={ItemConstants.product_name}
+            />
+            <Input
+              label="Manufacturer"
+              value={values.manufacturer || ""}
+              placeholder="Osprey"
+              onChange={(v) => setFieldValue("manufacturer", v)}
+              allowedLength={ItemConstants.manufacturer}
             />
             <Row gutter={8}>
               <Col span={16}>
@@ -198,7 +206,7 @@ export const ItemForm: FC<Props> = ({ onSave }) => {
               hideModal={() => showUploadModal(false)}
             />
           </SidebarContainer>
-        )
+        );
       }}
     </Formik>
   )

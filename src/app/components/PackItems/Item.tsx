@@ -56,6 +56,7 @@ const Item: React.FC<ItemProps> = ({ item, removeItem, updateItem, index }) => {
                 </a>
               </div>
               <div>{item.product_name}</div>
+              <div>{item.manufacturer}</div>
               <div className="align-right">
                 {item.weight} {item.weight_unit}
               </div>

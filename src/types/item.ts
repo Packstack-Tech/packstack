@@ -10,6 +10,7 @@ export interface BaseItem {
   price?: number
   product_url?: string
   notes?: string
+  manufacturer?: string
 }
 
 export interface Item extends BaseItem {
@@ -61,4 +62,5 @@ export enum ItemConstants {
   product_name = 500,
   notes = 500,
   product_url = 500,
+  manufacturer = 200,
 }

@@ -37,6 +37,7 @@ const Item: React.FC<Props> = ({ item }) => {
         name: item.name,
         categoryId: id,
         newCategory: false,
+        manufacturer: item.manufacturer,
       },
       {
         onSuccess: () => {
@@ -55,6 +56,7 @@ const Item: React.FC<Props> = ({ item }) => {
         name: item.name,
         weight_unit: weightUnit,
         newCategory: false,
+        manufacturer: item.manufacturer,
       },
       {
         onSuccess: () => {
@@ -92,7 +94,7 @@ const Item: React.FC<Props> = ({ item }) => {
   }
 
   const categoryValue = categorySelectValue(categories, copy.categoryId)
-  const { product_name, name, weight_unit, weight, price, notes } = copy
+  const { product_name, name, weight_unit, weight, price, notes, manufacturer } = copy
   return (
     <>
       <Grid>
@@ -122,13 +124,20 @@ const Item: React.FC<Props> = ({ item }) => {
           onBlur={() => handleSave("product_name")}
           style={inlineStyles}
         />
+        <Input
+          value={manufacturer || ""}
+          placeholder="manufacturer"
+          onChange={(v) => update("manufacturer", v)}
+          onBlur={() => handleSave("manufacturer")}
+          style={inlineStyles}
+        />
         <div>
           <SelectCreatable
             options={categoryOptions(categories)}
             value={categoryValue}
             onChange={(option: Option<number>) => {
-              update("categoryId", option.value)
-              updateCategory(option.value)
+              update("categoryId", option.value);
+              updateCategory(option.value);
             }}
             style={inlineStyles}
           />
@@ -151,8 +160,8 @@ const Item: React.FC<Props> = ({ item }) => {
               }
             }
             onChange={(option: Option<WeightUnit>) => {
-              update("weight_unit", option.value)
-              updateWeightUnit(option.value)
+              update("weight_unit", option.value);
+              updateWeightUnit(option.value);
             }}
             style={inlineStyles}
           />
@@ -178,7 +187,7 @@ const Item: React.FC<Props> = ({ item }) => {
         onCancel={() => setEditVisible(false)}
       />
     </>
-  )
+  );
 }
 
 export default memo(Item)
