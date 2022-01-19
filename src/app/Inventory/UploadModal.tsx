@@ -95,7 +95,14 @@ export const UploadModal: React.FC<Props> = ({ visible, hideModal }) => {
               <br />
               Product name or description
               <br />
-              <div className="example">Ex: Osprey Renn 65</div>
+              <div className="example">Ex: Renn 65</div>
+            </li>
+            <li>
+              <strong>Manufacturer</strong>
+              <br />
+              Product manufacturer or vendor
+              <br />
+              <div className="example">Ex: Osprey</div>
             </li>
             <li>
               <strong>Weight</strong>
@@ -126,5 +133,5 @@ export const UploadModal: React.FC<Props> = ({ visible, hideModal }) => {
         </div>
       </UploadInstructions>
     </Modal>
-  )
+  );
 }
