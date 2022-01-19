@@ -7,7 +7,7 @@
     "@craco/craco": "^6.2.0",
     "@sentry/browser": "^6.10.0",
     "antd": "^4.16.10",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "convert-units": "^2.3.4",
     "formik": "^2.2.9",
     "fuse.js": "^6.4.6",
