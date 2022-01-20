@@ -6,7 +6,7 @@ export function searchItems(items: Item[], searchText: string) {
     threshold: 0.25,
     location: 0,
     distance: 4,
-    keys: ["name", "product_name"],
+    keys: ["name", "product_name", "manufacturer"],
   });
 
   return fuse.search(searchText).map((rec) => rec.item);
