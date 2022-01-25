@@ -1,7 +1,7 @@
 import { useState, FC } from "react"
 import * as Yup from "yup"
 import { Alert, Button } from "antd"
-import { useHistory, useLocation } from "react-router"
+import { useHistory, useLocation, useParams } from "react-router"
 import { Formik, FormikProps, Form } from "formik"
 
 import { LOGIN } from "routes"
@@ -20,11 +20,8 @@ export type FormValues = {
 
 export const ResetPassword: FC = () => {
   const history = useHistory()
-  const queryParams = new URLSearchParams(useLocation().search)
-  const callbackId = queryParams.get("callbackId") || ""
+  const { callbackId } = useParams<{ callbackId: string }>()
   const [matchError, setMatchError] = useState<boolean>(false)
-
-  console.log(callbackId)
 
   return (
     <Formik
@@ -53,13 +50,8 @@ export const ResetPassword: FC = () => {
       })}
     >
       {(props: FormikProps<FormValues>) => {
-        const {
-          values,
-          errors,
-          setFieldValue,
-          submitCount,
-          isSubmitting,
-        } = props
+        const { values, errors, setFieldValue, submitCount, isSubmitting } =
+          props
         const wasSubmitted = submitCount > 0
         setMatchError(
           wasSubmitted && values.password !== values.confirmPassword
