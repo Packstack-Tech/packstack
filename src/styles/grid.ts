@@ -1,9 +1,9 @@
-import { CSSProperties } from "react";
-import styled from "styled-components";
+import { CSSProperties } from "react"
+import styled from "styled-components"
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: 2px 1fr 1fr 1fr 1fr 1fr .5fr .1fr;
+  grid-template-columns: 2px 1fr 1fr 1fr 1fr 1fr 0.5fr 0.1fr;
   grid-template-rows: auto;
   grid-column-gap: 8px;
   align-items: center;
@@ -14,7 +14,7 @@ export const Grid = styled.div`
   .align-right {
     justify-self: end;
   }
-`;
+`
 
 export const PairGrid = styled.div`
   display: grid;
@@ -22,17 +22,17 @@ export const PairGrid = styled.div`
   grid-template-rows: auto;
   grid-column-gap: 8px;
   align-items: center;
-`;
+`
 
 export const inlineStyles: CSSProperties = {
   marginBottom: 0,
-};
+}
 
 export const PackItemGrid = styled.div`
   display: grid;
-  grid-template-columns: 30px 170px minmax(200px, auto) 70px 40px 70px 30px;
+  grid-template-columns: 30px 170px minmax(200px, auto) 70px 70px 70px 70px 30px;
   grid-template-rows: auto;
-  grid-column-gap: 16px;
+  grid-column-gap: 8px;
   align-items: center;
   line-height: 1.25em;
 
@@ -43,7 +43,7 @@ export const PackItemGrid = styled.div`
   .align-center {
     justify-self: center;
   }
-`;
+`
 
 export const NotesIndicator = styled.div`
   display: flex;
@@ -58,4 +58,4 @@ export const NotesIndicator = styled.div`
     fill: #34acd4;
     width: 20px;
   }
-`;
+`
