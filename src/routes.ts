@@ -14,5 +14,5 @@ export const PACK_FORM = "/pack/:id"
 
 export const getPackPath = (id: number, title: string): string => {
   const slug = slugify(title, { replacement: "-", lower: true })
-  return `https://packstack.io/pack/${id}/${slug}`
+  return `https://archive.packstack.io/pack/${id}/${slug}`
 }
